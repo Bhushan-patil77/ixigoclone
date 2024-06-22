@@ -1,0 +1,108 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+.scrollingContainer{
+ 
+  transition: ease-in-out;
+  transition-duration: 2s;
+  animation: infinite linear;
+  animation-name: scroll;
+  animation-duration:7s;
+  
+
+}
+
+@keyframes scroll {
+
+  0%, 10% {
+    transform: translateY(0); /* Start at the top and pause */
+  }
+  20%, 30% {
+    transform: translateY(-20%); /* Pause after first heading */
+  }
+  40%, 50% {
+    transform: translateY(-40%); /* Scroll to the next heading */
+  }
+  60%, 70% {
+    transform: translateY(-60%); /* Scroll to the next heading */
+  }
+  80%, 90% {
+    transform: translateY(-80%); /* Scroll to the next heading */
+  }
+   100%{
+    transform: translateY(-80%); /* Scroll to the next heading */
+    
+  }
+
+  
+
+  
+  
+ 
+  
+}
+
+
+
+.searchButttonArrowAnimation{
+ 
+  transition: ease-in-out;
+  transition-duration: 2s;
+  animation: infinite alternate;
+  animation-name: searchAnimation;
+  animation-duration: 0.5s;
+  
+
+}
+
+@keyframes searchAnimation {
+
+  0% {
+    transform: translatex(5px); 
+  }
+
+
+}
+
+
