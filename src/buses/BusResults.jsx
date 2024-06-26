@@ -729,7 +729,7 @@ const BusResults = React.memo(() => {
                                             
                                             <div className='Boarding  w-full'>
 
-                                            
+                                             
                                             <input id='boardingPointRadio' className='peer absolute -top-[100px] opacity-0 ' type="radio" name='boardDrop' />
                                             <div id={`boardingPointContainer${clickedBusIndex}`} className="boardingPointContainer absolute -top-[600px] right-0 transform transition-all duration-700  peer-checked:translate-y-[600px] p-2 w-[100%] min-h-[400px]   rounded-lg bg-white">
                                               <div className="searchBoarding w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Boarding Point'/></div>
