@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import Navbar from '../Navbar';
-import { FaBottleWater, FaCheck, FaChevronDown, FaMapLocationDot, FaPlug, FaWifi } from 'react-icons/fa6';
+import { FaAngleLeft, FaBottleWater, FaCheck, FaChevronDown, FaMapLocationDot, FaPlug, FaWifi } from 'react-icons/fa6';
 import "react-datepicker/dist/react-datepicker.css";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
@@ -591,7 +591,7 @@ const BusResults = React.memo(() => {
      <input id={`popradio`} className='absolute -left-28 opacity-0 peer' type="radio" name='showSeats'  />
 
 
-      <div className=' absolute  xl:hidden right-[100%] peer-checked:translate-x-[100%] transform transition-all duration-700  w-screen h-screen bg-slate-500 flex flex-col  z-[50]'> <IoClose className=' absolute right-4 top-4' onClick={()=>{document.getElementById('popradio').checked=false}} /> 
+      <div className=' absolute  xl:hidden right-[100%] peer-checked:translate-x-[100%] transform transition-all duration-700  w-screen h-screen bg-slate-500 flex flex-col  z-[50]'> <FaAngleLeft  className=' absolute left-1 top-4 w-6 h-6' onClick={()=>{document.getElementById('popradio').checked=false; setSelection({'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'}) }} /> 
 
                     <div  className='w-full h-[85%]   overflow-y-hidden '>
 
@@ -599,10 +599,10 @@ const BusResults = React.memo(() => {
                             Array(1).fill(0).map((e,i)=>{
                               let u=1;
                               let l=1;
-                              return <div id='seatsSelection' className={`  w-full h-full flex flex-col gap-3 items-center transition duration-500    rounded-b-10 pt-2`}>
+                              return <div id='seatsSelection' className={`  w-full h-full flex flex-col gap-3 items-center transition duration-500    rounded-b-10 pt-2 `}>
 
-                                            <div className="availableSeatsAndColorCodes flex flex-col justify-between items-center ">
-                                              <div className="colorCodes flex gap-3">
+                                            <div className="availableSeatsAndColorCodes flex flex-col  items-center  ">
+                                              <div className="colorCodes flex ">
                                                 <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-gray-400 bg-white'></span> <p>Available Seats</p> </div> 
                                                 <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-pink-400'></span> <p>Available For Female</p> </div> 
                                                 <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded  border-gray-400 bg-gray-100'></span> <p>Booked Seats</p> </div> 
@@ -723,8 +723,8 @@ const BusResults = React.memo(() => {
                                             </div>
 
                                             <div className="selectedBoardingAndDroppingPoints w-[100%]  flex flex-col   ">
-                                              { selection.boarding_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Boarding Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedBoardingPoint text-[13px]">{selection.boarding_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, boarding_point:'select' })); show(`boardingPointContainer${clickedBusIndex}`); hide(`droppingPointContainer${clickedBusIndex}`)}}> <label htmlFor="boardingPointRadio"> change </label> </button> </div> </div>}
-                                              { selection.dropping_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Dropping Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedDroppingPoint text-[13px]">{selection.dropping_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, dropping_point:'select' })); show(`droppingPointContainer${clickedBusIndex}`); hide(`boardingPointContainer${clickedBusIndex}`)}}> <label htmlFor="droppingPointRadio"> change </label> </button> </div> </div>}
+                                              { selection.boarding_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Boarding Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedBoardingPoint text-[13px]">{selection.boarding_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, boarding_point:'select' })); show(`boardingPointContainer${clickedBusIndex}`); hide(`droppingPointContainer${clickedBusIndex}`)}}> <label htmlFor="boardingPointRadio"> {selection.boarding_point!=='select' ? 'Change' : 'Select'} </label> </button> </div> </div>}
+                                              { selection.dropping_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Dropping Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedDroppingPoint text-[13px]">{selection.dropping_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, dropping_point:'select' })); show(`droppingPointContainer${clickedBusIndex}`); hide(`boardingPointContainer${clickedBusIndex}`)}}> <label htmlFor="droppingPointRadio"> {selection.dropping_point!=='select' ? 'Change' : 'Select'} </label> </button> </div> </div>}
                                             </div>
                                             
                                             <div className='Boarding  w-full'>
