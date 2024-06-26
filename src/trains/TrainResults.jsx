@@ -7,8 +7,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MagnifyingGlass, ThreeCircles } from 'react-loader-spinner';
 import { DiVim } from 'react-icons/di';
 import Login from '../Login';
-import { IoClose } from 'react-icons/io5';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { IoClose, IoCloseCircleSharp } from 'react-icons/io5';
 import Signup from '../Signup';
+import { TiFilter } from 'react-icons/ti';
+import { FaArrowRight, FaCheck } from 'react-icons/fa6';
+import { CgSortZa } from 'react-icons/cg';
+import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const TrainResults = React.memo(()=> {
   const location = useLocation();
@@ -27,6 +33,8 @@ const TrainResults = React.memo(()=> {
   const [message, setMessage]=useState('');
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user') != null);
   const [popupShow, setPopupShow]=useState();
+  const [activeTab, setActiveTab] = useState('');
+  const [active, setActive] = useState(false)
 
 
 
@@ -40,6 +48,10 @@ const TrainResults = React.memo(()=> {
 
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+  useEffect(() => {
+    setActive(true)
+  }, [activeTab])
 
 useEffect(()=>{
   getTrains()
@@ -471,13 +483,267 @@ console.log(popupShow);
       <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
      </div>
 
-     <Navbar activeLink={2}/>
+     <div className='xl:block hidden'><Navbar activeLink={2}/></div>
 
     <div id='w1' className='transition duration-500' >
 
+      <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
+
+      <label htmlFor='searchbardropdowncheckbox' className='relative sticky top-0 z-40 flex flex-col border shadow bg-gray-400 font-bold rounded-20 text-sm px-12 py-2 mt-2 xl:hidden'>
+        <span className='flex justify-center items-center gap-2'> { from.city} <FaArrowRight /> {to.city} </span>
+        <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>  Travellers  <p className='w-1 h-1 bg-black rounded-full'/> seat </span>
+        <span className='absolute -bottom-3 left-[45%]'>{<RiArrowDropDownLine className='text-2xl' />}</span>
+      </label>
+
+      <div className="SEARCHBAR-RELATIVE-CONTAINER  bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-0 flex justify-center items-start w-[100%] xl:mt-6  z-40 xl:hidden">
+
+      <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
+
+        <div className="searchBarDiv xl:pt-8 xl:px-10 ">
+
+            <div className="searchBarWrapper flex flex-col items-center">
+
+                <div className="tabsDiv flex gap-16 font-bold tracking-wide hidden xl:flex xl:w-[98%] xl:text-white p-2 pb-0" >
+                  <button className='flex flex-col'><link rel="stylesheet" href="" />BOOK TRAINS <span className='w-full  border-2 border-orange-700'></span></button>
+                  <button className='flex flex-col'><link rel="stylesheet" href="" />RUNNING STATUS</button>
+                  <button className='flex flex-col'><link rel="stylesheet" href="" />PNR STATUS ENQUIRY</button>
+                  <button className='flex flex-col'><link rel="stylesheet" href="" />SEARCH BY NAME/NUMBER</button>
+                  <button className='flex flex-col'><link rel="stylesheet" href="" />SEARCH BY STATION</button>
+                </div>
+
+                <div className=" shadow-500 w-[98%] xl:p-6 flex xl:flex-col gap-10 bg-white justify-center  px-4 py-8 rounded-10">
+
+                    <div className="flex xl:flex-row flex-col xl:gap-0.5 gap-2 cursor-pointer">
+
+
+                        <div className="relative flex xl:gap-0.5  gap-2 flex-1 ">
+
+                            <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-full h-[45px] xl:h-[60px] hover:bg-neutral-subtle-over border-none rounded-l-10">
+
+                                {/* INPUT TAG FROM */}
+                                <div className="flex  justify-between items-center relative w-full h-full" onClick={() => { show("inputBox1"); hide('inputSpan1'); focus('inputBox1'); hide("trevellersDropdown"); }}>
+                                    <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
+                                        <div className="flex items-center " >
+                                            <div className="flex flex-col">
+                                                <p className=" body-xs text-neutral-400 w-full" >From</p>
+                                                <input type="text" id='inputBox1' className=' w-full text-sm font-semibold outline-none bg-transparent' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); show('inputSpan2') }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* INPUT TAG FROM */}
+
+
+                                {/* INPUT LIST FROM */}
+                                {
+                                  <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                            
+                                  <div>
+                                      <p className="h6 px-20 pt-15 pb-5 font-medium">
+                                          Select Source
+                                      </p>
+                                  </div>
+                                  {
+                                      fromCities.map((city, index) => {
+                                          const cityCode = city.iata_code;
+                                          const cityName = city.city;
+                                          const country = city.country;
+                                          const airportName = city.name;
+
+
+                                          return <div key={index} onClick={() => { setFrom(cityName); hide("list1"); hide("inputBox1"); show("inputSpan1"); show('inputBox2'); focus("inputBox2") }}>
+                                              <li className="flex items-center relative hover:bg-primary-over px-20 py-2 gap-4 group list-sm max-w-screen-sm gap-15" >
+                                                  
+                                                  <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
+                                                      <p className="body-md flex group-[.list-lg]:body-lg text-primary" >
+                                                          <span className="block truncate text-sm" >
+                                                              {cityName}
+                                                          </span>
+                                                          <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
+                                                      </p>
+                                                  
+                                                  </div>
+                                              </li>
+                                              <div className="border-b border-neutral-100 mx-20" />
+                                          </div>
+                                      })
+                                  }
+
+                              </div>
+                                }
+                                {/* INPUT LIST FROM*/}
+
+                            </div>
+
+                            <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-full h-[45px] xl:h-[60px] hover:bg-neutral-subtle-over border-none rounded-r-10 ">
+
+                                {/* INPUT TAG TO */}
+                                <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("inputBox2"); hide('inputSpan2'); focus('inputBox2'); hide('inputBox1'); show("inputSpan1"); hide("trevellersDropdown"); }} >
+                                    <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
+                                        <div className="flex items-center " >
+                                            <div className="flex flex-col">
+                                                <p className="body-xs text-neutral-400">To</p>
+                                                <input id='inputBox2' type="text" className='  w-full text-sm font-semibold outline-none bg-transparent ' value={to && to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* INPUT TAG TO */}
+
+
+                                {/* INPUT LIST TO */}
+                                <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                        
+                                        <div>
+                                            <p className="h6 px-20 pt-15 pb-5 font-medium">
+                                                Select Destination
+                                            </p>
+                                        </div>
+                                        {
+                                            toCities.map((city, index) => {
+                                                const cityCode = city.iata_code;
+                                                const cityName = city.city;
+                                                const country = city.country;
+                                                const airportName = city.name;
+
+                                                return <div key={index} onClick={() => { setTo(cityName); show("inputSpan2"); hide("list2"); hide("inputBox2"); document.getElementById("datePicker").focus() }}>
+                                                    <li className="flex items-center relative hover:bg-primary-over px-20  gap-4 group list-sm max-w-screen-sm py-2 px-20 ">
+                                                      
+                                                        <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
+                                                            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
+                                                                <span className="block truncate text-sm">
+                                                                    {cityName}
+                                                                </span>
+                                                                <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
+                                                            </p>
+                                                        
+                                                        </div>
+                                                    </li>
+                                                    <div className="border-b border-neutral-100 mx-20" />
+                                                </div>
+                                            })
+                                        }
+
+                                    </div>
+                                {/* INPUT LIST TO */}
+
+                            </div>
+
+                          
+
+                            <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("list1"); hide('list2'); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show("inputSpan2") }} >
+                                <svg
+                                    width="1em"
+                                    height="1em"
+                                    fontSize="1.5rem"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    data-testid="SwapIcon"
+                                    className="text-subbrand-900 transition-all duration-300 transform rotate-0"
+                                    style={{
+                                        userSelect: "none",
+                                        display: "inline-block",
+                                        transform: "rotate(0deg)"
+                                    }}
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M14.6403 5.2477a.7483.7483 0 0 1 1.0612.0084l4.0871 4.1684a.7555.7555 0 0 1 .1573.8195.7502.7502 0 0 1-.6921.4623H6.8305c-.4145 0-.7504-.3373-.7504-.7533 0-.4161.336-.7534.7504-.7534h10.6317L14.632 6.3131a.7556.7556 0 0 1 .0083-1.0654ZM9.368 18.8148a.7483.7483 0 0 1-1.0611-.0084l-4.087-4.1684a.7555.7555 0 0 1-.1574-.8195.7503.7503 0 0 1 .6921-.4623H17.178c.4144 0 .7503.3373.7503.7533 0 .4161-.3359.7534-.7503.7534H6.5463l2.8301 2.8865a.7555.7555 0 0 1-.0083 1.0654Z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+                            </div>
+                          
+
+                        </div>
+
+                        <div className=" DATE PICKER AND RETURN flex xl:rounded-none rounded-10 items-center justify-between border-none relative w-[320px] gap-0.5 overflow-visible calendarInput">
+
+                            {/* DATE PICKER */}
+                            <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full xl:rounded-none rounded-10" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
+                                <div className="flex justify-between items-center relative w-full h-[45px] xl:h-[60px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
+                                    <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
+                                        <div className="flex items-center ">
+                                            <div className="flex flex-col" >
+                                                <p className="body-xs text-neutral-400">Departure</p>
+                                                <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate xl:text-lg text-sm xl:text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* DATE PICKER */}
+
+
+
+
+
+                        </div>
+
+                    
+
+                        {/* SEARCH BUTTON */}
+                        <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
+                            Search
+                            <svg
+                                width="1em"
+                                height="1em"
+                                fontSize="1.5rem"
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                data-testid="ChevronRightIcon"
+                                className="w-6 h-6 ml-10 SearchForm_animateSearchBtn__btzyf transition duration-700 translate-x-4 translate-x-0 searchButttonArrowAnimation"
+                                style={{ userSelect: "none", display: "inline-block" }}
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M8.7125 6.2293c.2905-.2983.77-.3066 1.0708-.0187l5.4854 5.2494A.7474.7474 0 0 1 15.5 12a.7474.7474 0 0 1-.2313.54l-5.4854 5.2494c-.3009.2879-.7803.2796-1.0708-.0187a.7459.7459 0 0 1 .0188-1.0613L13.6524 12 8.7313 7.2906a.746.746 0 0 1-.0188-1.0614Z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </button>
+                        {/* SEARCH BUTTON */}
+
+
+                    </div>
+
+                    <div className="border-none pb-0 pl-0 pt-10 hidden xl:block ">
+
+                        <div className=" relative bg-transparent gap-2  border rounded-10 flex justify-center  flex-col p-2">
+
+                        <img className='absolute -z-10 bg-cover bg-center' src={''} alt="" />
+
+                          <div className="checkBoxAndHeading flex justify-center gap-4 bg-transparent">
+                            <span className='text-xl'><input className='w-4 h-4' id='refundcheckbox' type="checkbox" /> <label htmlFor="refundcheckbox"></label></span>
+                            <span className='font-semibold text-xl'>Get a full train fare refund</span>
+                          </div>
+
+                          <div className="banifits flex gap-8 justify-center items-center bg-transparent">
+                          <p>₹0 cancellation fee</p>
+                          <p className='font-extrabold text-2xl'>.</p>
+                          <p>Instant full train fare refunds</p>
+                          <p className='font-extrabold text-2xl'>.</p>
+                          <p>24*7 premium customer support</p>
+                          <p className='font-extrabold text-2xl'>.</p>
+                          <p>No documentation required</p>
+                          </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+      </div>
+
+      </div>
+
      
 
-      <div className="searchbar   flex gap-[50px] pl-16 pt-[19px] pb-6 items-end bg-gradient-to-r from-[#751152] to-[#ab2d42]">
+      <div className="searchbar  hidden xl:flex  gap-[50px] pl-16 pt-[19px] pb-6 items-end bg-gradient-to-r from-[#751152] to-[#ab2d42]">
 
         <div className="from flex flex-col gap-2 relative">
           <label htmlFor="inputfrom" className='text-gray-400 text-sm'>From</label>
@@ -508,7 +774,7 @@ console.log(popupShow);
       </div>
 
 
-      <div id='filterContainer' className="filters flex  p-4 shadow border h-[140px] transition-all quotas-500 border-black divide-x divide-dashed overflow-hidden bg-white">
+      <div id='filterContainer' className="filters hidden xl:flex  p-4 shadow border h-[140px] transition-all quotas-500 border-black divide-x divide-dashed overflow-hidden bg-white">
 
         <div className="coachClasses flex flex-col gap-4 px-4">
           <div className="headingAndAllBtn flex justify-between"><span>Class</span>  <span><input className='group' id='all' type="checkbox"/> <p className='inline'>all</p></span></div>
@@ -577,9 +843,9 @@ console.log(popupShow);
       </div>
 
 
-      <div className="resultsAndAddContainer px-[60px] pt-4 flex gap-11 ">
+      <div className="LAPTOP resultsAndAddContainer xl:px-[60px] pt-4 hidden xl:flex gap-11 ">
 
-        <div className="results w-[82%] ">
+        <div className="results  xl:w-[82%] ">
 
           <div id='suggestionBar' className="suggestionBar text-black bg-white ">
             <div className=" w-full flex flex-col gap-10 ">
@@ -602,7 +868,7 @@ console.log(popupShow);
             </div>
           </div>
 
-          <div id='sortBar' className="sortBarAndRadio flex justify-between flex-row  py-6 bg-white">
+          <div id='sortBar' className="sortBarAndRadio hidden xl:flex justify-between flex-row  py-6 bg-white">
 
             <div className="sortBar flex items-center py-2 tracking-wide shadow">
 
@@ -725,7 +991,7 @@ console.log(popupShow);
 
 
 
-        <div className="adds w-[30%] flex justify-center ">
+        <div className="adds w-[30%] flex justify-center xl:flex hidden">
 
           <div className='pt-24'>
             <img src="https://tpc.googlesyndication.com/simgad/17232132750874073794" alt="" />
@@ -734,8 +1000,209 @@ console.log(popupShow);
 
       </div>
 
+      <div className="MOBILE resultsAndAddContainer xl:hidden w-full h-screen  flex gap-2 ">
+
+        <div className="results flex flex-col gap-2  w-full ">
+
+          <div id='suggestionBar' className="suggestionBar text-black bg-white ">
+            <div className=" w-full flex flex-col gap-10 ">
+              <div className="SUGGESTION BAR flex bg-white  h-[50px] w-full items-center border ">
+                <div className="LEFT ARROW flex shrink-0 justify-center py-10 items-center w-6 h-full border-r border-neutral-100 cursor-pointer rounded-l-10 " onClick={() => { document.getElementById('suggestionScrollDiv').scrollLeft += 400 }}> <MdKeyboardArrowLeft /> </div>
+
+                <div id='suggestionScrollDiv' className="SUGGESTION CELLS CONTAINER  flex no-scrollbar overflow-auto scroll-smooth w-full  transition quotas-1000 ">
+                  {
+                    dateArray.map((d, index) => {
+                      return <a key={index} className="SUGGESTION CELL flex flex-col gap-1 shrink-0 justify-center items-center h-[50px] cursor-pointer w-[123px] outlookList border-r" rel="nofollow" onClick={()=>{setDate(new Date(d))}}>
+                        <p className="text-xs">{d}</p>
+                        <p className="text-xs text-success-500">Few Seats</p>
+                      </a>
+                    })
+                  }
+                </div>
+
+                <div className="RIGHT ARROW flex shrink-0 justify-center py-10 items-center w-6 h-full border-r border-neutral-100 cursor-pointer border-l" onClick={() => { document.getElementById('suggestionScrollDiv').scrollLeft -= 400 }}> <MdKeyboardArrowRight /> </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div className="resultCards flex flex-col gap-6 transition duration-500  mb-16">
+
+            {
+              message=='success' ?
+                <div className='flex flex-col gap-6' >
+                  {
+                     paginatedTrains.length > 0 &&  paginatedTrains.map((train, index) => {
+                     
+                      return  <div className='w-full flex flex-col gap-2 bg-white shadow rounded-10  px-2 py-3 relative'>
+                                
+                                <div className="upper flex justify-between items-center text-orange-500 font-semibold"> <div><span>{train.trainNumber}</span> <span>{train.trainName}</span></div>  <div><span className=' text-xs font-semibold flex'>     </span>  </div></div>
+
+                                <div className="middle flex gap-2 items-center justify-between text-sm font-semibold">  <div className='flex gap-2 items-center'><p>{train.departureTime}</p>     <div className="duration flex items-center gap-1 "> <span className='flex items-center '><p className='w-[5px] h-[5px] rounded-full bg-gray-400'/> <p className='w-3 h-[2px]  bg-gray-400'/> </span> <span>{train.travelDuration}</span>  <span className='flex items-center '><p className='w-[5px] h-[5px] order-2 rounded-full bg-gray-400' /> <p className='w-3 h-[2px] order-1  bg-gray-400'/> </span>  </div>   <div className="to"> <p>{train.arrivalTime}</p> </div></div>  <div className="workingDays flex gap-2 text-[12px] font-bold "> {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d, i) => { return  <p className={`${train.daysOfOperation.includes(d) ? 'text-orange-500' : 'text-gray-300'}`}>{d[0]}</p> })}</div> </div>
+
+                                <div className="lower  max-w-full">
+
+                                    <div className="scrollableDiv flex items-center gap-4 overflow-x-auto no-scrollbar  ">
+
+                                        <div className='cellsContainer flex gap-4 pt-4  '>
+
+
+                                          {
+                                            train.coaches.map((coach, index) => {
+                                              return <div key={index} className="cell flex flex-col justify-center items-center flex-nowrap w-[100px] border border-slate-400 rounded-10">
+
+                                                        <div className='quota-class-availability relative flex flex-col  items-center  w-full  pt-2 pb-1'>
+                                                          <span className='absolute -top-3 border text-xs bg-[#550f5d] text-white flex justify-center items-center rounded px-2 '>Tatkal</span>
+                                                          <span className='class w-full flex justify-center text-xs font-bold'>{coach.coachType}</span>
+                                                          <span className='availability  w-full flex justify-center text-xs font-bold text-green-500'>AVL {`${coach.numberOfSeats > 0 ? `${coach.numberOfSeats}` : `NOT AVL`}`}</span>
+                                                        </div>
+
+                                                        <span className='flex justify-center items-center text-sm  w-full py-1 bg-[#ec5b24] text-white font-semibold cursor-pointer rounded-b-10 border' onClick={() => { obj.coach = coach.coachType; obj.trainID = train._id; obj.numberOfSeats = coach.numberOfSeats; isLoggedIn == true? navigate('/BookTrain', {state:obj}) : setPopupShow('signinShow') }}>BOOK</span>
+                                                     </div>
+                                            })
+                                          }
+
+
+                                        </div>
+
+                                      </div>
+
+                                </div>
+
+
+
+
+
+                              </div>
+                    })
+                  }
+                </div>
+                :
+                <div className='MESSAGE flex flex-col justify-center items-center gap-8  w-full h-[500px] '>
+                 {
+                   message == 'Loading...' ? <div className=' w-full  flex flex-col gap-4 justify-center items-center '> <ThreeCircles visible={true} height="50" width="50" color="#fc790d" ariaLabel="three-circles-loading" wrapperStyle={{}} wrapperClass="animate-spin"/> <p>{message}</p></div> : <div className=' w-full h-28 flex justify-center items-end text-xl font-semibold tracking-widest'>{message}</div>
+                 }
+                </div>
+            }
+
+            {
+               message =='success' && <div className='PAGINATION BUTTONS flex flex-col justify-center items-center mt-8 pb-10 transition duration-500'>
+
+                <div className='flex justify-center items-center gap-4 transition duration-300'>
+                  <button className={`border shadow w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == 0 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.max(prev - 1, 0) }); document.getElementById('w1').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowLeft /> </button>       {Array(pages).fill().map((_, index) => { return <button key={index} className={`${currentPage == index ? 'bg-blue-700 text-white' : ""} w-[30px] h-[30px] rounded-full shadow-300 flex justify-center items-center `} onClick={() => { setCurrentPage(index); document.getElementById('w1').scrollTo({ top: 0, behavior: "smooth" }) }}>{index + 1}</button> })}        <button className={`border border shadow  w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == pages - 1 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.min(prev + 1, pages - 1) }); document.getElementById('w1').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowRight /> </button>
+                </div>
+
+              </div>
+            }
+
+
+          </div>
+
+        </div>
+
+      </div>
+
 
     </div>
+
+    {
+      message == 'success'&&  <div className="BOTTOM RIBBON fixed  bottom-0 z-50 xl:hidden h-[60px] w-full bg-slate-400 flex justify-between px-8 items-center">
+
+                                <div className="FILTER relative flex flex-col justify-center items-center"  onClick={() => { setActive(!active); setActiveTab('filter') }} >
+                                  <p><TiFilter /></p>
+                                  <p>Filter</p>
+
+                                  <div className={`filterpopup absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[285px] -translate-x-[5px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`}  >
+
+                                  <div id='filterContainer' className="filters xl:hidden flex flex-col gap-4  p-4 shadow  rounded-10 transition-all h-[500px] overflow-y-auto quotas-500   overflow-hidden bg-white">
+
+                                      <div className="coachClasses flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
+                                        <div className="headingAndAllBtn flex justify-between font-bold"><span>Class</span> </div>
+                                        <div className="classes flex flex-col gap-4 ">
+                                          <div className='flex gap-12'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="SL" value={'SL'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="sl">SL</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="3A" value={'3A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="3A">3A</label></span>
+                                          </div>
+                                          <div className='flex gap-12'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="2A" value={'2A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">2A</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
+                                          </div>
+                                          <div className='flex gap-12'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="CC" value={'CC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">CC</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="2S" value={'2S'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">2S</label></span>
+                                          </div>
+                                          <div className='flex gap-12'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="EV" value={'EV'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EV</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="3E" value={'3E'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">3E</label></span>
+                                          </div>
+                                          <div className='flex gap-12'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="EC" value={'EC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EC</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="quota flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
+                                        <span className='flex justify-between font-bold'>Quota</span>
+                                        <div className="classes flex flex-col gap-4 ">
+                                          <div className='flex justify-between gap-16'>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="general" value={'General'} name='quota' type="radio"  filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="general">General</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="tatkal" value={'Tatkal'} name='quota' type="radio" filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="tatkal">Tatkal</label></span>
+                                          </div>
+                                          <div className='flex justify-between '>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="lowerberth" value={'Lower Berth'} name='quota' type="radio" filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="lowerberth">Lower Berth</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="ladies" value={'Ladies'} name='quota' type="radio" filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="ladies">Ladies</label></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="departures flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
+                                        <span className='flex justify-between font-bold'>Departure from</span>
+                                        <div className='text-xs  font-semibold  flex gap-3 '>
+                                          <span className='flex flex-col  items-center gap-1'><input className=' peer absolute opacity-0' id="dc1" type="checkbox" value={'Early Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc1' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>00:00</p> - <p>06:00</p></label> <span className='text-center'>Early Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc2" type="checkbox" value={'Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc2' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc3" type="checkbox" value={'Mid Day'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc3' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00 </p>- <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc4" type="checkbox" value={'Night'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc4' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
+                                        </div>
+                                      </div>
+
+                                      <div className="arrivalTime flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
+                                        <span className='flex justify-between font-bold'>Arrival at</span>
+                                        <div className='text-xs font-semibold flex gap-3 '>
+                                          <span className='flex flex-col items-center gap-1'><input id='ar1' className='peer absolute opacity-0' type="checkbox" name='arrival' value={'Early Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }}  /><label htmlFor="ar1" className='flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white border border-gray-400 py-1 px-2 rounded-5'><p>00:00</p> - <p>06:00</p></label><span className='text-center'>Early Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar2" type="checkbox" name='arrival' value={'Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar2' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar3" type="checkbox" name='arrival' value={'Mid Day'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar3' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00</p> - <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar4" type="checkbox" name='arrival' value={'Night'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar4' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
+                                        </div>
+                                      </div>
+
+                                      
+
+                                  </div>
+
+                                  </div>
+                                  
+                                </div>
+
+                                <div className={`SORT relative flex flex-col justify-center items-center  `} onClick={() => { setActive(!active); setActiveTab('sort') }}>
+                                  <p><CgSortZa /></p>
+                                  <p>Sort</p>
+
+                                  <div className={`sortpopup absolute bg-white py-4 px-4  rounded-10 shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[140px] -translate-x-[30px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
+                                  <div className=' SORT flex flex-col gap-4 items-center px-4 py-2  font-semibold divide-solid text-[12px] shadow rounded-10 w-full border bg-slate-400'>
+                                    <span className='  text-[15px] font-semibold border-b'>Sort By</span> 
+                                      <span className=''> <input className=' peer absolute opacity-0' id='sr1' type="radio" name='sort' filtertype={'departureSort'} onClick={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sr1">DEPARTURE</label></span>
+                                      <span className=''> <input className=' peer absolute opacity-0' id='sr2' type="radio" name='sort' filtertype={'arrivalSort'} onClick={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sr2">ARRIVAL</label></span>
+                                      <span className=''> <input className=' peer absolute opacity-0' id='sr3' type="radio" name='sort' filtertype={'durationSort'} onClick={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sr3">DURATION</label></span>
+                                      <span className=''> <input className=' peer absolute opacity-0' id='sr4' type="radio" name='sort' filtertype={'priceSort'} onClick={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sr4">FARE</label></span>
+                                    </div>
+                                  </div>
+                                  
+                                
+                                </div>
+
+                              </div>
+    }
 
     </div>
 

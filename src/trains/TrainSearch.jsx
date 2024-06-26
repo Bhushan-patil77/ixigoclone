@@ -78,9 +78,6 @@ const TrainSearch = React.memo(()=> {
 }
 
 
-
-
-
 const getFromCities = async () => {
     const projectId = '8bropwptza4g';
     const baseUrl = 'https://academics.newtonschool.co/api/v1/bookingportals/airport';
@@ -161,13 +158,14 @@ const focus = (id) => {
        
       <div className="main ">
 
-        <div className="sticky top-0"><Navbar activeLink={2}/></div>
+        <div className="sticky top-0 bg-white z-50"><Navbar activeLink={2}/></div>
 
-         <div className="relative border border-black w-full h-[400px] flex flex-col xl:justify-normal justify-center gap-8 xl:gap-0 ">
+         <div className="relative border  w-full h-[400px] flex flex-col xl:justify-normal  gap-4 xl:gap-0 ">
 
-            <p className='xl:hidden text-xl font-semibold flex justify-center items-center'>Book Trains</p>
           
-            <img className='absolute bg-cover bg-center -z-10  xl:block xl:h-[550px] w-full' src="https://images.ixigo.com/image/upload/misc/f3c5fc0564afd3390b0d7fedfba8e8c2-qsbuo.webp" alt="" />
+            <img className='absolute bg-cover bg-center -z-10 hidden  xl:block xl:h-[550px] w-full' src="https://images.ixigo.com/image/upload/misc/f3c5fc0564afd3390b0d7fedfba8e8c2-qsbuo.webp" alt="" />
+            <img className='absolute bg-cover bg-center -z-10 xl:hidden h-full w-full' src="https://images.ixigo.com/image/upload/misc/f3c5fc0564afd3390b0d7fedfba8e8c2-qsbuo.webp" alt="" />
+
 
             <div className="headingDiv flex justify-center pt-24 hidden xl:flex">
                 <div className="imgAndHeading   flex justify-center items-center gap-8">
@@ -175,12 +173,15 @@ const focus = (id) => {
                   <p className='text-3xl text-white font-semibold'>Train Ticket Booking</p>
                 </div>
             </div>
+            
+            <p className='xl:hidden text-xl font-semibold flex justify-center pt-4 '>Book Trains</p>
 
-            <div className="searchBarDiv xl:pt-24 xl:px-10 border">
 
-              <div className="searchBarWrapper flex flex-col items-center border border-black">
+            <div className="searchBarDiv xl:pt-8 xl:px-10 ">
 
-                  <div className="tabsDiv flex gap-16 font-bold tracking-wide hidden xl:flex xl:w-[98%] xl:text-white p-2 pb-0 border border-blue-600">
+              <div className="searchBarWrapper flex flex-col items-center">
+
+                  <div className="tabsDiv flex gap-16 font-bold tracking-wide hidden xl:flex xl:w-[98%] xl:text-white p-2 pb-0" >
                     <button className='flex flex-col'><link rel="stylesheet" href="" />BOOK TRAINS <span className='w-full  border-2 border-orange-700'></span></button>
                     <button className='flex flex-col'><link rel="stylesheet" href="" />RUNNING STATUS</button>
                     <button className='flex flex-col'><link rel="stylesheet" href="" />PNR STATUS ENQUIRY</button>
@@ -188,12 +189,12 @@ const focus = (id) => {
                     <button className='flex flex-col'><link rel="stylesheet" href="" />SEARCH BY STATION</button>
                   </div>
 
-                  <div className=" shadow-500 w-[98%] xl:p-6 flex xl:flex-col gap-10 bg-white justify-center  p-4 rounded border border-red-500">
+                  <div className=" shadow-500 w-[98%] xl:p-6 flex xl:flex-col gap-10 bg-white justify-center  px-4 py-8 rounded-10">
 
-                      <div className="flex xl:flex-row flex-col gap-0.5 cursor-pointer">
+                      <div className="flex xl:flex-row flex-col xl:gap-0.5 gap-2 cursor-pointer">
 
 
-                          <div className="relative flex flex-col xl:flex-row gap-0.5 flex-1 border">
+                          <div className="relative flex xl:gap-0.5  gap-2 flex-1 ">
 
                               <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-full h-[45px] xl:h-[60px] hover:bg-neutral-subtle-over border-none rounded-l-10">
 
@@ -202,8 +203,8 @@ const focus = (id) => {
                                       <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
                                           <div className="flex items-center " >
                                               <div className="flex flex-col">
-                                                  <p className="body-xs  text-neutral-400" >From</p>
-                                                  <span id='inputSpan1' className='hidden w- text-lg  font-semibold outline-none bg-transparent ' >{from && `${from}`}</span>
+                                                  <p className=" body-xs text-neutral-400 w-full" >From</p>
+                                                  <span id='inputSpan1' className='hidden w-full  xl:text-lg text-sm font-semibold outline-none bg-transparent ' >{from && `${from}`}</span>
                                                   <input type="text" id='inputBox1' className='hidden w-full text-lg font-semibold outline-none bg-transparent' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); hide('inputBox2'); show('inputSpan2') }} />
                                               </div>
                                           </div>
@@ -214,42 +215,40 @@ const focus = (id) => {
 
                                   {/* INPUT LIST FROM */}
                                   {
-                                      <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[375px] min-h-[150px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
-                               
-                                          <div>
-                                              <p className="h6 px-20 pt-15 pb-5 font-medium">
-                                                  Popular Stations
-                                              </p>
-                                          </div>
-                                          {
-                                              fromCities.map((city, index) => {
-                                                  const cityCode = city.iata_code;
-                                                  const cityName = city.city;
-                                                  const country = city.country;
-                                                  const airportName = city.name;
+                                     <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                               
+                                     <div>
+                                         <p className="h6 px-20 pt-15 pb-5 font-medium">
+                                             Select Source
+                                         </p>
+                                     </div>
+                                     {
+                                         fromCities.map((city, index) => {
+                                             const cityCode = city.iata_code;
+                                             const cityName = city.city;
+                                             const country = city.country;
+                                             const airportName = city.name;
 
 
-                                                  return <div key={index} onClick={() => { setFrom(cityName+" "+"Junction"); hide("list1"); hide("inputBox1"); show("inputSpan1"); show('inputBox2'); focus("inputBox2") }}>
-                                                      <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 " >
-                                                          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10" >
-                                                              <span className="text-primary text-sm" >{cityCode}</span>
-                                                          </div>
-                                                          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
-                                                              <p className="body-md flex group-[.list-lg]:body-lg text-primary" >
-                                                                  <span className="block truncate" >
-                                                                      {cityName}
-                                                                  </span>
-                                                                  <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                              </p>
-                                                             
-                                                          </div>
-                                                      </li>
-                                                      <div className="border-b border-neutral-100 mx-20" />
-                                                  </div>
-                                              })
-                                          }
-                                          
-                                      </div>
+                                             return <div key={index} onClick={() => { setFrom(cityName); hide("list1"); hide("inputBox1"); show("inputSpan1"); show('inputBox2'); focus("inputBox2") }}>
+                                                 <li className="flex items-center relative hover:bg-primary-over px-20 py-2 gap-4 group list-sm max-w-screen-sm gap-15" >
+                                                     
+                                                     <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
+                                                         <p className="body-md flex group-[.list-lg]:body-lg text-primary" >
+                                                             <span className="block truncate text-sm" >
+                                                                 {cityName}
+                                                             </span>
+                                                             <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
+                                                         </p>
+                                                     
+                                                     </div>
+                                                 </li>
+                                                 <div className="border-b border-neutral-100 mx-20" />
+                                             </div>
+                                         })
+                                     }
+
+                                 </div>
                                   }
                                   {/* INPUT LIST FROM*/}
 
@@ -263,8 +262,8 @@ const focus = (id) => {
                                           <div className="flex items-center " >
                                               <div className="flex flex-col">
                                                   <p className="body-xs text-neutral-400">To</p>
-                                                  <span id='inputSpan2' className=' hidden w- text-lg  font-semibold outline-none bg-transparent ' >{to && `${to}`}</span>
-                                                  <input id='inputBox2' type="text" className=' hidden text-lg font-semibold outline-none bg-transparent ' value={to && to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
+                                                  <span id='inputSpan2' className=' hidden w-full xl:text-lg text-sm  font-semibold outline-none bg-transparent ' >{to && `${to}`}</span>
+                                                  <input id='inputBox2' type="text" className=' hidden w-full text-lg font-semibold outline-none bg-transparent ' value={to && to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
                                               </div>
                                           </div>
                                       </div>
@@ -273,209 +272,39 @@ const focus = (id) => {
 
 
                                   {/* INPUT LIST TO */}
-                                  <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] bg-white w-[375px] min-h-[150px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
-                                  
-                                      <div>
-                                          <p className="h6 px-20 pt-15 pb-5 font-medium">
-                                              Popular Stations
-                                          </p>
-                                      </div>
-                                      {
-                                          toCities.map((city, index) => {
-                                              const cityCode = city.iata_code;
-                                              const cityName = city.city;
-                                              const country = city.country;
-                                              const airportName = city.name;
+                                  <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                           
+                                           <div>
+                                               <p className="h6 px-20 pt-15 pb-5 font-medium">
+                                                   Select Destination
+                                               </p>
+                                           </div>
+                                           {
+                                               toCities.map((city, index) => {
+                                                   const cityCode = city.iata_code;
+                                                   const cityName = city.city;
+                                                   const country = city.country;
+                                                   const airportName = city.name;
 
-                                              return <div key={index} onClick={() => { setTo(cityName+" "+"Junction"); show("inputSpan2"); hide("list2"); hide("inputBox2"); document.getElementById("datePicker").focus() }}>
-                                                  <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                                      <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                          <span className="text-primary text-sm">{cityCode}</span>
-                                                      </div>
-                                                      <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                          <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                              <span className="block truncate">
-                                                                  {cityName}
-                                                              </span>
-                                                              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                          </p>
+                                                   return <div key={index} onClick={() => { setTo(cityName); show("inputSpan2"); hide("list2"); hide("inputBox2"); document.getElementById("datePicker").focus() }}>
+                                                       <li className="flex items-center relative hover:bg-primary-over px-20  gap-4 group list-sm max-w-screen-sm py-2 px-20 ">
                                                         
-                                                      </div>
-                                                  </li>
-                                                  <div className="border-b border-neutral-100 mx-20" />
-                                              </div>
-                                          })
-                                      }
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">BOM</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Mumbai, Maharashtra, India
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Chatrapati Shivaji International Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">HYD</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Hyderabad, Telangana, India
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Rajiv Gandhi International Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">BLR</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Bengaluru, Karnataka, India
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Kempegowda International Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">MAA</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Chennai, Tamil Nadu, India
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Chennai International Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">GOI</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Goa, Goa, India
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Dabolim Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">DXB</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Dubai, Dubayy, United Arab Emirates
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Dubai International Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">SIN</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Singapore, Singapore
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">Changi</p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">BKK</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Bangkok, Bangkok, Thailand
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Suvarnabhumi Airport
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                      <div>
-                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                              <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-                                                  <span className="text-primary text-sm">KUL</span>
-                                              </div>
-                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                      <span className="block truncate">
-                                                          Kuala Lumpur, Kuala Lumpur, Malaysia
-                                                      </span>
-                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                  </p>
-                                                  <p className="body-sm text-secondary">
-                                                      Kuala Lumpur Intl
-                                                  </p>
-                                              </div>
-                                          </li>
-                                          <div className="border-b border-neutral-100 mx-20" />
-                                      </div>
-                                  </div>
+                                                           <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
+                                                               <p className="body-md flex group-[.list-lg]:body-lg text-primary">
+                                                                   <span className="block truncate text-sm">
+                                                                       {cityName}
+                                                                   </span>
+                                                                   <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
+                                                               </p>
+                                                           
+                                                           </div>
+                                                       </li>
+                                                       <div className="border-b border-neutral-100 mx-20" />
+                                                   </div>
+                                               })
+                                           }
+
+                                       </div>
                                   {/* INPUT LIST TO */}
 
                               </div>
@@ -509,16 +338,16 @@ const focus = (id) => {
 
                           </div>
 
-                          <div className=" DATE PICKER AND RETURN flex items-center justify-between border-none relative w-[320px] gap-0.5 overflow-visible calendarInput">
+                          <div className=" DATE PICKER AND RETURN flex xl:rounded-none rounded-10 items-center justify-between border-none relative w-[320px] gap-0.5 overflow-visible calendarInput">
 
                               {/* DATE PICKER */}
-                              <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
+                              <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full xl:rounded-none rounded-10" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
                                   <div className="flex justify-between items-center relative w-full h-[45px] xl:h-[60px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
                                       <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
                                           <div className="flex items-center ">
                                               <div className="flex flex-col" >
                                                   <p className="body-xs text-neutral-400">Departure</p>
-                                                  <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                                                  <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate xl:text-lg text-sm xl:text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
                                               </div>
                                           </div>
                                       </div>
@@ -535,7 +364,7 @@ const focus = (id) => {
                       
 
                           {/* SEARCH BUTTON */}
-                          <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 h-[45px] xl:min-h-[50px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
+                          <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
                               Search
                               <svg
                                   width="1em"
@@ -562,7 +391,7 @@ const focus = (id) => {
 
                       <div className="border-none pb-0 pl-0 pt-10 hidden xl:block ">
 
-                          <div className=" relative bg-transparent gap-2  border flex justify-center  flex-col p-2">
+                          <div className=" relative bg-transparent gap-2  border rounded-10 flex justify-center  flex-col p-2">
 
                           <img className='absolute -z-10 bg-cover bg-center' src={train} alt="" />
 
@@ -592,19 +421,19 @@ const focus = (id) => {
 
             </div>
 
-            <div className=" OFFERS-MAIN-CONTAINER  xl:pb-0 mx-20 mt-24 border ">
-                <div className="flex flex-col my-30 gap-10 xl:my-0 xl:py-30 xl:gap-0 ">
-                    <h2 className=" pl-20 xl:pl-0 xl:pb-10 font-bold flex justify-center text-4xl">
+            <div className=" OFFERS-MAIN-CONTAINER  xl:pb-0 xl:mx-4 mx-1 xl:mt-44  ">
+                <div className="flex flex-col my-30 gap-4 xl:my-0 xl:py-30 xl:gap-2 ">
+                    <h2 className="pl-2 xl:pl-0 xl:pb-10 font-bold flex xl:justify-center text-lg xl:text-4xl">
                         Offers For You
                     </h2>
                     <div className="relative w-full my-auto mx-0  ">
-                        <button className="flex order-1 mx-5 bg-transparent focus:outline-none absolute top-[100px] left-2  flex order-2 mx-5 bg-transparent focus:outline-none cursor-pointer" onClick={(e) => { document.getElementById('offersOuterDiv').scrollLeft += document.getElementById('offersOuterDiv').clientWidth }}> <div className="w-40 h-40 bg-white rounded-full flex justify-center items-center text-blue-500 shadow-500 z-20 mb-15 mr-10"> <MdKeyboardArrowLeft className='text-3xl' /> </div> </button>
+                        <button className="flex order-1 mx-5 bg-transparent focus:outline-none absolute top-[40%] left-0 xl:left-2  flex order-2 mx-5 bg-transparent focus:outline-none cursor-pointer" onClick={(e) => { document.getElementById('offersOuterDiv').scrollLeft += document.getElementById('offersOuterDiv').clientWidth }}> <div className="xl:w-8 xl:h-8 bg-white rounded-full flex justify-center items-center text-blue-500 shadow-500 z-20 mb-15 mr-10"> <MdKeyboardArrowLeft className='text-3xl' /> </div> </button>
                         <div id='offersOuterDiv' className=" overflow-x-scroll h-[350px] transition-all ease-in-out duration-300 scroll-smooth no-scrollbar " style={{}} onScroll={(e) => { document.getElementById('scd').style.transform = `translateX(${Math.round(((e.nativeEvent.target.scrollLeft + 1384) / 6400) * 100) - 21.625}px)`; console.log(((e.nativeEvent.target.scrollLeft) / 6400 * 100)); }}  >
                             <div id='offersScrollableDiv' className="flex flex-row justify-between  flex-grow  gap-20">
 
                                 {
                                     offers && offers.map((offer, index) => {
-                                        return <div id={`offerCard${index}`} key={index} className=" offerCard relative group transition duration-1000 shrink-0 last:mr-20 first:ml-20 xl:first:ml-0 xl:last:mr-0 xl:rounded-20 xl:transition-all xl:duration-300 xl:ease-in xl:hover:shadow-100 xl:hover:duration-300 xl:hover:ease-out h-[310px]" style={{ scrollSnapAlign: "center" }} >
+                                        return <div id={`offerCard${index}`} key={index} className=" offerCard relative group transition duration-1000 shrink-0 last:mr-20 xl:first:ml-4 xl:first:ml-0 xl:last:mr-0 xl:rounded-20 xl:transition-all xl:duration-300 xl:ease-in xl:hover:shadow-100 xl:hover:duration-300 xl:hover:ease-out h-[310px]" style={{ scrollSnapAlign: "center" }} >
                                             <a href="https://www.ixigo.com/offers/winter-airlines-sale/" target="_blank">
                                                 <img alt="AIRLINE SALE WEB NEW ALLIANCE" title="AIRLINE SALE WEB NEW ALLIANCE" loading="lazy" width={295} height={180} className="w-[300px] h-[180px] rounded-t-[20px]" style={{ color: "transparent" }} src={offer.heroUrl} />
                                             </a>
@@ -622,7 +451,7 @@ const focus = (id) => {
 
                             </div>
                         </div>
-                        <button className="flex order-1 mx-5 bg-transparent focus:outline-none absolute top-[100px]  right-0 flex order-2 mx-5 bg-transparent focus:outline-none cursor-pointer" onClick={() => { document.getElementById("offersOuterDiv").scrollLeft -= document.getElementById('offersOuterDiv').clientWidth }}> <div className="w-40 h-40 bg-white rounded-full flex justify-center items-center text-blue-500 shadow-500 z-20 mb-15 mr-10"> <MdKeyboardArrowRight className='text-3xl' /> </div> </button>
+                        <button className="flex order-1  bg-transparent focus:outline-none absolute top-[40%]  right-0 flex order-2  bg-transparent focus:outline-none cursor-pointer" onClick={() => { document.getElementById("offersOuterDiv").scrollLeft -= document.getElementById('offersOuterDiv').clientWidth }}> <div className="xl:w-8 xl:h-8 bg-white rounded-full flex justify-center items-center text-blue-500 shadow-500 z-20 mb-15 mr-10"> <MdKeyboardArrowRight className='text-3xl' /> </div> </button>
 
                         <div className="flex justify-center ">
                             <div id='' className="flex gap-10 border border-black  rounded-xl w-[100px] h-10  mt-4 p-0 order-4 ">

@@ -9,7 +9,7 @@ import 'react-range-slider-input/dist/style.css';
 import { WiSnowflakeCold, WiSunrise, WiSunset } from 'react-icons/wi';
 import { FiSun } from 'react-icons/fi';
 import { MdAirlineSeatFlat, MdKeyboardArrowLeft, MdKeyboardArrowRight, MdOutlineAirlineSeatReclineExtra, MdOutlineKeyboardArrowRight, MdOutlineNightsStay } from 'react-icons/md';
-import { IoChevronDown, IoSunnyOutline } from 'react-icons/io5';
+import { IoChevronDown, IoClose, IoSunnyOutline } from 'react-icons/io5';
 import { PiCloudMoonDuotone } from 'react-icons/pi';
 import { TbAirConditioning, TbAirConditioningDisabled, TbSteeringWheel } from 'react-icons/tb';
 import { CiStar } from 'react-icons/ci';
@@ -22,6 +22,8 @@ import { ThreeCircles } from 'react-loader-spinner';
 import { GiChipsBag } from 'react-icons/gi';
 import StripeCheckout from 'react-stripe-checkout';
 import Payment from '../Payment';
+import { TiFilter } from 'react-icons/ti';
+import { CgSortZa } from 'react-icons/cg';
 
 
 const BusResults = React.memo(() => {
@@ -35,7 +37,7 @@ const BusResults = React.memo(() => {
   const [buses, setBuses] = useState([]);
   const [paginatedBuses, setPaginatedBuses] = useState(buses)
   const [currentPage, setCurrentPage] = useState(0);
-  const [selection, setSelection]=useState({'busID':'', 'seats':[], 'boarding_point':'', 'dropping_point':''});
+  const [selection, setSelection]=useState({'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'});
   const [selectedSeats, setSelectedSeats]=useState([])
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user') != null);
   const [popupShow, setPopupShow]=useState();
@@ -44,6 +46,10 @@ const BusResults = React.memo(() => {
   const [message, setMessage]=useState('');
   const [filterObj, setFilterObj] = useState({});
   const [sortObj, setSortObj] = useState({})
+  const [activeTab, setActiveTab] = useState('');
+  const [active, setActive] = useState(false);
+  const [clickedBusId, setClickedBusId]=useState();
+  const [clickedBusIndex, setClickedBusIndex]=useState()
 
 
   const navigate = useNavigate();
@@ -68,8 +74,8 @@ const BusResults = React.memo(() => {
   const pages = Math.ceil(buses.length / itemsPerPage)
 
   useEffect(()=>{
-    console.log(filterObj);
-  },[filterObj])
+    console.log(selection);
+  },[selection])
 
   useEffect(() => {
     getBuses();
@@ -576,8 +582,211 @@ const BusResults = React.memo(() => {
 
   }
 
+
+  // onChange={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'', 'dropping_point':''}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}});}}
+
   return (
-    <div className='bg-gray-100'>
+    <>
+
+     <input id={`popradio`} className='absolute -left-28 opacity-0 peer' type="radio" name='showSeats'  />
+
+
+      <div className=' absolute  xl:hidden right-[100%] peer-checked:translate-x-[100%] transform transition-all duration-700  w-screen h-screen bg-slate-500 flex flex-col  z-[50]'> <IoClose className=' absolute right-4 top-4' onClick={()=>{document.getElementById('popradio').checked=false}} /> 
+
+                    <div  className='w-full h-[85%]   overflow-y-hidden '>
+
+                          {
+                            Array(1).fill(0).map((e,i)=>{
+                              let u=1;
+                              let l=1;
+                              return <div id='seatsSelection' className={`  w-full h-full flex flex-col gap-3 items-center transition duration-500    rounded-b-10 pt-2`}>
+
+                                            <div className="availableSeatsAndColorCodes flex flex-col justify-between items-center ">
+                                              <div className="colorCodes flex gap-3">
+                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-gray-400 bg-white'></span> <p>Available Seats</p> </div> 
+                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-pink-400'></span> <p>Available For Female</p> </div> 
+                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded  border-gray-400 bg-gray-100'></span> <p>Booked Seats</p> </div> 
+                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-blue-400'></span> <p>Available For Male</p> </div> 
+                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded bg-green-100 border-green-400'></span> <p>Selected Seats</p> </div> 
+                                              </div>
+                                            </div>
+
+                                            <div className="seats container flex flex-col justify-center items-center   ">
+
+                                              <div className="seatsContainer flex  justify-around  w-full">
+                                                
+                                                <div className="upperSeats flex flex-col gap-2 bg-white w-[45%] justify-center items-center    rounded-10 py-2">
+
+                                                <div className="cabin  w-full"><p className='flex justify-start pl-3  '>Upper</p></div>
+
+                                                <div className='flex flex-col gap-2 '>
+
+                                                {
+                                                  
+                                                  Array(5).fill(0).map((seatRow, seatRowIndex)=>{
+
+                                                
+
+                                                    return  <div key={seatRowIndex} className='flex flex-row gap-8'>
+
+                                                                <div>
+                                                                    <input id={`upperseat${clickedBusIndex}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                    <label htmlFor={`upperseat${clickedBusIndex}${seatRowIndex}3`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                    {`U${u++}`}
+                                                                        <span className=" absolute bottom-[1px] peer-checked:border-green-300 w-[80%] h-[12%] bg-white rounded-10"/>
+                                                                    </label>
+                                                                </div>
+                                                              
+                                                                <div className='flex flex-row gap-2'>
+                                                                    <div>
+                                                                        <input id={`upperseat${clickedBusIndex}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                        <label htmlFor={`upperseat${clickedBusIndex}${seatRowIndex}1`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                            {`U${u++}`} 
+                                                                            <span className=" absolute bottom-[1px] peer-checked:border-green-300 w-[80%] h-[12%] bg-white rounded-10"/>
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <input id={`upperseat${clickedBusIndex}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                        <label htmlFor={`upperseat${clickedBusIndex}${seatRowIndex}2`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                            {`U${u++}`}
+                                                                            <span className=" absolute bottom-[1px] peer-checked:border-green-300 w-[80%] h-[12%] bg-white rounded-10"/>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>  
+
+                                                            
+
+
+                                                            </div>
+
+                                                  })
+                                                }
+
+                                                </div>
+
+                                                </div>
+
+                                                <div className="lowerSeats flex flex-col gap-2 bg-white w-[45%] justify-center items-center   rounded-10 py-2">
+
+                                                <div className="cabin  flex w-full items-center justify-between px-3 "> <p className=' '>Lower</p> <TbSteeringWheel className='w-6 h-6' /> </div>
+
+                                                <div className='flex flex-col gap-2'>
+
+                                                {
+                                                  
+                                                  Array(5).fill(0).map((seatRow, seatRowIndex)=>{
+
+                                                    let l = 1
+                                                    return  <div key={seatRowIndex} className='flex flex-row gap-8'>
+
+                                                                <div>
+                                                                    <input id={`lowerseat${clickedBusIndex}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                    <label htmlFor={`lowerseat${clickedBusIndex}${seatRowIndex}3`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                    {`L${l++}`}
+                                                                        <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                    </label>
+                                                                </div>
+                                                              
+                                                                <div className='flex flex-row gap-2'>
+                                                                    <div>
+                                                                        <input id={`lowerseat${clickedBusIndex}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                        <label htmlFor={`lowerseat${clickedBusIndex}${seatRowIndex}1`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                            {`L${l++}`}
+                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                        </label>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <input id={`lowerseat${clickedBusIndex}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                        <label htmlFor={`lowerseat${clickedBusIndex}${seatRowIndex}2`} className="w-8 h-14 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                            {`L${l++}`}
+                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>  
+
+                                                              
+
+
+                                                            </div>
+
+                                                  })
+                                                }
+
+                                                </div>
+
+                                                </div>
+
+                                              </div>
+
+                                            </div>
+
+                                            <div className="selectedBoardingAndDroppingPoints w-[100%]  flex flex-col   ">
+                                              { selection.boarding_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Boarding Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedBoardingPoint text-[13px]">{selection.boarding_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, boarding_point:'select' })); show(`boardingPointContainer${clickedBusIndex}`); hide(`droppingPointContainer${clickedBusIndex}`)}}> <label htmlFor="boardingPointRadio"> change </label> </button> </div> </div>}
+                                              { selection.dropping_point != "" &&  <div className='flex flex-col p-2 rounded-lg '><p className='text-gray-300'>Dropping Point</p> <div className='flex justify-between gap-1 items-center'>  <div className="selectedDroppingPoint text-[13px]">{selection.dropping_point}</div> <button className='rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, dropping_point:'select' })); show(`droppingPointContainer${clickedBusIndex}`); hide(`boardingPointContainer${clickedBusIndex}`)}}> <label htmlFor="droppingPointRadio"> change </label> </button> </div> </div>}
+                                            </div>
+                                            
+                                            <div className='Boarding  w-full'>
+
+                                            
+                                            <input id='boardingPointRadio' className='peer absolute -top-[100px] opacity-0 ' type="radio" name='boardDrop' />
+                                            <div id={`boardingPointContainer${clickedBusIndex}`} className="boardingPointContainer absolute -top-[600px] right-0 transform transition-all duration-700  peer-checked:translate-y-[600px] p-2 w-[100%] min-h-[400px]   rounded-lg bg-white">
+                                              <div className="searchBoarding w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Boarding Point'/></div>
+                                              <div className=' min-h-[400px] overflow-y-scroll no-scrollbar'>
+                                              <div className="boardingList px-1 flex flex-col divide-y ">
+                                                {
+                                                  Array(10).fill(0).map((b,i)=>{
+                                                    return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3 '> <input className=' absolute opacity-0' id={`boardingRadio${clickedBusIndex}${i}`} type="radio" name='bordingRadio' onClick={(e)=>{handleSelection(e); hide(`boardingPointContainer${clickedBusIndex}`); selection.dropping_point=="" ? show(`droppingPointContainer${clickedBusIndex}`): ''}} /><label className='text-sm cursor-pointer py-3' htmlFor={`boardingRadio${clickedBusIndex}${i}`}> Ramchandra Flyover {from}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
+                                                  })
+                                                }
+                                              </div>
+                                              </div>
+                                            </div>
+
+                                            </div>
+
+                                            <div className='Dropping  w-full'>
+
+                                            <input id='droppingPointRadio' className='peer absolute -top-[100px] opacity-0' type="radio" name='boardDrop'/>
+                                            <div id={`droppingPointContainer${clickedBusIndex}`} className="droppingPointContainer absolute -top-[600px] right-0 transform transition-all duration-700  peer-checked:translate-y-[600px] p-2 w-[100%] min-h-[400px]   rounded-lg bg-white ">
+                                              <div className="searchDropping w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Dropping Point'/></div>
+                                              <div className=' min-h-[400px] overflow-y-scroll no-scrollbar'>
+                                              <div className="boardingList px-1 flex flex-col divide-y">
+                                                {
+                                                  Array(10).fill(0).map((d,i)=>{
+                                                    return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3'> <input className=' absolute opacity-0' id={`droppingRadio${clickedBusIndex}${i}`} type="radio" name='droppingRadio' onClick={(e)=>{handleSelection(e); hide(`droppingPointContainer${clickedBusIndex}`); selection.boarding_point=="" ? show(`boardingPointContainer${clickedBusIndex}`): ''}}/><label className='text-sm cursor-pointer py-3' htmlFor={`droppingRadio${clickedBusIndex}${i}`}> Orchid Hospital, Main circle {to}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
+                                                  })
+                                                }
+                                              </div>
+                                              </div>
+                                            </div>
+
+                                            </div>
+
+                                      </div>
+                            })
+                          }
+
+
+
+                    </div>
+                  
+
+                        
+                    <div className='selectionReviewAndContinue flex flex-col gap-2 absolute bottom-0  w-full '>
+                      <div className="selectedSeatsAndBaseFare flex justify-between px-2"> <span className='flex gap-2 text-sm'>Seat Selected: { selection.seats.length>0 && selection.seats.map((seat, seatIndex)=>{return <p key={seatIndex} className='font-semibold text-orange-400'>{seat}</p>})}</span> <span className='flex gap-1 '>Base Fare: {selection.seats.length > 0 && <p className='text-orange-400 font-semibold'>{selection.seats.length}</p>}</span></div>
+                      <div id='cntbtn' className={`continueBtn  flex justify-center items-center  py-3  font-bold ${selection.seats.length > 0 && selection.boarding_point!='select' && selection.dropping_point!='select' ? `${'bg-[#fc790d] text-white cursor-pointer '}` : `${'text-gray-400 bg-gray-200 cursor-not-allowed'}`}`} onClick={()=>{ isLoggedIn == true? navigate('/BookBus', {state:selection}) : setPopupShow('signinShow') }}> Continue  </div>
+                    </div>
+
+      </div>
+
+
+
+
+    
+    <div className='bg-gray-100 w-screen h-screen overflow-y-scroll '>
+
 
       <div id='login' className={`${popupShow == 'signinShow' ? 'block' : 'hidden'} relative`}>
         <Login setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
@@ -587,15 +796,9 @@ const BusResults = React.memo(() => {
         <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
      </div>
 
-     <Navbar activeLink={3}/>
-
-
-    
-
+     <div className='hidden xl:flex'><Navbar activeLink={3}/></div>
    
-
-   
-      <div className="searchBarDiv sticky top-0 z-40">
+      <div className="searchBarDiv hidden xl:block sticky top-0 z-40 ">
 
         <div className="searchBarWrapper flex flex-col items-center">
 
@@ -788,10 +991,11 @@ const BusResults = React.memo(() => {
 
       </div>
 
-      <div className="results flex flex-col mx-28">
+
+      <div className="results flex flex-col xl:mx-28">
 
         {
-          buses.length > 0 && <div id='sortBar' className="sortBarAndRadio flex gap-4 flex-row  py-3 sticky top-[90px]  bg-gray-100 z-30">
+          buses.length > 0 && <div id='sortBar' className="sortBarAndRadio hidden xl:flex gap-4 flex-row  py-3 sticky top-[90px]  bg-gray-100 z-30">
 
                                   <div className="sortBar flex items-center py-2 tracking-wide  bg-white drop-shadow rounded-10">
 
@@ -815,9 +1019,10 @@ const BusResults = React.memo(() => {
         }
 
         <div className="filterAndBuses flex gap-6 mt-1 pb-8 ">
+          
 
          {
-                               <div className="filter max-h-[76vh]  sticky top-24 drop-shadow rounded-10 ">
+                               <div className="filter hidden xl:block max-h-[76vh]  sticky top-24 drop-shadow rounded-10 ">
 
                                     < div className="bg-white rounded-10 w-[300px] ">
                                       <div className="flex justify-between p-20 items-center">
@@ -902,11 +1107,16 @@ const BusResults = React.memo(() => {
                               </div> 
          }
 
-          <div className="buses flex justify-center">
+          <div className="buses xl:flex justify-center w-full ">
             <div className="offers"></div>
             <div className="suggestions"></div>
 
-            <div id='busCardsScrollable' className="busCards px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar ">
+            <div id='busCardsScrollable' className="busCards  px-1 xl:px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar  ">
+
+
+              
+             
+
 
                   {
                     
@@ -916,250 +1126,310 @@ const BusResults = React.memo(() => {
                                                         let u = 1;
                                                         let l = 1;
                                                         
-                                                        return <div key={index} className='drop-shadow rounded-10 shadow-slate-800 hover:scale-[1.01] transition-all duration-200 bg-white'onClick={(e)=>{e.currentTarget.scrollIntoView({behavior:'smooth',block:'end'})}} >
+                                                        return <div>
+                                                        
+                                                                    <div  key={index} className='LAPTOP hidden xl:block drop-shadow rounded-10 shadow-slate-800 hover:scale-[1.01]  transition-all duration-200 bg-white'onClick={(e)=>{e.currentTarget.scrollIntoView({behavior:'smooth',block:'end'})}} >
 
-                                                                  <input id={`showseats${index}`} className='absolute opacity-0 peer' type="radio" name='showSeats' onChange={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'', 'dropping_point':''}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}});}} />
+                                                                      <input id={`showseats${index}`} className='absolute opacity-0 peer' type="radio" name='showSeats' onChange={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'', 'dropping_point':''}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}});}} />
 
-                                                                  <div className="busCard  flex justify-between  rounded-t-10  px-4 pt-3 pb-3 w-[948px] z-0 peer ">
+                                                                      <div className="busCard  flex justify-between  rounded-t-10  px-4 pt-3 pb-3 w-[948px] z-0 peer ">
 
-                                                                    <div className="left">
+                                                                        <div className="left">
 
-                                                                      <div className="top flex flex-col justify-between ">
-                                                                        <div className="upper">
-                                                                          <span></span>
+                                                                          <div className="top flex flex-col justify-between ">
+                                                                            <div className="upper">
+                                                                              <span></span>
+                                                                            </div>
+
+                                                                            <div className="middle flex justify-between">
+
+                                                                              <div className="headingandbustype flex flex-col w-[300px] ">
+                                                                                <span className='text-lg font-semibold'>{bus.name}</span>
+                                                                                <span className='text-sm'>{bus.type} Sleeper (2 + 1)</span>
+                                                                              </div>
+                                                                              <div className="datetimeinfo flex justify-between items-center px-4 float-right w-[458px]">
+                                                                                <div className="from flex flex-col items-start w-[100px]"><span>{date.getDay()} {month[date.getMonth()]}</span><span className='font-bold text-lg'>{bus.departureTime}</span><span>{bus.source.split(',')[0]}</span></div>
+                                                                                <div className="travelduration flex justify-center items-center gap-2"><div className='w-1 h-1 bg-slate-400 rounded-full' /> <div className='w-4 border-[1px] border-dashed' /> <span className='border px-2 py-1 text-xs rounded-md'>10:30 Hrs</span> <div className='w-4 border-[1px] border-dashed' /> <div className='w-1 h-1 bg-slate-400 rounded-full' /></div>
+                                                                                <div className="to flex flex-col items-end w-[100px]"><span >{date.getDay()} {month[date.getMonth()]}</span><span className='font-bold text-lg'>{bus.arrivalTime}</span><span>{bus.destination.split(',')[0]}</span></div>
+                                                                              </div>
+
+                                                                            </div>
+
+                                                                            <div className="lower ">
+                                                                              <div className='ratingAminitiesLiveTracking flex gap-2'>
+                                                                                <div className="rating flex"><span className=' bg-[#61b00f] text-white px-2 rounded-l-md flex  justify-center items-center gap-1 py-1 text-sm'> <IoMdStar /> <p>{bus.ratings}</p></span>  <span className=' pl-1 pr-2 bg-slate-50 text-slate-300 flex justify-center items-center text-sm rounded-r-md gap-1 '> <BiSolidUser className='' /><p>1.{index}k</p></span></div>
+                                                                                <div className="aminities flex gap-1 flex-row items-center bg-slate-50 px-2 rounded-md text-orange-500">{bus.amenities.includes('WiFi') && <FaWifi />}   {bus.amenities.includes('Charging Point') && <FaPlug />}   {bus.amenities.includes('Snack Box') &&  <GiChipsBag /> } {bus.amenities.includes('Water Bottle') &&  <FaBottleWater /> } </div>
+                                                                                <div className="liveTracking flex items-center gap-2 bg-slate-50 px-2 rounded-md"><FaMapLocationDot /> <p>Live Tracking</p></div>
+                                                                              </div>
+                                                                            </div>
+                                                                          </div>
+
+                                                                          <div className="bottom flex gap-6 p-1 text-slate-300">
+
+                                                                            <div className="boardingAndDroppingPoints">
+                                                                              <div className='relative'>
+                                                                                <span className='flex items-center gap-1 text-sm'> <p>Boarding & Droping Points</p> <FaChevronDown /></span>
+                                                                                <div className="dropdown"></div>
+                                                                              </div>
+
+                                                                            </div>
+
+                                                                            <div className="aminities">
+                                                                              <div className='relative'>
+                                                                                <span className='flex items-center gap-1 text-sm'> <p>Amenities</p> <FaChevronDown /></span>
+                                                                                <div className="dropdown"></div>
+                                                                              </div>
+                                                                            </div>
+
+                                                                            <div className="cancellationPolicy">
+                                                                              <div className='relative'>
+                                                                                <span className='flex items-center gap-1 text-sm'> <p>Cancellation Policy</p> <FaChevronDown /></span>
+                                                                                <div className="dropdown"></div>
+                                                                              </div>
+                                                                            </div>
+
+                                                                            <div className="travelPolicy">
+                                                                              <div className='relative'>
+                                                                                <span className='flex items-center gap-1 text-sm'> <p>Travel Policy</p> <FaChevronDown /></span>
+                                                                                <div className="dropdown"></div>
+                                                                              </div>
+                                                                            </div>
+
+                                                                          </div>
                                                                         </div>
 
-                                                                        <div className="middle flex justify-between">
-
-                                                                          <div className="headingandbustype flex flex-col w-[300px] ">
-                                                                            <span className='text-lg font-semibold'>{bus.name}</span>
-                                                                            <span className='text-sm'>{bus.type} Sleeper (2 + 1)</span>
-                                                                          </div>
-                                                                          <div className="datetimeinfo flex justify-between items-center px-4 float-right w-[458px]">
-                                                                            <div className="from flex flex-col items-start w-[100px]"><span>{date.getDay()} {month[date.getMonth()]}</span><span className='font-bold text-lg'>{bus.departureTime}</span><span>{bus.source.split(',')[0]}</span></div>
-                                                                            <div className="travelduration flex justify-center items-center gap-2"><div className='w-1 h-1 bg-slate-400 rounded-full' /> <div className='w-4 border-[1px] border-dashed' /> <span className='border px-2 py-1 text-xs rounded-md'>10:30 Hrs</span> <div className='w-4 border-[1px] border-dashed' /> <div className='w-1 h-1 bg-slate-400 rounded-full' /></div>
-                                                                            <div className="to flex flex-col items-end w-[100px]"><span >{date.getDay()} {month[date.getMonth()]}</span><span className='font-bold text-lg'>{bus.arrivalTime}</span><span>{bus.destination.split(',')[0]}</span></div>
-                                                                          </div>
-
+                                                                        <div className="right w-[158px] flex flex-col justify-between items-end py-2   ">
+                                                                          <div className="price flex flex-col items-end"> <span>Starting at</span> <span className='text-2xl font-bold'>₹ {bus.fare}</span></div>
+                                                                          <div className="availabilityBtnAndAvlSeats flex flex-col items-center gap-1"> <label htmlFor={`showseats${index}`} className=' border  px-6 py-1 flex justify-center items-center  rounded-md bg-[#dc6437] text-white'>Show Seats</label> <span className='text-sm text-slate-400'>{bus.seats} Seats Available</span></div>
                                                                         </div>
 
-                                                                        <div className="lower ">
-                                                                          <div className='ratingAminitiesLiveTracking flex gap-2'>
-                                                                            <div className="rating flex"><span className=' bg-[#61b00f] text-white px-2 rounded-l-md flex  justify-center items-center gap-1 py-1 text-sm'> <IoMdStar /> <p>{bus.ratings}</p></span>  <span className=' pl-1 pr-2 bg-slate-50 text-slate-300 flex justify-center items-center text-sm rounded-r-md gap-1 '> <BiSolidUser className='' /><p>1.{index}k</p></span></div>
-                                                                            <div className="aminities flex gap-1 flex-row items-center bg-slate-50 px-2 rounded-md text-orange-500">{bus.amenities.includes('WiFi') && <FaWifi />}   {bus.amenities.includes('Charging Point') && <FaPlug />}   {bus.amenities.includes('Snack Box') &&  <GiChipsBag /> } {bus.amenities.includes('Water Bottle') &&  <FaBottleWater /> } </div>
-                                                                            <div className="liveTracking flex items-center gap-2 bg-slate-50 px-2 rounded-md"><FaMapLocationDot /> <p>Live Tracking</p></div>
-                                                                          </div>
-                                                                        </div>
                                                                       </div>
 
-                                                                      <div className="bottom flex gap-6 p-1 text-slate-300">
+                                                                      <div className={`dropdown  w-[948px]  hidden peer-checked:block transition duration-500 bg-[#f8f8f8] rounded-b-10`}>
+                                                                            <div className="availableSeatsAndColorCodes flex justify-between px-4 pt-4 bg-gradient-to-b from-white to-[#f8f8f8]">
+                                                                              <span className='flex flex-col'> <p className='font-semibold'>{bus.seats} Seats Available</p> <p className='text-gray-300 text-sm'>Click on seat to select/deselect</p></span>
+                                                                              <div className="colorCodes flex gap-3">
+                                                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-gray-400 bg-white'></span> <p>Available Seats</p> </div> 
+                                                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-pink-400'></span> <p>Available For Female</p> </div> 
+                                                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded  border-gray-400 bg-gray-100'></span> <p>Booked Seats</p> </div> 
+                                                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-blue-400'></span> <p>Available For Male</p> </div> 
+                                                                                <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded bg-green-100 border-green-400'></span> <p>Selected Seats</p> </div> 
+                                                                              </div>
+                                                                            </div>
 
-                                                                        <div className="boardingAndDroppingPoints">
-                                                                          <div className='relative'>
-                                                                            <span className='flex items-center gap-1 text-sm'> <p>Boarding & Droping Points</p> <FaChevronDown /></span>
-                                                                            <div className="dropdown"></div>
-                                                                          </div>
-
-                                                                        </div>
-
-                                                                        <div className="aminities">
-                                                                          <div className='relative'>
-                                                                            <span className='flex items-center gap-1 text-sm'> <p>Amenities</p> <FaChevronDown /></span>
-                                                                            <div className="dropdown"></div>
-                                                                          </div>
-                                                                        </div>
-
-                                                                        <div className="cancellationPolicy">
-                                                                          <div className='relative'>
-                                                                            <span className='flex items-center gap-1 text-sm'> <p>Cancellation Policy</p> <FaChevronDown /></span>
-                                                                            <div className="dropdown"></div>
-                                                                          </div>
-                                                                        </div>
-
-                                                                        <div className="travelPolicy">
-                                                                          <div className='relative'>
-                                                                            <span className='flex items-center gap-1 text-sm'> <p>Travel Policy</p> <FaChevronDown /></span>
-                                                                            <div className="dropdown"></div>
-                                                                          </div>
-                                                                        </div>
-
-                                                                      </div>
-                                                                    </div>
-
-                                                                    <div className="right w-[158px] flex flex-col justify-between items-end py-2   ">
-                                                                      <div className="price flex flex-col items-end"> <span>Starting at</span> <span className='text-2xl font-bold'>₹ {bus.fare}</span></div>
-                                                                      <div className="availabilityBtnAndAvlSeats flex flex-col items-center gap-1"> <label htmlFor={`showseats${index}`} className=' border  px-6 py-1 flex justify-center items-center  rounded-md bg-[#dc6437] text-white'>Show Seats</label> <span className='text-sm text-slate-400'>{bus.seats} Seats Available</span></div>
-                                                                    </div>
-
-                                                                  </div>
-
-                                                                  <div className={`dropdown  w-[948px]  hidden peer-checked:block transition duration-500 bg-[#f8f8f8] rounded-b-10`}>
-                                                                        <div className="availableSeatsAndColorCodes flex justify-between px-4 pt-4 bg-gradient-to-b from-white to-[#f8f8f8]">
-                                                                          <span className='flex flex-col'> <p className='font-semibold'>{bus.seats} Seats Available</p> <p className='text-gray-300 text-sm'>Click on seat to select/deselect</p></span>
-                                                                          <div className="colorCodes flex gap-3">
-                                                                            <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-gray-400 bg-white'></span> <p>Available Seats</p> </div> 
-                                                                            <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-pink-400'></span> <p>Available For Female</p> </div> 
-                                                                            <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded  border-gray-400 bg-gray-100'></span> <p>Booked Seats</p> </div> 
-                                                                            <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded border-blue-400'></span> <p>Available For Male</p> </div> 
-                                                                            <div className='flex flex-col gap-1 items-center text-center text-[11px] leading-3  w-[60px]'> <span className='w-6 h-6 border-2 rounded bg-green-100 border-green-400'></span> <p>Selected Seats</p> </div> 
-                                                                          </div>
-                                                                        </div>
-
-                                                                        <div className="seatFares flex items-center gap-2 text-sm px-4">
-                                                                          <span className='border px-4 rounded py-1 bg-[#dc6437] text-white '>All</span>
-                                                                          {
-                                                                            Array(5).fill(0).map((e, i)=>{
-                                                                              
-                                                                              return  <div key={i} className='relative '> <input className='absolute opacity-0 peer' id={`busfare${index}${i}`} type="radio" name='busFare' /> <label className='bg-white px-3 py-1 peer-checked:bg-[#dc6437] peer-checked:text-white rounded'  htmlFor={`busfare${index}${i}`}>₹1700</label></div>
-                                                                        
-                                                                            })
-                                                                          }
-                                                                        </div>
-
-                                                                        <div className="seatsAndBoardingPointWrapper flex justify-evenly ">
-
-                                                                          <div className="seatsContainer flex flex-col gap-4 py-4 px-1 w-[48%] ">
+                                                                            <div className="seatFares flex items-center gap-2 text-sm px-4">
+                                                                              <span className='border px-4 rounded py-1 bg-[#dc6437] text-white '>All</span>
+                                                                              {
+                                                                                Array(5).fill(0).map((e, i)=>{
+                                                                                  
+                                                                                  return  <div key={i} className='relative '> <input className='absolute opacity-0 peer' id={`busfare${index}${i}`} type="radio" name='busFare' /> <label className='bg-white px-3 py-1 peer-checked:bg-[#dc6437] peer-checked:text-white rounded'  htmlFor={`busfare${index}${i}`}>₹1700</label></div>
                                                                             
-                                                                            <div className="upperSeats flex bg-white  py-4 rounded-10">
+                                                                                })
+                                                                              }
+                                                                            </div>
 
-                                                                            <div className="cabin  flex items-end justify-center pb-4"><p className='  -rotate-90 '>Upper</p></div>
+                                                                            <div className="seatsAndBoardingPointWrapper flex justify-evenly ">
 
-                                                                            <div className='flex gap-4'>
+                                                                              <div className="seatsContainer flex flex-col gap-4 py-4 px-1 w-[48%] ">
+                                                                                
+                                                                                <div className="upperSeats flex bg-white  py-4 rounded-10">
 
-                                                                            {
-                                                                              
-                                                                              Array(5).fill(0).map((seatRow, seatRowIndex)=>{
+                                                                                <div className="cabin  flex items-end justify-center pb-4"><p className='  -rotate-90 '>Upper</p></div>
 
-                                                                                return  <div key={seatRowIndex} className='flex flex-col gap-8'>
-                                                                                          
-                                                                                            <div className='flex flex-col gap-1'>
+                                                                                <div className='flex gap-4'>
+
+                                                                                {
+                                                                                  
+                                                                                  Array(5).fill(0).map((seatRow, seatRowIndex)=>{
+
+                                                                                    return  <div key={seatRowIndex} className='flex flex-col gap-8'>
+                                                                                              
+                                                                                                <div className='flex flex-col gap-1'>
+                                                                                                    <div>
+                                                                                                        <input id={`upperseat${index}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                                                        <label htmlFor={`upperseat${index}${seatRowIndex}1`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                            {`U${u++}`}
+                                                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                                                        </label>
+                                                                                                    </div>
+
+                                                                                                    <div>
+                                                                                                        <input id={`upperseat${index}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                                                        <label htmlFor={`upperseat${index}${seatRowIndex}2`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                            {`U${u++}`}
+                                                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>  
+
                                                                                                 <div>
-                                                                                                    <input id={`upperseat${index}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
-                                                                                                    <label htmlFor={`upperseat${index}${seatRowIndex}1`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                        {`U${u++}`}
+                                                                                                    <input id={`upperseat${index}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                                                    <label htmlFor={`upperseat${index}${seatRowIndex}3`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                    {`U${u++}`}
                                                                                                         <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
                                                                                                     </label>
                                                                                                 </div>
 
-                                                                                                <div>
-                                                                                                    <input id={`upperseat${index}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
-                                                                                                    <label htmlFor={`upperseat${index}${seatRowIndex}2`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                        {`U${u++}`}
-                                                                                                        <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                            </div>  
 
-                                                                                            <div>
-                                                                                                <input id={`upperseat${index}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
-                                                                                                <label htmlFor={`upperseat${index}${seatRowIndex}3`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                {`U${u++}`}
-                                                                                                    <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
-                                                                                                </label>
                                                                                             </div>
 
+                                                                                  })
+                                                                                }
 
-                                                                                        </div>
+                                                                                </div>
 
-                                                                              })
-                                                                            }
+                                                                                </div>
 
-                                                                            </div>
+                                                                                <div className="lowerSeats flex bg-white py-4 rounded-10">
 
-                                                                            </div>
+                                                                                <div className="cabin  flex flex-col items-center justify-between py-4"> <TbSteeringWheel className='-rotate-90  w-8 h-8' /> <p className='  -rotate-90 '>Lower</p></div>
 
-                                                                            <div className="lowerSeats flex bg-white py-4 rounded-10">
+                                                                                <div className='flex gap-4'>
 
-                                                                            <div className="cabin  flex flex-col items-center justify-between py-4"> <TbSteeringWheel className='-rotate-90  w-8 h-8' /> <p className='  -rotate-90 '>Lower</p></div>
+                                                                                {
+                                                                                  
+                                                                                  Array(5).fill(0).map((seatRow, seatRowIndex)=>{
 
-                                                                            <div className='flex gap-4'>
+                                                                                    return  <div key={seatRowIndex} className='flex flex-col gap-8'>
+                                                                                              
+                                                                                                <div className='flex flex-col gap-1'>
+                                                                                                    <div>
+                                                                                                        <input id={`lowerseat${index}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
+                                                                                                        <label htmlFor={`lowerseat${index}${seatRowIndex}1`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                            {`L${l++}`}
+                                                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                                                        </label>
+                                                                                                    </div>
 
-                                                                            {
-                                                                              
-                                                                              Array(5).fill(0).map((seatRow, seatRowIndex)=>{
+                                                                                                    <div>
+                                                                                                        <input id={`lowerseat${index}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                                                        <label htmlFor={`lowerseat${index}${seatRowIndex}2`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                            {`L${l++}`}
+                                                                                                            <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>  
 
-                                                                                return  <div key={seatRowIndex} className='flex flex-col gap-8'>
-                                                                                          
-                                                                                            <div className='flex flex-col gap-1'>
                                                                                                 <div>
-                                                                                                    <input id={`lowerseat${index}${seatRowIndex}1`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}} />
-                                                                                                    <label htmlFor={`lowerseat${index}${seatRowIndex}1`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                        {`L${l++}`}
+                                                                                                    <input id={`lowerseat${index}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
+                                                                                                    <label htmlFor={`lowerseat${index}${seatRowIndex}3`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
+                                                                                                    {`L${l++}`}
                                                                                                         <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
                                                                                                     </label>
                                                                                                 </div>
 
-                                                                                                <div>
-                                                                                                    <input id={`lowerseat${index}${seatRowIndex}2`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
-                                                                                                    <label htmlFor={`lowerseat${index}${seatRowIndex}2`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                        {`L${l++}`}
-                                                                                                        <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
-                                                                                                    </label>
-                                                                                                </div>
-                                                                                            </div>  
 
-                                                                                            <div>
-                                                                                                <input id={`lowerseat${index}${seatRowIndex}3`} className="opacity-0 absolute peer" type="checkbox" onChange={(e)=>{handleSelection(e)}}/>
-                                                                                                <label htmlFor={`lowerseat${index}${seatRowIndex}3`} className="w-16 h-7 relative rounded border-2 flex justify-center items-center peer-checked:bg-green-200 peer-checked:border-green-300 cursor-pointer group-hover:bg-gray-200 text-xs">
-                                                                                                {`L${l++}`}
-                                                                                                    <span className=" absolute right-[1px] peer-checked:border-green-300 w-[12%] h-[80%] bg-white rounded-10"/>
-                                                                                                </label>
                                                                                             </div>
 
+                                                                                  })
+                                                                                }
 
-                                                                                        </div>
+                                                                                </div>
 
-                                                                              })
-                                                                            }
+                                                                                </div>
+
+                                                                              </div>
+
+                                                                              <div className='boardingAndDroppingContainer py-4 px-1 w-[48%] flex flex-col gap-2 '>
+                                                                                  
+                                                                                  <div className="selectedBoardingAndDroppingPoints w-[100%] flex flex-col  gap-2 ">
+                                                                                    { selection.boarding_point != "" &&  <div className='flex flex-col bg-white p-2 rounded-lg'><p className='text-gray-300'>Boarding Point</p> <div className='flex justify-between gap-2 items-center'>  <div className="selectedBoardingPoint text-[13px]">{selection.boarding_point}</div> <button className='border border-orange-500 px-2 py-1 rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, boarding_point:'' })); show(`boardingPointContainer${index}`); hide(`droppingPointContainer${index}`)}}>Change</button> </div> </div>}
+                                                                                    { selection.dropping_point != "" &&  <div className='flex flex-col bg-white p-2 rounded-lg'><p className='text-gray-300'>Dropping Point</p> <div className='flex justify-between gap-2 items-center'>  <div className="selectedDroppingPoint text-[13px]">{selection.dropping_point}</div> <button className='border border-orange-500 px-2 py-1 rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, dropping_point:'' })); show(`droppingPointContainer${index}`); hide(`boardingPointContainer${index}`)}}>Change</button> </div> </div>}
+                                                                                  </div>
+
+                                                                                  <div id={`boardingPointContainer${index}`} className="boardingPointContainer p-2 w-[100%] rounded-lg bg-white">
+                                                                                    <div className="searchBoarding w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Boarding Point'/></div>
+                                                                                    <div className=' h-[150px] overflow-y-scroll no-scrollbar'>
+                                                                                    <div className="boardingList px-1 flex flex-col divide-y ">
+                                                                                      {
+                                                                                        Array(10).fill(0).map((b,i)=>{
+                                                                                          return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3 '> <input className=' absolute opacity-0' id={`boardingRadio${index}${i}`} type="radio" name='bordingRadio' onClick={(e)=>{handleSelection(e); hide(`boardingPointContainer${index}`); selection.dropping_point=="" ? show(`droppingPointContainer${index}`): ''}} /><label className='text-sm cursor-pointer py-3' htmlFor={`boardingRadio${index}${i}`}> Ramchandra Flyover Opp Hotel Rajyoj Garden, {from}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
+                                                                                        })
+                                                                                      }
+                                                                                    </div>
+                                                                                    </div>
+                                                                                  </div>
+
+                                                                                  <div id={`droppingPointContainer${index}`} className="droppingPointContainer p-2 w-[100%] rounded-lg  bg-white hidden">
+                                                                                    <div className="searchDropping w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Dropping Point'/></div>
+                                                                                    <div className=' h-[150px] overflow-y-scroll no-scrollbar'>
+                                                                                    <div className="boardingList px-1 flex flex-col divide-y">
+                                                                                      {
+                                                                                        Array(10).fill(0).map((d,i)=>{
+                                                                                          return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3'> <input className=' absolute opacity-0' id={`droppingRadio${index}${i}`} type="radio" name='droppingRadio' onClick={(e)=>{handleSelection(e); hide(`droppingPointContainer${index}`); selection.boarding_point=="" ? show(`boardingPointContainer${index}`): ''}}/><label className='text-sm cursor-pointer py-3' htmlFor={`droppingRadio${index}${i}`}> Orchid Hospital, Main circle {to}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
+                                                                                        })
+                                                                                      }
+                                                                                    </div>
+                                                                                    </div>
+                                                                                  </div>
+
+                                                                                  <div className='selectionReviewAndContinue flex flex-col gap-2'>
+                                                                                    <div className="selectedSeatsAndBaseFare flex justify-between px-2"> <span className='flex gap-2 text-sm'>Seat Selected: { selection.seats.length>0 && selection.seats.map((seat, seatIndex)=>{return <p key={seatIndex} className='font-semibold text-orange-400'>{seat}</p>})}</span> <span className='flex gap-1 '>Base Fare: {selection.seats.length > 0 && <p className='text-orange-400 font-semibold'>{selection.seats.length * bus.fare}</p>}</span></div>
+                                                                                    <div className={`continueBtn w-[100%] flex justify-center items-center border py-4 rounded-xl font-bold ${selection.seats.length > 0 && selection.boarding_point!='' && selection.dropping_point!='' ? `${'bg-[#fc790d] text-white cursor-pointer'}` : `${'text-gray-400 bg-gray-200 cursor-not-allowed'}`}`} onClick={()=>{ isLoggedIn == true? navigate('/BookBus', {state:selection}) : setPopupShow('signinShow') }}> Continue  </div>
+                                                                                  </div>
+
+                                                                              </div>
 
                                                                             </div>
+                                                                      </div>
 
-                                                                            </div>
+                                                                    </div>
 
-                                                                          </div>
 
-                                                                          <div className='boardingAndDroppingContainer py-4 px-1 w-[48%] flex flex-col gap-2 '>
-                                                                              
-                                                                              <div className="selectedBoardingAndDroppingPoints w-[100%] flex flex-col  gap-2 ">
-                                                                                { selection.boarding_point != "" &&  <div className='flex flex-col bg-white p-2 rounded-lg'><p className='text-gray-300'>Boarding Point</p> <div className='flex justify-between gap-2 items-center'>  <div className="selectedBoardingPoint text-[13px]">{selection.boarding_point}</div> <button className='border border-orange-500 px-2 py-1 rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, boarding_point:'' })); show(`boardingPointContainer${index}`); hide(`droppingPointContainer${index}`)}}>Change</button> </div> </div>}
-                                                                                { selection.dropping_point != "" &&  <div className='flex flex-col bg-white p-2 rounded-lg'><p className='text-gray-300'>Dropping Point</p> <div className='flex justify-between gap-2 items-center'>  <div className="selectedDroppingPoint text-[13px]">{selection.dropping_point}</div> <button className='border border-orange-500 px-2 py-1 rounded-md text-sm text-orange-400' onClick={()=>{setSelection(prev => ({...prev, dropping_point:'' })); show(`droppingPointContainer${index}`); hide(`boardingPointContainer${index}`)}}>Change</button> </div> </div>}
-                                                                              </div>
 
-                                                                              <div id={`boardingPointContainer${index}`} className="boardingPointContainer p-2 w-[100%] rounded-lg bg-white">
-                                                                                <div className="searchBoarding w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Boarding Point'/></div>
-                                                                                <div className=' h-[150px] overflow-y-scroll no-scrollbar'>
-                                                                                <div className="boardingList px-1 flex flex-col divide-y ">
-                                                                                  {
-                                                                                    Array(10).fill(0).map((b,i)=>{
-                                                                                      return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3 '> <input className=' absolute opacity-0' id={`boardingRadio${index}${i}`} type="radio" name='bordingRadio' onClick={(e)=>{handleSelection(e); hide(`boardingPointContainer${index}`); selection.dropping_point=="" ? show(`droppingPointContainer${index}`): ''}} /><label className='text-sm cursor-pointer py-3' htmlFor={`boardingRadio${index}${i}`}> Ramchandra Flyover Opp Hotel Rajyoj Garden, {from}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
-                                                                                    })
-                                                                                  }
-                                                                                </div>
-                                                                                </div>
-                                                                              </div>
 
-                                                                              <div id={`droppingPointContainer${index}`} className="droppingPointContainer p-2 w-[100%] rounded-lg  bg-white hidden">
-                                                                                <div className="searchDropping w-full h-[40px] border-b flex gap-2 p-2 items-center"><IoIosSearch /><input className=' outline-none w-full' type="text" placeholder='Search Dropping Point'/></div>
-                                                                                <div className=' h-[150px] overflow-y-scroll no-scrollbar'>
-                                                                                <div className="boardingList px-1 flex flex-col divide-y">
-                                                                                  {
-                                                                                    Array(10).fill(0).map((d,i)=>{
-                                                                                      return  <div key={i} className='flex justify-between items-center hover:bg-gray-200 rounded-lg pl-3'> <input className=' absolute opacity-0' id={`droppingRadio${index}${i}`} type="radio" name='droppingRadio' onClick={(e)=>{handleSelection(e); hide(`droppingPointContainer${index}`); selection.boarding_point=="" ? show(`boardingPointContainer${index}`): ''}}/><label className='text-sm cursor-pointer py-3' htmlFor={`droppingRadio${index}${i}`}> Orchid Hospital, Main circle {to}</label> <span className='flex flex-col text-xs  w-14'><p>07:30</p><p>10 May</p></span></div>
-                                                                                    })
-                                                                                  }
-                                                                                </div>
-                                                                                </div>
-                                                                              </div>
+                                                                    
 
-                                                                              <div className='selectionReviewAndContinue flex flex-col gap-2'>
-                                                                                <div className="selectedSeatsAndBaseFare flex justify-between px-2"> <span className='flex gap-2 text-sm'>Seat Selected: { selection.seats.length>0 && selection.seats.map((seat, seatIndex)=>{return <p key={seatIndex} className='font-semibold text-orange-400'>{seat}</p>})}</span> <span className='flex gap-1 '>Base Fare: {selection.seats.length > 0 && <p className='text-orange-400 font-semibold'>{selection.seats.length * bus.fare}</p>}</span></div>
-                                                                                <div className={`continueBtn w-[100%] flex justify-center items-center border py-4 rounded-xl font-bold ${selection.seats.length > 0 && selection.boarding_point!='' && selection.dropping_point!='' ? `${'bg-[#fc790d] text-white cursor-pointer'}` : `${'text-gray-400 bg-gray-200 cursor-not-allowed'}`}`} onClick={()=>{ isLoggedIn == true? navigate('/BookBus', {state:selection}) : setPopupShow('signinShow') }}> Continue  </div>
-                                                                              </div>
 
-                                                                          </div>
+                                                                    <div className="MOBILE relative xl:hidden w-screen flex flex-col shadow rounded-10 ">
 
+
+                                                                    <label htmlFor={`popradio`} className=' flex flex-col gap-2 p-2' onClick={()=>{setClickedBusId(bus._id); setClickedBusIndex(index)}}>
+
+                                                                      <div className="businfo and rating flex justify-between gap-2">
+
+                                                                        <div className="businfo flex flex-col">
+                                                                        <span className='font-semibold'>{bus.name}</span>
+                                                                        <span className='text-xs'>{bus.type} Sleeper (2 + 1)</span>
                                                                         </div>
-                                                                  </div>
+
+                                                                                
+                                                                        <div className="rating"> <div className="rating flex flex-col"><span className=' bg-[#61b00f] text-white px-2 rounded-t-md flex  justify-center items-center gap-1 py-1 text-xs'> <IoMdStar /> <p>{bus.ratings}</p></span>  <span className=' pl-1 pr-2 bg-slate-50 text-slate-300 flex justify-center items-center text-sm rounded-b-md gap-1 '> <BiSolidUser className='' /><p>1.{index}k</p></span></div> </div>
+
+                                                                      </div>
+
+                                                                      <div className="timings,liveTracking and fare flex justify-between">
+
+                                                                        <div className="timings and liveTracking flex flex-col gap-2 ">
+                                                                                <div className="timings flex gap-2">
+                                                                                <div className="from flex flex-col items-start  "><span className='font-bold text-lg'>{bus.departureTime}</span></div>
+                                                                                <div className="travelduration flex justify-center items-center"><div className='w-[5px] h-[5px] bg-slate-500 rounded-full flex justify-center items-center' /> <div className='w-3 border border-slate-400 border-dashed flex justify-center items-center' /> <span className='border border-slate-400 px-2 py-1 text-xs rounded-md'>10:30 Hrs</span> <div className='w-3 border border-slate-400 border-dashed flex justify-center items-center' /> <div className='w-[5px] h-[5px] bg-slate-500 rounded-full flex justify-center items-center' /></div>
+                                                                                <div className="to flex flex-col items-end "><span className='font-bold text-lg'>{bus.arrivalTime}</span></div>
+                                                                                </div>
+
+                                                                                <div className="liveTracking flex">
+                                                                                <div className="aminities flex gap-1 flex-row items-center bg-slate-50 rounded-md text-orange-500">{bus.amenities.includes('WiFi') && <FaWifi />}   {bus.amenities.includes('Charging Point') && <FaPlug />}   {bus.amenities.includes('Snack Box') &&  <GiChipsBag /> } {bus.amenities.includes('Water Bottle') &&  <FaBottleWater /> } </div>
+                                                                                <div className="liveTracking flex items-center gap-2 bg-slate-50 px-2 rounded-md"><FaMapLocationDot /> <p>Live Tracking</p></div>
+                                                                                </div>
+                                                                        </div>
+
+                                                                       
+
+                                                                        <div className="fare">
+                                                                        <div className="price flex flex-col items-center gap-2"> <span className='text-xs'>Starting @</span> <span className='text- font-bold'>₹ {bus.fare}</span></div>
+                                                                        </div>
+
+                                                                      </div>
+
+                                                                      <div className="amenities"></div>
+
+
+                                                                      </label>
+
+
+                                                                    </div>
+
+
 
                                                                 </div>
                                                 })
@@ -1190,13 +1460,140 @@ const BusResults = React.memo(() => {
 
 
           </div>
+
+
         </div>
+
+      </div>
+
+
+      <div className="BOTTOM RIBBON hidden fixed  bottom-0 z-50 xl:hidden h-[60px] w-full bg-gray-400 flex justify-between px-8 items-center">
+
+            <div className="FILTER relative flex flex-col justify-center items-center" onClick={() => { setActive(!active); setActiveTab('filter') }}>
+              <p><TiFilter /></p>
+              <p>Filter</p>
+              <div className={`filterpopup absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[280px] -translate-x-[5px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`} >
+                  
+
+                      <div className="filter max-h-[76vh]  sticky top-24 drop-shadow rounded-10 ">
+
+                    < div className="bg-white rounded-10 w-[300px] ">
+                      <div className="flex justify-between p-20 items-center">
+                        <p className="HEADING body-md font-bold">Filters</p>
+                        <p className="CLEAR ALL body-sm cursor-pointer text-brand-500 font-medium" onClick={() => { document.querySelectorAll('.filterCheckBox').forEach((i) => { if (i.checked) { i.click() } }); setFilterObj({}) }}> Clear All </p>
+                      </div>
+
+                      <div className="flex flex-col gap-2 px-3 pb-6">
+
+                        <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-4 bg-slate-100 rounded-md'><span>Price Drop</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={0} filtertype={'stops'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+
+                        <div className="busType flex flex-col gap-2  px-4 py-4 bg-slate-100 rounded-md">
+                          <span >Bus Type</span>
+                          <div className='flex gap-2 justify-center items-center'>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox1' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox1" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioning className='text-lg' /> <p className='text-xs'>AC</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox2' className='peer absolute opacity-0' type="checkbox" value="Non-AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox2" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioningDisabled className='text-lg' /> <p className='text-xs'>Non AC</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox3' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox3" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <MdOutlineAirlineSeatReclineExtra className='text-lg' /><p className='text-xs'>Seater</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox4' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox4" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'><MdAirlineSeatFlat className='text-lg' /> <p className='text-xs'>Sleeper</p> </label></span>
+                          </div>
+                        </div>
+
+                        <div className="PRICE FILTER DIV flex flex-col ga  px-4 py-4 bg-slate-100 rounded-md">
+                          <p className=" pb-4">Price Range</p>
+                          <div className="relative w-full ">
+                            <div className='border'> <RangeSlider min={0} max={10000} value={val} onInput={(e) => { setval(e) }} onThumbDragEnd={(e) => { setminmax(val); handlePrice(val) }} /> </div>
+                            <div className='flex justify-between'>
+                              <div className=" left-2 text-secondary text-sm mt-2"> {val[0]} </div>
+                              <div className=" right-2 text-secondary text-sm mt-2"> {val[1]} </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="DEPARTURE FILTER DIV flex flex-col gap-30  px-4 py-4 bg-slate-100 rounded-md">
+                          <div className="flex flex-col gap-10">
+                            <p className="">Departure from {from}</p>
+
+                            <div className="flex pt-10 gap-15 w-full h-[86px]">
+
+                              <div id='' className="relative flex flex-col justify-center items-center px-15 py-10 w-full h-full bg-[#ffffff] rounded-lg">
+                                <input id='before10am' className="filterCheckBox peer group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="Before 10 AM" filtertype={'departures'} onClick={(e) => { handleFilterChange(e) }} />
+                                <label htmlFor='before10am' className="absolute flex flex-col justify-center items-center gap-1 pointer-events-none peer-checked:text-orange-400 peer-checked:border-orange-400 border w-full h-full rounded-lg" >
+                                  <p className="text-3xl"><WiSunrise /></p>
+                                  <p className="">Before 10 AM</p>
+                                </label>
+                              </div>
+
+                              <div id='' className="relative flex flex-col justify-center items-center px-15 py-10 w-full bg-[#ffffff]  rounded-lg">
+                                <input id='10amTo5pm' className="filterCheckBox peer group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="10 AM - 5 PM" filtertype={'departures'} onClick={(e) => { handleFilterChange(e) }} />
+                                <label htmlFor='10amTo5pm' className="absolute flex flex-col justify-center items-center gap-1 pointer-events-none peer-checked:text-orange-400 peer-checked:border-orange-400 border w-full h-full rounded-lg" >
+                                  <p className="text-3xl"><IoSunnyOutline /></p>
+                                  <p className=" ">10 AM - 5 PM</p>
+                                </label>
+                              </div>
+
+                            </div>
+                            <div className="flex pt-10 gap-15 w-full h-[86px]">
+
+                              <div id='' className="relative flex flex-col justify-center items-center px-15  w-full bg-[#ffffff] rounded-lg">
+                                <input id='5amTo11pm' className="filterCheckBox peer group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="5 PM - 11 PM" filtertype={'departures'} onClick={(e) => { handleFilterChange(e) }} />
+                                <label htmlFor='5amTo11pm' className="absolute  flex flex-col justify-center items-center gap-1 pointer-events-none peer-checked:text-orange-400 peer-checked:border-orange-400 border w-full h-full rounded-lg" >
+                                  <p className="text-3xl"><WiSunset /></p>
+                                  <p className=" ">5 PM - 11 PM</p>
+                                </label>
+                              </div>
+
+                              <div id='' className="relative flex flex-col justify-center items-center   px-15 py-10 w-full bg-[#ffffff] rounded-lg ">
+                                <input id='after11pm' className="filterCheckBox peer group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="After 11 PM" filtertype={'departures'} onClick={(e) => { handleFilterChange(e) }} />
+                                <label htmlFor='after11pm' className="absolute flex flex-col justify-center items-center gap-1 pointer-events-none peer-checked:text-orange-400 peer-checked:border-orange-400 border w-full h-full rounded-lg" >
+                                  <p className="text-3xl"><PiCloudMoonDuotone /></p>
+                                  <p className=" ">After 11 PM</p>
+                                </label>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                      </div> 
+
+              </div>
+            </div>
+
+            <div className={`SORT relative flex flex-col justify-center items-center `} onClick={() => { setActive(!active); setActiveTab('sort') }}>
+              <p><CgSortZa /></p>
+              <p>Sort</p>
+              <div className={`sortpopup absolute   bg-white shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[180px] -translate-x-[60px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
+              
+
+                    <div className="sortBar flex items-center py-2 tracking-wide  bg-white drop-shadow rounded-10">
+
+                  <span className='text-black font-semibold pl-6 py-2'>Sort by:</span>
+
+                  <div className='  flex divide-x  divide-solid text-slate-600 p-1'>
+                    <span className='px-6'> <input className='hidden peer' id='sortRadio1' type="radio" name='sort' filtertype={'Price'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio1">Price</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='sortRadio2' type="radio" name='sort' filtertype={'Seats'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio2">Seats</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='sortRadio3' type="radio" name='sort' filtertype={'Ratings'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio3">Ratings</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='sortRadio4' type="radio" name='sort' filtertype={'Arrival Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio4">Arrival Time</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='sortRadio5' type="radio" name='sort' filtertype={'Departure Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio5">Departure Time</label></span>
+                  </div>
+
+                  </div>
+
+
+              </div>
+            </div>
 
       </div>
 
 
 
     </div>
+
+
+    </>
   )
 })
 

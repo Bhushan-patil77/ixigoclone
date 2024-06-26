@@ -9,11 +9,13 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 const BusSearch = React.memo(()=> {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("Pune");
+  const [to, setTo] = useState("Mumbai");
   const [fromCities, setFromCities] = useState([]);
   const [toCities, setToCities] = useState([]);
   const [date, setDate] = useState(new Date())
+  const [offers, setOffers] = useState()
+
 
   const navigate = useNavigate();
 
@@ -27,6 +29,11 @@ const BusSearch = React.memo(()=> {
     to: to,
     date: date,
 }
+
+  useEffect(()=>{
+    getOffers()
+  },[])
+
 
   useEffect(()=>{
     getFromCities();
@@ -88,6 +95,38 @@ const getToCities = async () => {
     }
 }
 
+const getOffers = async () => {
+
+
+    const projectId = '8bropwptza4g';
+    const baseUrl = 'https://academics.newtonschool.co/api/v1/bookingportals/offers?filter={"type":"BUSES"} ';
+
+    try {
+        var response = await fetch(baseUrl, {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                projectID: projectId
+            }
+        })
+        response = await response.json();
+        if (response.status === "success") {
+            setOffers(response.data.offers)
+
+            console.log(response);
+        }
+        if (response.status === "fail") {
+            alert(response.message)
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+}
+
+
   const hide = (id) => {
     document.getElementById(id).classList.add("hidden");
     console.log(id);
@@ -110,30 +149,30 @@ const focus = (id) => {
         <div className={`searchBarContainer bg-center bg-cover h-[470px] w-screen `}  style={{ backgroundImage: `url(${busBG})` }}>
         
 
-        <div className="searchBarDiv pt-28 px-10 ">
+        <div className="searchBarDiv pt-4 xl:pt-28 px-1 xl:px-10  ">
 
-        <div className='flex justify-center py-6'><span className='text-4xl font-semibold text-slate-700 '>Book Bus Tickets</span></div>
-
-
-            <div className="searchBarWrapper flex flex-col items-center border">
+        <div className='flex justify-center py-6'><span className='xl:text-4xl text-lg font-bold xl:font-semibold text-slate-700 '>Book Bus Tickets</span></div>
 
 
-                <div className=" shadow-500 w-[90%] p-20 flex flex-col gap-10 bg-white  rounded-3xl ">
-
-                    <div className="flex gap-0.5 cursor-pointer">
+            <div className="searchBarWrapper flex flex-col items-center  ">
 
 
-                        <div className="relative flex gap-0.5 flex-1">
+                <div className=" shadow-500 w-full xl:w-[90%] xl:p-6 px-1 py-4 flex flex-col gap-10 bg-white  rounded-10 ">
 
-                            <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-full h-[60px] hover:bg-neutral-subtle-over border-none rounded-l-10">
+                    <div className="flex xl:flex-row flex-col gap-0.5 cursor-pointer">
+
+
+                        <div className="relative flex  gap-0.5 flex-1">
+
+                            <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[60px] hover:bg-neutral-subtle-over border-none rounded-l-10">
 
                                 <div className="INPUT TAG flex  justify-between items-center relative w-full h-full" onClick={() => { show("inputBox1"); hide('inputSpan1'); focus('inputBox1')}}>
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
                                         <div className="flex items-center " >
                                             <div className="flex flex-col">
                                                 <p className="body-xs  text-neutral-400" >From</p>
-                                                <span id='inputSpan1' className='hidden w- text-lg  font-semibold outline-none bg-transparent ' >{from}</span>
-                                                <input type="text" id='inputBox1' className='hidden w-full text-lg font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); hide('inputBox2'); show('inputSpan2') }} />
+                                                <span id='inputSpan1' className='hidden w- xl:text-lg text-sm  font-semibold outline-none bg-transparent ' >{from}</span>
+                                                <input type="text" id='inputBox1' defaultValue={'Pune'} className='hidden w-full xl:text-lg truncate text-sm font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); hide('inputBox2'); show('inputSpan2') }} />
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +180,7 @@ const focus = (id) => {
 
 
                                 {
-                                    <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                    <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[130%] xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
                             
                                         <div>
                                             <p className="h6 px-20 pt-15 pb-5 font-medium">
@@ -177,22 +216,22 @@ const focus = (id) => {
 
                             </div>
 
-                            <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-full h-[60px] hover:bg-neutral-subtle-over border-none ">
+                            <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[60px] hover:bg-neutral-subtle-over border-none xl:rounded-r-none rounded-r-10 ">
 
                                 <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("inputBox2"); hide('inputSpan2'); focus('inputBox2'); hide('inputBox1'); show("inputSpan1") }} >
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
                                         <div className="flex items-center " >
                                             <div className="flex flex-col">
                                                 <p className="body-xs text-neutral-400">To</p>
-                                                <span id='inputSpan2' className=' hidden w- text-lg  font-semibold outline-none bg-transparent ' >{to}</span>
-                                                <input id='inputBox2' type="text" className=' hidden text-lg font-semibold outline-none bg-transparent ' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
+                                                <span id='inputSpan2' className=' hidden w- text-sm xl:text-lg  font-semibold outline-none bg-transparent ' >{to}</span>
+                                                <input id='inputBox2' type="text" defaultValue={'Mumbai'} className=' hidden text-lg font-semibold outline-none bg-transparent border w-full' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] bg-white w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[130%]  xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
                                 
                                     <div>
                                         <p className="h6 px-20 pt-15 pb-5 font-medium">
@@ -252,9 +291,9 @@ const focus = (id) => {
 
                         </div>
 
-                        <div className=" DATE PICKER AND RETURN flex items-center justify-between border-none relative w-[320px] gap-0.5 overflow-visible calendarInput">
+                        <div className=" DATE PICKER AND RETURN flex items-center bg-charcoal-40 rounded-10 xl:rounded-none justify-between border-none relative w-full  xl:w-[320px] gap-0.5 overflow-visible calendarInput">
 
-                            <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
+                            <div className=" DATE PICKER hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
                                 <div className="flex justify-between items-center relative w-full h-[60px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
                                         <div className="flex items-center ">
@@ -274,7 +313,7 @@ const focus = (id) => {
                         </div>
 
 
-                        <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 min-h-[50px] button-lg py-[13px] px-15 rounded-none rounded-r-10 text-2xl w-[160px] pl-[25px] " onClick={()=>{from && to != undefined ? (from===to ? alert("Source and destination cannot be same") : (navigate("/BusResults" , {state: obj}))): alert("All fields are required")}}>
+                        <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:rounded-l-none xl:min-h-[50px] button-lg py-[13px] px-15  text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{from && to != undefined ? (from===to ? alert("Source and destination cannot be same") : (navigate("/BusResults" , {state: obj}))): alert("All fields are required")}}>
                             Search
                             <svg
                                 width="1em"
@@ -309,9 +348,9 @@ const focus = (id) => {
 
         </div>
 
-        <div className=" OFFERS-MAIN-CONTAINER  xl:pb-0 mx-20 mt-24 ">
+        <div className=" OFFERS-MAIN-CONTAINER  xl:pb-0 mx-20 xl:mt-8 ">
                     <div className="flex flex-col my-30 gap-10 xl:my-0 xl:py-30 xl:gap-0 ">
-                        <h2 className=" pl-20 xl:pl-0 xl:pb-10 font-bold flex justify-center text-4xl">
+                        <h2 className="  xl:pb-10 font-bold flex justify-center text-lg xl:text-4xl">
                             Offers For You
                         </h2>
                         <div className="relative w-full my-auto mx-0  ">
@@ -319,7 +358,7 @@ const focus = (id) => {
                             <div id='offersOuterDiv' className=" overflow-x-scroll h-[350px] transition-all ease-in-out duration-300 scroll-smooth no-scrollbar " style={{}} onScroll={(e) => { document.getElementById('scd').style.transform = `translateX(${Math.round(((e.nativeEvent.target.scrollLeft + 1384) / 6400) * 100) - 21.625}px)`; console.log(((e.nativeEvent.target.scrollLeft) / 6400 * 100)); }}  >
                                 <div id='offersScrollableDiv' className="flex flex-row justify-between  flex-grow  gap-20">
 
-                                    {/* {
+                                    {
                                         offers && offers.map((offer, index) => {
                                             return <div id={`offerCard${index}`} key={index} className=" offerCard relative group transition duration-1000 shrink-0 last:mr-20 first:ml-20 xl:first:ml-0 xl:last:mr-0 xl:rounded-20 xl:transition-all xl:duration-300 xl:ease-in xl:hover:shadow-100 xl:hover:duration-300 xl:hover:ease-out h-[310px]" style={{ scrollSnapAlign: "center" }} >
                                                 <a href="https://www.ixigo.com/offers/winter-airlines-sale/" target="_blank">
@@ -335,7 +374,7 @@ const focus = (id) => {
 
                                             </div>
                                         })
-                                    } */}
+                                    }
 
                                 </div>
                             </div>

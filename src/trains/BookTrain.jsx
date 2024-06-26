@@ -261,16 +261,16 @@ const BookTrain = React.memo(() => {
       <Login/>
      </div>
 
-      <div id='section1' className=" relative ravellers w-screen h-screen">
+      <div id='section1' className=" relative ravellers w-screen xl:h-full h-screen overflow-y-auto ">
 
-        <div className="TRAVELLERS DETAILS CONTAINER rounded-20 mt-20 overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] bg-white">
+        <div className="TRAVELLERS DETAILS CONTAINER rounded-20 xl:mt-20 overflow-hidden shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] bg-white">
           <div className="bg-white pt-20">
             <h5 className="h5 px-20 font-bold">Traveller Details</h5>
-            <div className="flex justify-between items-center px-20">
-              <p className="body-md text-secondary">
+            <div className="flex xl:justify-between justify-end items-center px-20">
+              <p className="text-sm hidden xl:block xl:text-base text-secondary">
                 Choose from the saved list or add a new passenger{" "}
               </p>
-              <p className="body-sm text-secondary">3 Travellers</p>
+              <p className="body-sm text-secondary hidden xl:block">3 Travellers</p>
             </div>
             <div className="flex flex-col min-h-full">
               <div className="bg-white flex-grow pb-[70px] lg:pb-0">
@@ -302,7 +302,7 @@ const BookTrain = React.memo(() => {
                     <div className="right-content flex w-full pl-5">
                       <div className="grow">
                         <div className="body-sm text-primary">
-                          <p className="body-sm text-warning-moderate">
+                          <p className="xl:body-sm xl:text-sm text-xs text-warning-moderate">
                             Please ensure that your name matches your govt. ID
                             such as Aadhaar, Passport or Driver's License
                           </p>
@@ -313,7 +313,7 @@ const BookTrain = React.memo(() => {
                 </div>
 
 
-                <div className="CHECKED TRAVELLERS NAMES CONTAINER  mx-20 pt-20 border rounded-20 shadow">
+                <div className="CHECKED TRAVELLERS NAMES CONTAINER  mx-20  pt-20 border rounded-20 shadow">
 
 
                   <div className="ADULTS CHECKED NAMES CONTAINER mx-20 mb-15 pb-10 border-b border-neutral-200 last-of-type:border-none last-of-type:pb-0">
@@ -328,7 +328,7 @@ const BookTrain = React.memo(() => {
                     <div id="adultForm" className="ADULTS DETAILS INPUT FORM flex flex-col hidden " >
                       <div className="bg-white flex-grow">
                         <form type={"adultForm"} onSubmit={(e) => { handleFormSubmit(e) }}>
-                          <div className="grid grid-cols-3 pt-0 gap-9 ">
+                          <div className="flex flex-col gap-1 ">
                             <div className="w-full">
                               <div className="inline-flex flex-col text-secondary w-full">
                                 <div className="flex relative transition-all group/input px-15 rounded-10 items-center mt-2">
@@ -340,7 +340,7 @@ const BookTrain = React.memo(() => {
                                     <select
                                       name=""
                                       id="adultTitleInput"
-                                      className="outline-none w-full bg-transparent  py-3 text-primary "
+                                      className="outline-none focus:outline-none w-full bg-transparent  py-2 text-primary "
                                     >
                                       <option value="Male">Male</option>
                                       <option value="Female">Female</option>
@@ -360,7 +360,7 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
@@ -380,7 +380,7 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
@@ -401,7 +401,7 @@ const BookTrain = React.memo(() => {
                                     placeholder="DD/MM/YYYY"
                                     maxLength={10}
                                     autoComplete="new-password"
-                                    className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                    className="outline-none w-full  placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                     type="text"
                                     defaultValue=""
                                   />
@@ -421,7 +421,7 @@ const BookTrain = React.memo(() => {
                                       <select
                                         name=""
                                         id="adultTitleInput"
-                                        className="outline-none w-full bg-transparent  py-3 text-primary "
+                                        className="outline-none w-full bg-transparent  py-2 text-primary "
                                       >
                                         <option value="Indian" className="w-full">
                                           Indian
@@ -434,7 +434,7 @@ const BookTrain = React.memo(() => {
                               </div>
                             </div>
                             <div className="VALIDATE & SAVE BUTTON flex justify-center items-center ">
-                              <button className=" h-[48px] rounded-xl px-4 bg-white shadow-300" >
+                              <button className=" h-[40px] rounded-xl px-4 bg-orange-300 text-white shadow-300" >
                                 Validate &amp; Save
                               </button>
                             </div>
@@ -482,7 +482,7 @@ const BookTrain = React.memo(() => {
                     < div id="childForm" className="ADULTS DETAILS INPUT FORM flex flex-col hidden " >
                       <div className="bg-white flex-grow">
                         <form type={"childForm"} childnumber={1} onSubmit={(e) => { handleFormSubmit(e) }}>
-                          <div className="grid grid-cols-3 pt-0 gap-15 bg-neutral-50">
+                          <div className="flex flex-col gap-1 bg-neutral-50">
                             <div className="w-full">
                               <div className="inline-flex flex-col text-secondary w-full">
                                 <div className="flex relative transition-all group/input px-15 rounded-10 items-center mt-2">
@@ -494,7 +494,7 @@ const BookTrain = React.memo(() => {
                                     <select
                                       name=""
                                       id="adultTitleInput"
-                                      className="outline-none w-full bg-transparent  py-3 text-primary "
+                                      className="outline-none w-full bg-transparent  py-2 text-primary "
                                     >
                                       <option value="Male">Male</option>
                                       <option value="Female">Female</option>
@@ -514,14 +514,12 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
                                   </div>
-                                  <div className="body-xs  px-15">
-                                    Your first name should have 1-32 characters{" "}
-                                  </div>
+                                 
                                 </div>
                               </div>
                             </div>
@@ -536,14 +534,12 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
                                   </div>
-                                  <div className="body-xs px-15">
-                                    Your last name should have 2-32 characters
-                                  </div>
+                               
                                 </div>
                               </div>
                             </div>
@@ -559,15 +555,13 @@ const BookTrain = React.memo(() => {
                                     placeholder="DD/MM/YYYY"
                                     maxLength={10}
                                     autoComplete="new-password"
-                                    className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                    className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                     type="text"
                                     defaultValue=""
                                   />
                                 </div>
                               </div>
-                              <div className="body-xs px-15">
-                                Please enter your date of birth
-                              </div>
+                             
                             </div>
                             <div>
                               <div className="w-auto">
@@ -581,7 +575,7 @@ const BookTrain = React.memo(() => {
                                       <select
                                         name=""
                                         id="adultTitleInput"
-                                        className="outline-none w-full bg-transparent  py-3 text-primary "
+                                        className="outline-none w-full bg-transparent  py-2 text-primary "
                                       >
                                         <option value="Indian" className="w-full">
                                           Indian
@@ -594,7 +588,7 @@ const BookTrain = React.memo(() => {
                               </div>
                             </div>
                             <div className="VALIDATE & SAVE BUTTON flex justify-center items-center ">
-                              <button className=" h-[48px] rounded-xl px-4 bg-white shadow-300">
+                              <button className=" h-[40px] rounded-xl px-4 bg-orange-300 text-white shadow-300">
                                 Validate &amp; Save
                               </button>
                             </div>
@@ -646,7 +640,7 @@ const BookTrain = React.memo(() => {
                     < div id="infantForm" className="ADULTS DETAILS INPUT FORM  flex-col hidden " >
                       <div className="bg-white flex-grow">
                         <form type={"infantForm"} infantnumber={1} onSubmit={(e) => { handleFormSubmit(e) }}>
-                          <div className="grid grid-cols-3 pt-0 gap-15 bg-neutral-50">
+                          <div className="flex flex-col gap-1 bg-neutral-50">
                             <div className="w-full">
                               <div className="inline-flex flex-col text-secondary w-full">
                                 <div className="flex relative transition-all group/input px-15 rounded-10 items-center mt-2">
@@ -658,7 +652,7 @@ const BookTrain = React.memo(() => {
                                     <select
                                       name=""
                                       id="adultTitleInput"
-                                      className="outline-none w-full bg-transparent  py-3 text-primary "
+                                      className="outline-none w-full bg-transparent  py-2 text-primary "
                                     >
                                       <option value="Male">Male</option>
                                       <option value="Female">Female</option>
@@ -678,14 +672,12 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
                                   </div>
-                                  <div className="body-xs  px-15">
-                                    Your first name should have 1-32 characters{" "}
-                                  </div>
+                                  
                                 </div>
                               </div>
                             </div>
@@ -700,14 +692,12 @@ const BookTrain = React.memo(() => {
                                       </label>
                                       <input
                                         autoComplete="new-password"
-                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                        className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                         defaultValue=""
                                       />
                                     </div>
                                   </div>
-                                  <div className="body-xs px-15">
-                                    Your last name should have 2-32 characters
-                                  </div>
+                              
                                 </div>
                               </div>
                             </div>
@@ -723,15 +713,13 @@ const BookTrain = React.memo(() => {
                                     placeholder="DD/MM/YYYY"
                                     maxLength={10}
                                     autoComplete="new-password"
-                                    className="outline-none w-full bg-transparent placeholder:text-disabled py-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+                                    className="outline-none w-full bg-transparent placeholder:text-disabled py-2 placeholder:opacity-0 focus:placeholder:opacity-100"
                                     type="text"
                                     defaultValue=""
                                   />
                                 </div>
                               </div>
-                              <div className="body-xs px-15">
-                                Please enter your date of birth
-                              </div>
+                            
                             </div>
                             <div>
                               <div className="w-auto">
@@ -745,7 +733,7 @@ const BookTrain = React.memo(() => {
                                       <select
                                         name=""
                                         id="adultTitleInput"
-                                        className="outline-none w-full bg-transparent  py-3 text-primary "
+                                        className="outline-none w-full bg-transparent  py-2 text-primary "
                                       >
                                         <option value="Indian" className="w-full">
                                           Indian
@@ -758,7 +746,7 @@ const BookTrain = React.memo(() => {
                               </div>
                             </div>
                             <div className="VALIDATE & SAVE BUTTON flex justify-center items-center ">
-                              <button className=" h-[48px] rounded-xl px-4 bg-white shadow-300">
+                              <button className=" h-[40px] rounded-xl px-4 bg-orange-300 text-white shadow-300">
                                 Validate &amp; Save
                               </button>
                             </div>
@@ -804,36 +792,39 @@ const BookTrain = React.memo(() => {
           </div>
         </div>
 
-        <div className="CONTACT DETAILS CONTAINER mt-20 rounded-20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] bg-white overflow-hidden">
+        <div className="CONTACT DETAILS CONTAINER xl:mt-20 rounded-20 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] bg-white overflow-hidden border">
           <form id='contactDetails' className='' type="contactDetails" onSubmit={(e) => { handleFormSubmit(e) }}>
             <div className="CONTACT DETAILS p-20">
               <h5 className="h5 font-bold">Contact Details</h5>
-              <p className="body-md text-secondary pt-2">Your ticket &amp; flight information will be sent here</p>
+              <p className="body-md xl:text-balance text-sm text-secondary pt-2">Your ticket &amp; flight information will be sent here</p>
 
-              <div className='flex gap-8 items-center  p-4 mt-4 rounded-lg'>
+              <div className='flex xl:flex-row flex-col  xl:gap-8 items-center gap-3 p-4 mt-4 rounded-lg'>
 
+                 <div className="flex xl:gap-8 gap-1">
 
-                <div className="relative">
-                  <label className="absolute -top-2 left-2 text-xs font-semibold bg-white ">Country Code</label>
-                  <select name="" id="adultTitleInput" className="p-2 w-full border rounded-lg border-slate-300 ">
-                    <option value="India (+91)">India (+91)</option>
-                    <option value="America (+93)">America (+93)</option>
-                  </select>
-                </div>
-
-
-                <div className="relative">
-                  <label className="absolute -top-2 left-2 text-xs font-semibold bg-white  ">Mobile Number</label>
-                  <input className="p-2 w-full border rounded-lg border-slate-300" type="number" defaultValue={9834832178} onFocus={() => { show('contactSaveBtn'); hide('contactSavedCheck') }} />
-                </div>
+                  <div className="relative xl:w-[200px] w-[40%]">
+                    <select name="" id="adultTitleInput" className="p-2 w-full border rounded-lg bg-white border-slate-300 ">
+                      <option value="India (+91)">India (+91)</option>
+                      <option value="America (+93)">America (+93)</option>
+                    </select>
+                  </div>
 
 
-                <div className="relative">
+                  <div className="relative xl:w-[300px] w-[60%]">
+                    <label className="absolute -top-2 left-2 text-xs font-semibold bg-white  ">Mobile Number</label>
+                    <input className="p-2 w-full border rounded-lg border-slate-300" type="number" defaultValue={9834832178} onFocus={() => { show('contactSaveBtn'); hide('contactSavedCheck') }} />
+                  </div>
+
+                 </div>
+              
+
+
+                <div className="relative xl:w-[300px] w-full">
                   <label className="absolute -top-2 left-2 text-xs font-semibold bg-white ">Email</label>
                   <input className="p-2 w-full outline-none border rounded-lg border-slate-300" defaultValue="bhushanravindrapatil77@gmail.com" onFocus={() => { travellers.contactDetails = null }} />
                 </div>
 
-                <span id='contactSavedCheck' className=' text-green-600 flex gap-6  text-xl hidden'><IoCheckmarkCircleSharp className='w-full h-full' /> </span>
+                <span id='contactSavedCheck' className=' text-green-600 flex gap-6  text-xl hidden'><IoCheckmarkCircleSharp className='w-[40px] h-[40px]' /> </span>
                 <button id='contactSaveBtn' className='bg-[#fc790d] text-white font-semibold rounded-lg px-12  py-2 active:bg-orange-800' disabled={travellers.contactDetails == undefined} onClick={() => { hide('contactSaveBtn'); show('contactSavedCheck') }}>save</button>
 
 
@@ -887,7 +878,7 @@ const BookTrain = React.memo(() => {
           </form>
         </div>
 
-        <div className="FINAL AMOUNT AND SAVE TRAVELLERS CONTAINER shadow sticky bottom-0 mt-8 ">
+        <div className="FINAL AMOUNT AND SAVE TRAVELLERS CONTAINER shadow sticky bottom-0   w-full">
           <div className="flex border-t lg:border-0 w-full border-neutral-100 px-20 py-10 items-center justify-between bg-white z-5">
             <div className="flex flex-col justify-center">
               <div className="flex gap-5 lg:flex-row-reverse items-center lg:items-baseline lg:justify-end">
@@ -905,23 +896,23 @@ const BookTrain = React.memo(() => {
       </div>
 
 
-      <div id='section2' className=' REVIEW w-screen h-screen border border-black hidden'>
+      <div id='section2' className=' REVIEW w-screen h-screen border px-2 xl:mt-0 mt-24 border-black hidden bg-white'>
 
-        <div className='review flex flex-col items-center pt-12'>
+        <div className='review flex flex-col items-center pt-12 xl:gap-0 gap-4  w-full '>
 
-          <div className=" w-[60%] shadow rounded-t-lg flex flex-col gap-4 p-8">
+          <div className=" xl:w-[60%] w-full xl:shadow xl:rounded-b-none rounded-10 flex flex-col gap-4 xl:p-8 xl:border-slate-400 xl:border ">
 
-            <div className="trainDetails flex flex-col  p-12 gap-4 border">
+            <div className="trainDetails flex flex-col  xl:p-12 gap-4 p-4 border xl:rounded-none rounded-10 xl:border xl:border-slate-400">
 
               <div className='flex justify-between   '>
-                <div className='flex items-center gap-2'>  <span>{obj.coach}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>Tatkal Quota</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainNumber}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainName}</span> </div>
-                <div className='border px-2 text-green-700 bg-slate-200 rounded font-semibold'><span>AVL {obj.numberOfSeats}</span></div>
+                <div className='flex items-center gap-1 xl:text-base text-[12px]'>  <span>{obj.coach}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>Tatkal Quota</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainNumber}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainName}</span> </div>
+                <div className='border px-2 text-green-700  rounded font-semibold xl:text-base text-sm'><span>AVL {obj.numberOfSeats}</span></div>
               </div>
 
               <div className="tainDetails  flex  justify-between ">
 
                 <div className="fromInfo flex flex-col gap-2 items-start">
-                  <span className="from font-bold text-[#ec5b24] truncate">{trainDetails.source}</span>{" "}
+                  <span className="from font-bold text-[#ec5b24] truncate xl:text-base text-sm">{trainDetails.source}</span>{" "}
                   <span className="font-bold text-xl">{trainDetails.departureTime}</span>{" "}
                   <span className="text-slate-400 text-sm font-bold">{weekDays[new Date(obj.date).getDay()]}, {new Date(obj.date).getDate()} {month[new Date(obj.date).getMonth()]}</span>
                 </div>
@@ -930,13 +921,13 @@ const BookTrain = React.memo(() => {
                   <span>{trainDetails.travelDuration}</span>
                   <div className="flex items-center text-slate-400">
                     <div className="w-[5px] h-[5px]   rounded-full bg-slate-400" />{" "}
-                    <div className="w-24 h-[2px] bg-slate-400" />{" "}
+                    <div className="w-14 h-[2px] bg-slate-400" />{" "}
                     <div className="w-[5px] h-[5px]   rounded-full bg-slate-400" />
                   </div>
                 </div>
 
                 <div className="toInfo flex flex-col gap-2 items-end">
-                  <span className="to font-bold text-[#ec5b24] truncate">{trainDetails.destination}</span>
+                  <span className="to font-bold text-[#ec5b24] truncate xl:text-base text-sm">{trainDetails.destination}</span>
                   <span className="font-bold text-xl">{trainDetails.arrivalTime}</span>
                   <span className="text-slate-400 text-sm font-bold">{weekDays[new Date(obj.date).getDay()]}, {new Date(obj.date).getDate()} {month[new Date(obj.date).getMonth()]}</span>
                 </div>
@@ -944,7 +935,7 @@ const BookTrain = React.memo(() => {
 
             </div>
 
-            <div className="travellersDetails pt-6 pb-12 px-12 flex flex-col gap-4 border ">
+            <div className="travellersDetails pt-6 pb-12 xl:px-12 flex p-4 xl:rounded-none rounded-10 flex-col gap-4 border xl:border xl:border-slate-400 ">
 
               <span className='text-lg font-semibold tracking-wider'>Travellers</span>
               {
@@ -954,7 +945,7 @@ const BookTrain = React.memo(() => {
                   const gender = travellers.adultsObj[key].title;
                   return <div key={index} className='flex items-center justify-between rounded-lg'>
 
-                    <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2 xl:text-base text-sm '>
                       <span className='capitalize'>{fullName}</span>
                       <div className='w-1 h-1 bg-black rounded-full' />
                       <span>{gender}</span>
@@ -962,7 +953,7 @@ const BookTrain = React.memo(() => {
                       <span>Adult</span>
                     </div>
 
-                    <div className='h-[2px] flex flex-grow px-4'><span className='w-full h-[1px] border'></span></div>
+                    <div className='h-[2px] hidden  xl:flex flex-grow px-4'><span className='w-full h-[1px] border'></span></div>
 
                     <div className='flex gap-4 text-lg'>
                       <div className='cursor-pointer'><MdDeleteOutline /></div>
@@ -980,7 +971,7 @@ const BookTrain = React.memo(() => {
                   const gender = travellers.childrensObj[key].title;
                   return <div key={index} className='flex items-center justify-between rounded-lg'>
 
-                    <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2 xl:text-base text-sm'>
                       <span className='capitalize'>{fullName}</span>
                       <div className='w-1 h-1 bg-black rounded-full' />
                       <span>{gender}</span>
@@ -988,7 +979,7 @@ const BookTrain = React.memo(() => {
                       <span>Child</span>
                     </div>
 
-                    <div className='h-[2px] flex flex-grow px-4'><span className='w-full h-[1px] border'></span></div>
+                    <div className='h-[2px] hidden xl:flex flex-grow px-4'><span className='w-full h-[1px] border'></span></div>
 
                     <div className='flex gap-4 text-lg'>
                       <div className='cursor-pointer'><MdDeleteOutline /></div>
@@ -1005,7 +996,7 @@ const BookTrain = React.memo(() => {
                   const gender = travellers.infantsObj[key].title;
                   return <div key={index} className='flex items-center justify-between rounded-lg'>
 
-                    <div className='flex items-center gap-2 '>
+                    <div className='flex items-center gap-2  xl:text-base text-sm'>
                       <span className='capitalize'>{fullName}</span>
                       <div className='w-1 h-1 bg-black rounded-full' />
                       <span>{gender}</span>
@@ -1013,7 +1004,7 @@ const BookTrain = React.memo(() => {
                       <span>Infant</span>
                     </div>
 
-                    <div className='h-[2px] flex flex-grow px-4'><span className='w-full h-[1px] border'></span></div>
+                    <div className='h-[2px] hidden xl:flex flex-grow px-4 '><span className='w-full h-[1px] border'></span></div>
 
                     <div className='flex gap-4 text-lg'>
                       <div><MdDeleteOutline /></div>
@@ -1025,7 +1016,7 @@ const BookTrain = React.memo(() => {
               }
 
               <span className='text-lg font-semibold tracking-wider pt-4'>Contact</span>
-              <div className='flex flex-col gap-2'>
+              <div className='flex flex-col gap-2 xl:text-base text-[15px]'>
                 <span> Mobile No :  {travellers.contactDetails.mobileNumber}</span>
                 <span>Email id : {travellers.contactDetails.gmail}</span>
               </div>
@@ -1034,7 +1025,7 @@ const BookTrain = React.memo(() => {
 
           </div>
 
-          <div className="checkOut shadow w-[60%] flex justify-center py-2 font-bold text-white bg-[#ec5b24] rounded-b-lg cursor-pointer" onClick={()=>{navigate('/Payment', {state:{'tripObj':tripObj, 'bookingId': generateBookingId(), 'paymentFor': 'train'}})}}>REVIEW AND PAY</div>
+          <div className="checkOut shadow w-full rounded-10 xl:rounded-t-none xl:w-[60%] flex justify-center py-2 font-bold text-white bg-[#ec5b24] xl:rounded-b-lg cursor-pointer" onClick={()=>{navigate('/Payment', {state:{'tripObj':tripObj, 'bookingId': generateBookingId(), 'paymentFor': 'train'}})}}>REVIEW AND PAY</div>
 
         </div>
 
