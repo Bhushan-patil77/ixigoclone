@@ -67,7 +67,7 @@ const BusResults = React.memo(() => {
 
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
+ 
   const itemsPerPage = 7;
   const firstIndex = (currentPage * itemsPerPage)
   const lastIndex = (currentPage * itemsPerPage + itemsPerPage)
