@@ -73,7 +73,7 @@ const BusResults = React.memo(() => {
   const lastIndex = (currentPage * itemsPerPage + itemsPerPage)
   const pages = Math.ceil(buses.length / itemsPerPage)
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     console.log(selection);
   },[selection])
 
