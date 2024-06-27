@@ -37,7 +37,7 @@ const BusResults = React.memo(() => {
   const [buses, setBuses] = useState([]);
   const [paginatedBuses, setPaginatedBuses] = useState(buses)
   const [currentPage, setCurrentPage] = useState(0);
-  const [selection, setSelection]=useState({'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'});
+  const [selection, setSelection]=useState({'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select', 'date':date});
   const [selectedSeats, setSelectedSeats]=useState([])
   const [isLoggedIn, setIsLoggedIn]=useState(localStorage.getItem('user') != null);
   const [popupShow, setPopupShow]=useState();
@@ -54,7 +54,7 @@ const BusResults = React.memo(() => {
 
   const navigate = useNavigate();
 
-  useEffect(()=>{console.log(message);},[message])
+  useEffect(()=>{console.log(selection);},[selection])
 
 
   const travelInfo={
@@ -1111,7 +1111,7 @@ const BusResults = React.memo(() => {
             <div className="offers"></div>
             <div className="suggestions"></div>
 
-            <div id='busCardsScrollable' className="busCards  px-1 xl:px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar  ">
+            <div id='busCardsScrollable' className="busCards px-1 xl:px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar  " >
 
 
               
@@ -1381,10 +1381,10 @@ const BusResults = React.memo(() => {
                                                                     
 
 
-                                                                    <div className="MOBILE relative xl:hidden w-screen flex flex-col shadow rounded-10 ">
+                                                                    <div className="MOBILE relative xl:hidden w-screen  flex flex-col shadow rounded-10 ">
 
 
-                                                                    <label htmlFor={`popradio`} className=' flex flex-col gap-2 p-2' onClick={()=>{setClickedBusId(bus._id); setClickedBusIndex(index)}}>
+                                                                    <label htmlFor={`popradio`} className=' flex flex-col gap-2 p-2' onClick={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}});}} >
 
                                                                       <div className="businfo and rating flex justify-between gap-2">
 
