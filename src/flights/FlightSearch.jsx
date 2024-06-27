@@ -189,7 +189,7 @@ const FlightSearch = React.memo(() => {
                 <div className='flex flex-col justify-center items-center '>
 
 
-                    <div className="SEARCHBAR-RELATIVE-CONTAINER flex justify-center items-start w-[100%] xl:mt-6 bg-white z-40 border border-black">
+                    <div className="SEARCHBAR-RELATIVE-CONTAINER flex justify-center items-start w-[100%] xl:mt-6 bg-white z-40 ">
 
                         <div className="xl:shadow  border-2 border-gray-200 xl:border-none w-[98%] p-20 flex flex-col gap-10 rounded-20 bg-white undefined">
 

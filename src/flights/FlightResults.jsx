@@ -582,13 +582,13 @@ const FlightResults = React.memo(() => {
 
           <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
 
-          <label htmlFor='searchbardropdowncheckbox' className='relative sticky top-0 z-40 flex flex-col border shadow bg-gray-400 font-bold rounded-20 text-sm px-12 py-2 mt-2'>
+          <label htmlFor='searchbardropdowncheckbox' className='xl:hidden relative sticky top-0 z-40 flex flex-col  shadow bg-white font-bold rounded-10 text-sm w-full py-2 mt-0.5'>
             <span className='flex justify-center items-center gap-2'> { from.city} <FaArrowRight /> {to.city} </span>
             <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/> {adults+childrens+infants} Travellers  <p className='w-1 h-1 bg-black rounded-full'/> {seatClass} </span>
             <span className='absolute -bottom-3 left-[45%]'>{<RiArrowDropDownLine className='text-2xl' />}</span>
           </label>
 
-          <div className="SEARCHBAR-RELATIVE-CONTAINER  bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-1 flex justify-center items-start w-[100%] xl:mt-6  z-40">
+          <div className="SEARCHBAR-RELATIVE-CONTAINER xl:hidden bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-1 flex justify-center items-start w-[100%] xl:mt-6  z-40">
 
           <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
 
@@ -2082,7 +2082,7 @@ const FlightResults = React.memo(() => {
                               "65144a1b664a43628887c461": { name: "GoAir", logoUrl: "https://images.ixigo.com/img/common-resources/airline-new/G8.png" }
                             }
 
-                            return <div key={index} className={`FLIGHT ROW AND DROPDOWN  flex flex-col mb-20 w-[100%] transitoin duration-700  ${flightDetailsDropdownIndex == index ? `shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10) border border-black` : ""}`} onClick={(e)=>{e.currentTarget.scrollIntoView({block:'top', behavior:'smooth'})}}>
+                            return <div key={index} className={`FLIGHT ROW AND DROPDOWN  flex flex-col mb-20 w-[100%] transitoin duration-700  ${flightDetailsDropdownIndex == index ? `shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10) border border-orange-500 rounded-10` : ""}`} onClick={(e)=>{e.currentTarget.scrollIntoView({block:'top', behavior:'smooth'})}}>
 
                                       <div className='LAPTOP hidden xl:flex'>
                                         <div className={`w-full relative px-20 pt-20  bg-white ${flightDetailsDropdownIndex == index ? "rounded-t-10 " : "rounded-10 hover:scale-[1.01] hover:shadow-300 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)]"}  cursor-pointer z-10 transition-all duration-300 ease-in   hover:duration-300 hover:ease-out`}>
@@ -2159,7 +2159,7 @@ const FlightResults = React.memo(() => {
                                         </div>
                                       </div>
 
-                                      <div className={`MOBILE  xl:hidden w-full flex flex-col relative px-2 py-2 gap-2 shadow bg-white border ${flightDetailsDropdownIndex == index ? "rounded-t-md " : "rounded-md hover:scale-[1.01] hover:shadow-300 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)]"}  cursor-pointer z-10 transition-all duration-300 ease-in   hover:duration-300 hover:ease-out `} onClick={() => { localStorage.getItem("token") ? navigate("/BookFlight", { state: { 'flightId': flight._id, 'from': from, 'to': to, 'sourceCity': from.city, 'destinationCity': to.city, 'day': date.getDay(), 'month': date.getMonth(), 'date': date.getDate(), 'adults': adults, 'childrens': childrens, 'infants': infants, 'seatClass':seatClass } }) : `${setPopupShow('signinShow')}` }} >
+                                      <div className={`MOBILE  xl:hidden w-full flex flex-col relative px-2 py-2 gap-2 shadow bg-white border ${flightDetailsDropdownIndex == index ? "rounded-t-10 " : "rounded-10 hover:scale-[1.01] hover:shadow-300 shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)]"}  cursor-pointer z-10 transition-all duration-300 ease-in   hover:duration-300 hover:ease-out `} onClick={() => { localStorage.getItem("token") ? navigate("/BookFlight", { state: { 'flightId': flight._id, 'from': from, 'to': to, 'sourceCity': from.city, 'destinationCity': to.city, 'day': date.getDay(), 'month': date.getMonth(), 'date': date.getDate(), 'adults': adults, 'childrens': childrens, 'infants': infants, 'seatClass':seatClass } }) : `${setPopupShow('signinShow')}` }} >
 
                                         <div className="airlineNameCode flex gap-2 items-center ">
                                           <p className="body-md text-primary   airlineTruncate font-medium"> {airlinesCodeNameAndLogo[flight.airline].name} </p>
@@ -2714,17 +2714,17 @@ const FlightResults = React.memo(() => {
 
                         <div id='' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] bg-neutral-0 border-neutral-100" >
                           <span className=" shrink-0 opacity-0 inline-flex items-center justify-center w-full h-full rounded hover:bg-primary-over border border-primary w-full h-auto opacity-0">
-                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="EARLY_MORNING" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('earlyMorningDeparture'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
+                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="EARLY_MORNING" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('earlyMorningDeparture1'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
                           </span>
-                          <div id='earlyMorningDeparture' className=" w-full h-full flex flex-col justify-center items-center absolute text-center pointer-events-none rounded-lg border " >
+                          <div id='earlyMorningDeparture1' className=" w-full h-full flex flex-col justify-center items-center absolute text-center pointer-events-none rounded-lg border " >
                             <p className="body-sm">Early Morning</p>
                             <p className="body-xs ">Before 6AM</p>
                           </div>
                         </div>
 
-                        <div id='morningDeparture' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] ">
+                        <div id='morningDeparture1' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] ">
                           <span className="shrink-0 inline-flex items-center justify-center w-0 h-0 rounded hover:bg-selection-solid-over text-selection-solid bg-selection-solid w-full h-auto opacity-100">
-                            <input className="filterCheckBox group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="MORNING" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('morningDeparture'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
+                            <input className="filterCheckBox group absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="MORNING" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('morningDeparture1'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
                           </span>
                           <div className="absolute text-center pointer-events-none">
                             <p className="body-sm  ">Morning</p>
@@ -2735,9 +2735,9 @@ const FlightResults = React.memo(() => {
                       </div>
                       <div className="flex pt-10 gap-15 w-full">
 
-                        <div id='afternoonDeparture' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] bg-neutral-0 border-neutral-100">
+                        <div id='afternoonDeparture1' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] bg-neutral-0 border-neutral-100">
                           <span className="shrink-0 inline-flex items-center justify-center w-20 h-20 rounded hover:bg-primary-over border border-primary w-full h-auto opacity-0">
-                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="AFTERNOON" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('afternoonDeparture'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
+                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="AFTERNOON" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('afternoonDeparture1'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
                           </span>
                           <div className="absolute text-center pointer-events-none" >
                             <p className="body-sm">Mid Day</p>
@@ -2745,9 +2745,9 @@ const FlightResults = React.memo(() => {
                           </div>
                         </div>
 
-                        <div id='nightDeparture' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] bg-neutral-0 border-neutral-100">
+                        <div id='nightDeparture1' className="relative flex flex-col justify-center items-center border rounded-10 px-15 py-10 w-full h-[57px] xl:h-[86px] bg-neutral-0 border-neutral-100">
                           <span className="shrink-0 inline-flex items-center justify-center w-20 h-20 rounded hover:bg-primary-over border border-primary w-full h-auto opacity-0">
-                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="NIGHT" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('nightDeparture'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
+                            <input className="filterCheckBox absolute opacity-0 w-full h-full inset-0 cursor-pointer" type="checkbox" value="NIGHT" filtertype={'departures'} onClick={(e) => { handleFilterChange(e); let ele = document.getElementById('nightDeparture1'); ele.classList.toggle('bg-subbrand-50'); ele.classList.toggle('text-subbrand-500'); ele.classList.toggle('border-subbrand-500') }} />
                           </span>
                           <div className="absolute text-center pointer-events-none" >
                             <p className="body-sm">Night</p>

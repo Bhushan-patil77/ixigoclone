@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import hotelBG from '../assets/hotelBG.jpeg'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import BottomRibbon from '../BottomRibbon';
+import Login from '../Login';
+import Signup from '../Signup';
 
 
 const HotelSearch = React.memo(() => {
@@ -23,6 +25,8 @@ const HotelSearch = React.memo(() => {
   const [rooms, setRooms] = useState(1);
   const [adults, setAdults] = useState(1);
   const [childrens, setChildrens] = useState(0)
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user') != null);
+  const [popupShow, setPopupShow] = useState();
 
 
   const obj = {
@@ -126,6 +130,14 @@ const HotelSearch = React.memo(() => {
     <>
     
       <Navbar activeLink={1} />
+
+      <div id='login' className={`${popupShow == 'signinShow' ? 'block' : 'hidden'} relative`}>
+        <Login setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
+
+      <div id='signup' className={`${popupShow == "signupShow" ? 'block' : 'hidden'} relative`}>
+        <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
 
       <div className={`searchBarContainer bg-center bg-cover h-[470px] w-screen `} style={{ backgroundImage: `url(${hotelBG})` }}>
 
@@ -441,7 +453,7 @@ const HotelSearch = React.memo(() => {
                 </div>
       </div>
 
-      <BottomRibbon/>
+      <BottomRibbon setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
 
     </>
   )

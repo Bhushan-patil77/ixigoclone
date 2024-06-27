@@ -4,10 +4,12 @@ import { CgMoreO } from 'react-icons/cg'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 
-function BottomRibbon() {
+function BottomRibbon({setisloggedin,setpopupshow}) {
     const navigat = useNavigate()
     const [activeTab, setActiveTab]=useState('')
     const [active, setActive]=useState(false)
+  const [popupShow, setPopupShow] = useState();
+
 
     console.log(localStorage.getItem('user'));
 
@@ -25,14 +27,12 @@ function BottomRibbon() {
             <div className=' w-[33%]  h-full flex justify-center items-center'>
                 <label htmlFor="homecheckbox" className='flex flex-col items-center justify-between' onClick={()=>{navigat('/')}}>
                 <BiHome className='w-7 h-7'/>
-                <p>Home</p>
                 </label>
             </div>
              
             <div className="MORE  flex items-center justify-center w-[33%]  h-full " onClick={()=>{setActiveTab('more'); setActive(!active)}}>
                 <label htmlFor='morecheckbox' className="flex flex-col peer g items-center cursor-pointer relative " >
                     <CgMoreO className='w-7 h-7' />
-                    <p className="peer body-md text-secondary font-medium">More</p>
                 </label>
                 <div id='moreDropdown' className={`rounded-10 bg-white shadow w-[300px] z-40 transform  absolute transition-all duration-700 ease-in-out ${activeTab==='more' && active==true ? 'opacity-100 -translate-y-[94px] -translate-x-2' : 'opacity-0 scale-0 ' }`}>
                     <div>
@@ -223,7 +223,7 @@ function BottomRibbon() {
                                                 </div>
                                                     :
                                                 <div className=' flex justify-center items-center gap-4 w-[33%]'>
-                                                        <button className='lOGIN BUTTON border px-6 font-bold  py-1 rounded-lg' onClick={()=>{navigat('/Login')}}>Login</button>
+                                                        <button className='lOGIN BUTTON border px-6 font-bold  py-1 rounded-lg' onClick={()=>{setpopupshow('signupShow')}}>Login</button>
                                                 </div>
             }
 

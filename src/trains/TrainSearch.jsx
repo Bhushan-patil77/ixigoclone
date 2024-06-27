@@ -12,6 +12,8 @@ import { BiSolidOffer } from "react-icons/bi";
 import { IoCall } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import BottomRibbon from '../BottomRibbon'
+import Login from '../Login'
+import Signup from '../Signup'
 
 const TrainSearch = React.memo(()=> {
 
@@ -28,6 +30,8 @@ const TrainSearch = React.memo(()=> {
   const [date, setDate] = useState(new Date())
   const [offers, setOffers] = useState()
   const ran = useRef(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user') != null);
+  const [popupShow, setPopupShow] = useState();
 
   const obj = {
     from: from,
@@ -154,6 +158,14 @@ const focus = (id) => {
   return (
     
     <div className='relative'>
+
+      <div id='login' className={`${popupShow == 'signinShow' ? 'block' : 'hidden'} relative`}>
+        <Login setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
+
+      <div id='signup' className={`${popupShow == "signupShow" ? 'block' : 'hidden'} relative`}>
+        <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
 
        
       <div className="main ">
@@ -497,7 +509,7 @@ const focus = (id) => {
 
       </div>
 
-        <BottomRibbon/>
+      <BottomRibbon setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
     </div>
 
   )

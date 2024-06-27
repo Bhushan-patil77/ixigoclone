@@ -38,6 +38,7 @@ function Login({setisloggedin,setpopupshow}) {
             localStorage.setItem("user", JSON.stringify(response.data.user))
             localStorage.setItem("token", response.token)
             setloginStatus();
+            
           }
 
           if (response.status === "fail") {
@@ -58,8 +59,8 @@ function Login({setisloggedin,setpopupshow}) {
 
       <div className='relative shadow-300 bg-slate-700 w-[700px] py-16 rounded-2xl flex flex-col justify-center items-center gap-4'>
       <div className=' absolute top-4 right-4  w-6 h-6 font-extrabold text-white cursor-pointer' onClick={()=>{setpopupshow(false)}}><IoClose className='w-full h-full'/></div>
-      <input className='w-[50%] h-[30px] px-2 outline-none rounded bg-transparent text-white border-b-[1px]' type="email" placeholder='Enter email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
-      <input className='w-[50%] h-[30px] px-2 outline-none rounded bg-transparent text-white border-b-[1px]' type="text" placeholder='Enter password' value={pass} onChange={(e) => { setPass(e.target.value) }} />
+      <input className='w-[50%] h-[30px] px-2 outline-none rounded bg-transparent text-white border-b-[1px]' defaultValue={'bbb@gmail.com'} type="email" placeholder='Enter email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
+      <input className='w-[50%] h-[30px] px-2 outline-none rounded bg-transparent text-white border-b-[1px]' defaultValue={'bbb'} type="text" placeholder='Enter password' value={pass} onChange={(e) => { setPass(e.target.value) }} />
 
       <div className='BUTTONS flex justify-between items-center gap-6  mt-12 w-[50%] text-white'>
         <button className='shadow   p-[7px] rounded-lg' onClick={handleLogin}>Login</button>

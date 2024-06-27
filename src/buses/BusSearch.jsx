@@ -5,8 +5,12 @@ import TrainResults from '../trains/TrainResults'
 import Trainresult from '../Trainresult'
 import busBG from '../assets/busBG.jpg'
 import ReactDatePicker from 'react-datepicker'
+import BottomRibbon from '../BottomRibbon'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { IoClose } from 'react-icons/io5';
+import Login from '../Login';
+import Signup from '../Signup';
 
 const BusSearch = React.memo(()=> {
   const [from, setFrom] = useState("Pune");
@@ -15,6 +19,8 @@ const BusSearch = React.memo(()=> {
   const [toCities, setToCities] = useState([]);
   const [date, setDate] = useState(new Date())
   const [offers, setOffers] = useState()
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user') != null);
+  const [popupShow, setPopupShow] = useState();
 
 
   const navigate = useNavigate();
@@ -144,6 +150,14 @@ const focus = (id) => {
   return (
     <>
         <Navbar activeLink={3}/>
+
+        <div id='login' className={`${popupShow == 'signinShow' ? 'block' : 'hidden'} relative`}>
+        <Login setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
+
+      <div id='signup' className={`${popupShow == "signupShow" ? 'block' : 'hidden'} relative`}>
+        <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+      </div>
 
         
         <div className={`searchBarContainer bg-center bg-cover h-[470px] w-screen `}  style={{ backgroundImage: `url(${busBG})` }}>
@@ -392,6 +406,8 @@ const focus = (id) => {
                         </div>
                     </div>
         </div>
+
+        <BottomRibbon setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
     </>
   )
 })

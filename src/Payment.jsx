@@ -110,6 +110,11 @@ function Payment() {
             setTimeout(()=>{
                 setAnimateCheck(true)
                 setIsExploding(true)
+
+             setTimeout(()=>{
+              navigate('/')
+             },4000)
+
             },1000)
         }, 2000);
 
@@ -172,6 +177,7 @@ function Payment() {
             if(isAlreadyBooked())
               {
                 confirm('already booked')
+                navigate('/')
               }
               else
               {
@@ -216,6 +222,7 @@ function Payment() {
             if(isAlreadyBooked())
               {
                 confirm('already booked')
+                navigate('/')
               }
               else
               {
@@ -259,6 +266,7 @@ function Payment() {
             if(isAlreadyBooked())
               {
                 alert('already booked')
+                navigate('/')
               }
               else
               {
@@ -301,6 +309,7 @@ function Payment() {
               if(isAlreadyBooked())
                 {
                   alert('already booked')
+                  navigate('/')
                 }
                 else
                 {
