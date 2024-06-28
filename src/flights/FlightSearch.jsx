@@ -15,6 +15,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { GoHome } from 'react-icons/go';
 import { CgMoreO } from 'react-icons/cg';
 import BottomRibbon from '../BottomRibbon';
+import Signup from '../Signup';
 
 const FlightSearch = React.memo(() => {
 
@@ -35,6 +36,8 @@ const FlightSearch = React.memo(() => {
     const [seatClass, setSeatClass] = useState("Economy");
     const [offers, setOffers] = useState()
     const ran = useRef(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('user') != null);
+    const [popupShow, setPopupShow] = useState();
 
     const obj = {
         from: from,
@@ -164,29 +167,26 @@ const FlightSearch = React.memo(() => {
 
 
 
-    // window.addEventListener("scroll", () => {
-    //     container.style.transform = `translateX(${-window.scrollY}px)`;
-    // })
-
-
-
-
-
 
 
 
     return (
         <div className=''>
 
-            <div className='hidden'>
-                <Login />
+            <div id='login' className={`${popupShow == 'signinShow' ? 'block' : 'hidden'} relative`}>
+                <Login setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
+            </div>
+
+            <div id='signup' className={`${popupShow == "signupShow" ? 'block' : 'hidden'} relative`}>
+                <Signup setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow} />
             </div>
 
             <div className='hidden xl:flex'><Navbar activeLink={0} device={'laptop'}/></div>
             <div className=' xl:hidden'><Navbar activeLink={0} device={'mobile'} /></div>
 
             <main id='mainContainer' className="m MAIN-CONTAINER h-[100vh] overflow-x-scroll overflow-y-scroll relative  no-scrollbar transition duration-700" onScroll={(e) => { console.log(); }} >
-                <div className='flex flex-col justify-center items-center '>
+
+                <div  className='flex flex-col justify-center items-center '>
 
 
                     <div className="SEARCHBAR-RELATIVE-CONTAINER flex justify-center items-start w-[100%] xl:mt-6 bg-white z-40 ">
@@ -1040,7 +1040,7 @@ const FlightSearch = React.memo(() => {
 
             </main>
 
-           <BottomRibbon/>
+            <BottomRibbon setisloggedin={setIsLoggedIn} setpopupshow={setPopupShow}/>
 
 
         </div>

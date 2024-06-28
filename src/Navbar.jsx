@@ -30,7 +30,7 @@ function Navbar({activeLink, shadow, device}) {
                         <div className="TABS w-full xl:w-[40%]  ">
                         <ul className=" TABS relative flex justify-between items-center ">
 
-                            <li className=" FLIGHTS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " onClick={()=>{document.getElementById('bottomBar1').classList.toggle('hidden')}}>
+                            <li className=" FLIGHTS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " >
                                 <Link to={'/'} className=" font-medium flex flex-col xl:flex-row xl:gap-2  items-center  h-[50px] xl:h-full cursor-pointer" >
                                     <div className="w-[97%] h-[70%]  flex justify-center ">
                                         <img alt="ixigo Flights" title="ixigo Flights" loading="eager" decoding="async" data-nimg={1} className="w-[40px] h-[40px] xl:w-[50px] xl:h-[50px]" src="https://edge.ixigo.com/st/vimaan/_next/static/media/flight.f515b25a.svg" style={{ color: "transparent" }} />
@@ -40,7 +40,7 @@ function Navbar({activeLink, shadow, device}) {
                                 </Link>
                             </li>
 
-                            <li className=" HOTELS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " onClick={()=>{document.getElementById('bottomBar1').classList.toggle('hidden')}}>
+                            <li className=" HOTELS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " >
                                 <Link to={'/hotels'} className=" font-medium flex flex-col xl:flex-row xl:gap-2  items-center  h-[50px] xl:h-full cursor-pointer" >
                                     <div className="w-[97%] h-[70%]  flex justify-center ">
                                         <img alt="ixigo Flights" title="ixigo Flights" loading="eager" decoding="async" data-nimg={1} className="w-[40px] h-[40px] xl:w-[50px] xl:h-[50px]" src="https://edge.ixigo.com/st/nivas/_next/static/media/hotel.4b63222d.svg" style={{ color: "transparent" }} />
@@ -50,7 +50,7 @@ function Navbar({activeLink, shadow, device}) {
                                 </Link>
                             </li>
 
-                            <li className=" TRAINS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " onClick={()=>{document.getElementById('bottomBar1').classList.toggle('hidden')}}>
+                            <li className=" TRAINS relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center ">
                                 <Link to={'/trains'} className=" font-medium flex flex-col xl:flex-row xl:gap-2  items-center  h-[50px] xl:h-full cursor-pointer" >
                                     <div className="w-[97%] h-[70%]  flex justify-center ">
                                         <img alt="ixigo Flights" title="ixigo Flights" loading="eager" decoding="async" data-nimg={1} className="w-[40px] h-[40px] xl:w-[50px] xl:h-[50px]" src="https://edge.ixigo.com/st/nivas/_next/static/media/train.d3e3d1e5.svg" style={{ color: "transparent" }} />
@@ -60,7 +60,7 @@ function Navbar({activeLink, shadow, device}) {
                                 </Link>
                             </li>
 
-                            <li className=" BUSES relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " onClick={()=>{document.getElementById('bottomBar1').classList.toggle('hidden')}}>
+                            <li className=" BUSES relative pb-2 text-primary w-[100px] h-[70px] text-sm text-center font-medium xl:text-charcoal-800   flex flex-col  justify-center items-center " >
                                 <Link to={'/buses'} className=" font-medium flex flex-col xl:flex-row xl:gap-2  items-center  h-[50px] xl:h-full cursor-pointer" >
                                     <div className="w-[97%] h-[70%]  flex justify-center ">
                                         <img alt="ixigo Flights" title="ixigo Flights" loading="eager" decoding="async" data-nimg={1} className="w-[40px] h-[40px] xl:w-[50px] xl:h-[50px]" src="https://edge.ixigo.com/st/nivas/_next/static/media/bus.1942c5dd.svg" style={{ color: "transparent" }} />

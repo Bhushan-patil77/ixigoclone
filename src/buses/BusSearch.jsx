@@ -163,7 +163,7 @@ const focus = (id) => {
         <div className={`searchBarContainer bg-center bg-cover h-[470px] w-screen `}  style={{ backgroundImage: `url(${busBG})` }}>
         
 
-        <div className="searchBarDiv pt-4 xl:pt-28 px-1 xl:px-10  ">
+        <div className="searchBarDiv pt-4 xl:pt-28 px-1 xl:px-10">
 
         <div className='flex justify-center py-6'><span className='xl:text-4xl text-lg font-bold xl:font-semibold text-slate-700 '>Book Bus Tickets</span></div>
 
@@ -171,7 +171,7 @@ const focus = (id) => {
             <div className="searchBarWrapper flex flex-col items-center  ">
 
 
-                <div className=" shadow-500 w-full xl:w-[90%] xl:p-6 px-1 py-4 flex flex-col gap-10 bg-white  rounded-10 ">
+                <div className=" shadow-500 w-full xl:w-[90%] xl:p-6 px-1 py-4 flex flex-col gap-10 bg-white  rounded-10  ">
 
                     <div className="flex xl:flex-row flex-col gap-0.5 cursor-pointer">
 
@@ -186,7 +186,7 @@ const focus = (id) => {
                                             <div className="flex flex-col">
                                                 <p className="body-xs  text-neutral-400" >From</p>
                                                 <span id='inputSpan1' className='hidden w- xl:text-lg text-sm  font-semibold outline-none bg-transparent ' >{from}</span>
-                                                <input type="text" id='inputBox1' defaultValue={'Pune'} className='hidden w-full xl:text-lg truncate text-sm font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); hide('inputBox2'); show('inputSpan2') }} />
+                                                <input type="text" id='inputBox1'  className='hidden w-full xl:text-lg truncate text-sm font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); hide('inputBox2'); show('inputSpan2') }} />
                                             </div>
                                         </div>
                                     </div>
@@ -238,7 +238,7 @@ const focus = (id) => {
                                             <div className="flex flex-col">
                                                 <p className="body-xs text-neutral-400">To</p>
                                                 <span id='inputSpan2' className=' hidden w- text-sm xl:text-lg  font-semibold outline-none bg-transparent ' >{to}</span>
-                                                <input id='inputBox2' type="text" defaultValue={'Mumbai'} className=' hidden text-lg font-semibold outline-none bg-transparent border w-full' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
+                                                <input id='inputBox2' type="text"  className=' hidden text-lg font-semibold outline-none bg-transparent border w-full' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
                                             </div>
                                         </div>
                                     </div>
@@ -362,7 +362,7 @@ const focus = (id) => {
 
         </div>
 
-        <div className=" OFFERS-MAIN-CONTAINER  xl:pb-0 mx-20 xl:mt-8 ">
+        <div  className=" OFFERS-MAIN-CONTAINER  xl:pb-0 mx-20 xl:mt-8 ">
                     <div className="flex flex-col my-30 gap-10 xl:my-0 xl:py-30 xl:gap-0 ">
                         <h2 className="  xl:pb-10 font-bold flex justify-center text-lg xl:text-4xl">
                             Offers For You

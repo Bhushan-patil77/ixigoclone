@@ -88,7 +88,6 @@ function BottomRibbon({setisloggedin,setpopupshow}) {
 
                                                         <label htmlFor='profilecheckbox' id='profileDropdownTag' className=" flex flex-col items-center justify-center cursor-pointer h-full z-50" onClick={()=>{setActiveTab(`profile`), setActive(!active)}}>
                                                             <div className="relative"><FaRegCircleUser  className='w-7 h-7'/></div>
-                                                            <h4 className=''>Profile</h4>
                                                         </label>
 
                                                         <div className={`Dropdown rounded-10 bg-white shadow w-[300px] z-50 transform  absolute transition-all duration-700 ease-in-out ${activeTab==='profile' && active==true ? 'opacity-100 -translate-y-[186px] -translate-x-24' : 'opacity-0 scale-0 ' }`} >
@@ -223,7 +222,7 @@ function BottomRibbon({setisloggedin,setpopupshow}) {
                                                 </div>
                                                     :
                                                 <div className=' flex justify-center items-center gap-4 w-[33%]'>
-                                                        <button className='lOGIN BUTTON border px-6 font-bold  py-1 rounded-lg' onClick={()=>{setpopupshow('signupShow')}}>Login</button>
+                                                        <button className='lOGIN BUTTON border px-6 font-bold  py-1 rounded-lg' onClick={()=>{setpopupshow('signinShow')}}>Login</button>
                                                 </div>
             }
 
