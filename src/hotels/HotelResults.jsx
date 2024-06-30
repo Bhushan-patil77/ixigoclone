@@ -2433,6 +2433,28 @@ const HotelResults = React.memo(() => {
                       </div>
                     </div>
 
+                    <div className="left w-full flex flex-col gap-6 xl:hidden ">
+                  <div className="fareSummery bg-white p-4 flex flex-col gap-3 rounded-10">
+                    <p className='text-lg font-semibold'>Fare Summary</p>
+                    <span className='flex justify-between'> <p className=' text-gray-700 tracking-tight'>1 Room, 1 Night</p> <p className=''>₹{selection.selectedRoom.costDetails.baseCost}</p></span>
+                    <span className='flex justify-between'> <p className=' text-gray-700 tracking-tight'>Taxes & Charges</p> <p className=''>₹{selection.selectedRoom.costDetails.taxesAndFees}</p></span>
+                    <span className='flex justify-between'> <p className=' text-gray-700 tracking-tight'>Convenience Fee</p> <p className=''>₹0</p></span>
+                    <span className='w-full border-b'></span>
+                    <span className='flex justify-between'> <p className='text- font-semibold'>Net Payable Amount</p> <p className='font-semibold '>₹{selection.selectedRoom.costDetails.baseCost + selection.selectedRoom.costDetails.taxesAndFees}</p></span>
+                  </div>
+
+                  <div className="offersForYou bg-white p-4 flex flex-col gap-4 rounded-10">
+                    <p className='text-2xl font-semibold'>Offers For You</p>
+                    <input className='outline-none border py-2 rounded px-3' placeholder='Have a promo code? Redeem here' type="text" />
+
+                  </div>
+
+                  <div className="paymentMethods flex flex-col gap-3 p-4">
+                    <p>By clicking on Pay Now/Book Now, I confirm that I have read, understood, and agree with the <span className='text-blue-400 underline underline-offset-2'>Cancellation Policy</span>, <span className='text-blue-400 underline underline-offset-2'>Privacy Policy</span> and <span className='text-blue-400 underline underline-offset-2'>User Agreement</span>.</p>
+                    <p>Please note that ixigo will not provide a tax invoice. You will be given a commercial receipt to serve as proof of transaction.</p>
+                  </div>
+                </div>
+
                     <div className="cancellationPolicy bg-white p-4 flex flex-col gap-2 rounded-10">
                       <p className='text-lg font-semibold'>Cancellation Policy</p>
                       <p className='text-gray-500'>{selection.selectedRoom.cancellationPolicy}</p>
