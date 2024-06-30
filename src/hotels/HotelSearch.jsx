@@ -166,8 +166,8 @@ const HotelSearch = React.memo(() => {
                         <div className="flex items-center " >
                           <div className="flex flex-col">
                             <p className="body-xs  text-neutral-400" >Destination</p>
-                            <span id='inputSpan1' className='hidden w- text-lg  font-semibold outline-none bg-transparent ' >{destination && `${destination}`}</span>
-                            <input type="text" id='inputBox1' className='hidden w-full text-lg font-semibold outline-none bg-transparent' autoComplete='off' value={destination} onClick={() => { show("list1") }} onChange={(e) => { setDestination(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1") }} />
+                            <span id='inputSpan1' className='hidden text-primary font-medium outline-none bg-transparent ' >{destination && `${destination}`}</span>
+                            <input type="text" id='inputBox1' className='hidden w-full text-primary font-medium outline-none bg-transparent' autoComplete='off' value={destination} onClick={() => { show("list1") }} onChange={(e) => { setDestination(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1") }} />
                           </div>
                         </div>
                       </div>
@@ -220,7 +220,7 @@ const HotelSearch = React.memo(() => {
                       <div className="flex items-center ">
                         <div className="flex flex-col" >
                           <p className="body-xs text-neutral-400">Check-in</p>
-                          <div id='datePickerDiv' className='' ><DatePicker id='datePicker1' className='w-full h-full truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkIn.getDay()]}, ${checkIn.getDate()} ${month[checkIn.getMonth()]}`} selected={checkIn} onChange={(d) => { setCheckIn(d); hide("datePicker1"); focus('datePicker2') }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                          <div id='datePickerDiv' className='' ><DatePicker  id='datePicker1'  className='w-full h-full truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkIn.getDay()]}, ${checkIn.getDate()} ${month[checkIn.getMonth()]}`} selected={checkIn} onChange={(d) => { setCheckIn(d); hide("datePicker1"); focus('datePicker2') }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
                         </div>
                       </div>
                     </div>
@@ -256,7 +256,7 @@ const HotelSearch = React.memo(() => {
                       <div className="flex items-center !border-none">
                         <div className="flex flex-col">
                           <p className="body-xs text-neutral-400"> Select Rooms and Guests </p>
-                          <p className="h6 max-w-[190px] truncate text-primary font-medium font-medium" >{rooms} Room , {adults + childrens} Guests</p>
+                          <p className=" max-w-[190px] truncate text-primary font-medium" >{rooms} Room , {adults + childrens} Guests</p>
                         </div>
                       </div>
                     </div>
@@ -287,7 +287,7 @@ const HotelSearch = React.memo(() => {
                         <div className="ADULTS flex justify-between max-w-full px-20 py-10 ">
                           <div className="flex items-center justify-between gap-2 xl:flex-col xl:items-start xl:justify-start xl:w-[95px]">
                             <p className="text-sm xl:body-md text-primary font-normal">Adults</p>
-                            <p className=" text-xs xl:body-xs text-secondary font-normal">(13 yrs & above)</p>
+                            <p className=" text-xs xl:body-xs text-secondary font-normal">(13 yrs +)</p>
                           </div>
                           <div className="mt-10 xl:mt-0 xl:justify-start xl:items-start xl:flex-1">
                             <div className="">

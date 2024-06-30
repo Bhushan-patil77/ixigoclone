@@ -707,9 +707,9 @@ const HotelResults = React.memo(() => {
 
             <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
 
-                <label htmlFor='searchbardropdowncheckbox' className='relative sticky xl:hidden top-0 z-40 flex flex-col border shadow bg-gray-400 font-bold rounded-20 text-sm  py-2 mt-2'>
+                <label htmlFor='searchbardropdowncheckbox' className='relative sticky xl:hidden top-0 z-40 flex flex-col mx-[8px] bg-gray-300 font-bold rounded-20 text-sm  py-2 mt-2'>
                   <span className='flex justify-center items-center gap-2'> { destination} </span>
-                  <span className='flex justify-center items-center gap-2'>{checkIn.getDate()} {month[date.getMonth()]} -- {checkOut.getDate()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>{rooms} rooms <p className='w-1 h-1 bg-black rounded-full'/>{adults + childrens} Guests  </span>
+                  <span className='flex justify-center items-center gap-2'>{checkIn.getDate()} {month[checkIn.getMonth()]} -- {checkOut.getDate()} {month[checkOut.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>{rooms} rooms <p className='w-1 h-1 bg-black rounded-full'/>{adults + childrens} Guests  </span>
                 </label>
 
                 <div className="shadow-500 xl:hidden  xl:w-[96%] p-20 flex flex-col gap-10 rounded-20 bg-white bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-1 flex justify-center items-start w-[100%] xl:mt-6  z-40 ">
@@ -729,8 +729,8 @@ const HotelResults = React.memo(() => {
                                     <div className="flex items-center " >
                                       <div className="flex flex-col">
                                         <p className="body-xs  text-neutral-400" >Destination</p>
-                                        <span id='mobileinputspan1' className='hidden w- text-lg  font-semibold outline-none bg-transparent ' >{destination && `${destination}`}</span>
-                                        <input type="text" id='mobileinputbox1' className=' w-full text-lg font-semibold outline-none bg-transparent' autoComplete='off' value={destination} onClick={() => { show("mobilelist1") }} onChange={(e) => { setDestination(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobilelist1") }} />
+                                        <span id='mobileinputspan1' className='hidden text-primary font-medium outline-none bg-transparent ' >{destination && `${destination}`}</span>
+                                        <input type="text" id='mobileinputbox1' className=' w-full text-primary font-medium outline-none bg-transparent' autoComplete='off' value={destination} onClick={() => { show("mobilelist1") }} onChange={(e) => { setDestination(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobilelist1") }} />
                                       </div>
                                     </div>
                                   </div>
@@ -819,7 +819,7 @@ const HotelResults = React.memo(() => {
                                   <div className="flex items-center !border-none">
                                     <div className="flex flex-col">
                                       <p className="body-xs text-neutral-400"> Select Rooms and Guests </p>
-                                      <p className="h6 max-w-[190px] truncate text-primary font-medium font-medium" >{rooms} Room , {adults + childrens} Guests</p>
+                                      <p className=" max-w-[190px] truncate text-primary font-medium" >{rooms} Room , {adults + childrens} Guests</p>
                                     </div>
                                   </div>
                                 </div>
@@ -1332,7 +1332,7 @@ const HotelResults = React.memo(() => {
                     </div>
 
                     {
-                      paginatesHotels.length > 0 ?
+                      message === 'Success' ?
 
                         <>
 
@@ -1449,8 +1449,8 @@ const HotelResults = React.memo(() => {
 
                                                 </div>
 
-                                              <div className='flex justify-between w-full  py-2 rounded-b-10'>
-                                                  <div className="left ">
+                                              <div className='flex justify-between w-full  py-2 rounded-b-10  '>
+                                                  <div className="left  ">
                                                   <div className="HOTEL-INFO h-full flex flex-col justify-start gap-2 ">
                                                     <span className='flex flex-col'>
                                                       <p className=' font-semibold'>{hotel.name}</p>
@@ -1493,7 +1493,7 @@ const HotelResults = React.memo(() => {
                                                   </div>
 
                                                   <div className="right ">
-                                                  <div className='flex flex-col justify-between items-end  h-full'>
+                                                  <div className='flex flex-col justify-between items-end  h-full '>
 
                                                         <div className='relative text-xs w-[60px]  p-2'>
                                                           <p className='absolute top-0 left-0'>&#9733;&#9733;&#9733;&#9733;&#9733;</p>
@@ -1505,7 +1505,7 @@ const HotelResults = React.memo(() => {
                                                           <p className='text-xs font-semibold text-gray-500'>per night, per room</p>
                                                         </div>
 
-                                                        <button className='bg-orange-600 text-white  text-[10px] py-[3px] px-[5px] rounded-10 font-semibold flex justify-center items-center gap-3' onClick={() => {setBottomRibbonShow(false); document.getElementById('screenScroll').scrollBy({ left: `${document.getElementById('screen1').scrollWidth}`, behavior: 'smooth' }); setSelectedHotel(hotel._id); getHotelDetails(hotel._id); setTimeout(() => { observeTargets() }, 1000); }}> See Availability </button>
+                                                        <button className='bg-orange-600 text-white  text-[12px] py-1 px-3 rounded-full font-semibold flex justify-center items-center gap-3 ' onClick={() => {setBottomRibbonShow(false); document.getElementById('screenScroll').scrollBy({ left: `${document.getElementById('screen1').scrollWidth}`, behavior: 'smooth' }); setSelectedHotel(hotel._id); getHotelDetails(hotel._id); setTimeout(() => { observeTargets() }, 1000); }}> See Availability </button>
 
                                                     </div>                                       
                                                   </div>
@@ -1534,7 +1534,7 @@ const HotelResults = React.memo(() => {
 
 
                     {
-                      paginatesHotels.length > 0 && <div className='PAGINATION BUTTONS flex flex-col justify-center items-center mt-20 pb-10 transition duration-500'>
+                      message === 'Success' && <div className='PAGINATION BUTTONS flex flex-col justify-center items-center mt-20 pb-10 transition duration-500'>
 
                         <div className='flex justify-center items-center gap-4 transition duration-300'>
                           <button className={`border shadow w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == 0 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.max(prev - 1, 0) }); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowLeft /> </button>       {Array(pages).fill().map((_, index) => { return <button key={index} className={`${currentPage == index ? 'bg-blue-700 text-white' : ""} w-[30px] h-[30px] rounded-full shadow-300 flex justify-center items-center `} onClick={() => { setCurrentPage(index); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}>{index + 1}</button> })}        <button className={`border border shadow  w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == pages - 1 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.min(prev + 1, pages - 1) }); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowRight /> </button>
@@ -2465,7 +2465,7 @@ const HotelResults = React.memo(() => {
 
           {
 
-         bottomRibbonShow && <div className="BOTTOM RIBBON fixed bottom-0 z-50 xl:hidden h-[60px] w-full  bg-gray-400 flex justify-between px-8 items-center">
+         bottomRibbonShow && <div className="BOTTOM RIBBON fixed bottom-0 z-50 xl:hidden h-[50px] w-full  bg-gray-400 flex justify-between px-8 items-center">
 
                   <div className="FILTER relative flex flex-col justify-center items-center cursor-pointer" onClick={() => { setActive(!active); setActiveTab('filter') }}>
 
