@@ -1534,7 +1534,7 @@ const HotelResults = React.memo(() => {
 
 
                     {
-                      message === 'Success' && <div className='PAGINATION BUTTONS flex flex-col justify-center items-center mt-20 pb-10 transition duration-500 animate-spin'>
+                      message === 'Success' && <div className='PAGINATION BUTTONS flex flex-col justify-center items-center mt-20 pb-10 transition duration-500 '>
 
                         <div className='flex justify-center items-center gap-4 transition duration-300'>
                           <button className={`border shadow w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == 0 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.max(prev - 1, 0) }); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowLeft /> </button>       {Array(pages).fill().map((_, index) => { return <button key={index} className={`${currentPage == index ? 'bg-blue-700 text-white' : ""} w-[30px] h-[30px] rounded-full shadow-300 flex justify-center items-center `} onClick={() => { setCurrentPage(index); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}>{index + 1}</button> })}        <button className={`border border shadow  w-[30px] h-[30px] rounded-full flex flex-col justify-center items-center ${currentPage == pages - 1 ? "cursor-not-allowed" : ""}`} onClick={() => { setCurrentPage((prev) => { return Math.min(prev + 1, pages - 1) }); document.getElementById('screenScroll').scrollTo({ top: 0, behavior: "smooth" }) }}> <MdKeyboardArrowRight /> </button>
