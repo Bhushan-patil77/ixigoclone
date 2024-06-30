@@ -485,19 +485,19 @@ console.log(popupShow);
 
      <div className='xl:block hidden'><Navbar activeLink={2}/></div>
 
-    <div id='w1' className='transition duration-500' >
+    <div id='w1' className='transition duration-500 ' >
 
-      <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
+      <div className='flex justify-center'>
 
-      <label htmlFor='searchbardropdowncheckbox' className='relative sticky top-0 z-40 flex flex-col border shadow bg-gray-400 font-bold rounded-20 text-sm px-12 py-2 mt-2 xl:hidden'>
-        <span className='flex justify-center items-center gap-2'> { from.city} <FaArrowRight /> {to.city} </span>
-        <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>  Travellers  <p className='w-1 h-1 bg-black rounded-full'/> seat </span>
-        <span className='absolute -bottom-3 left-[45%]'>{<RiArrowDropDownLine className='text-2xl' />}</span>
-      </label>
+        <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
 
-      <div className="SEARCHBAR-RELATIVE-CONTAINER  bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-0 flex justify-center items-start w-[100%] xl:mt-6  z-40 xl:hidden">
+        <label htmlFor='searchbardropdowncheckbox' className='relative flex  justify-center items-center w-[80%] gap-2 sticky top-0 z-40  bg-gray-200  rounded-20 text-sm text-gray-600 py-3 mt-2 mb-2 xl:hidden'>
+          <span className='flex justify-center items-center gap-2 text-gray-700'> { from} <FaArrowRight /> {to} </span> <p className='w-1 h-1 bg-black rounded-full'/>   <span className='flex justify-center items-center gap-2' >   {date.getDate()} {month[date.getMonth()]}  </span>
+        </label>
 
-      <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
+        <div className="SEARCHBAR-RELATIVE-CONTAINER  bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-0 flex justify-center items-start w-[100%] xl:mt-6  z-40 xl:hidden">
+
+        <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
 
         <div className="searchBarDiv xl:pt-8 xl:px-10 ">
 
@@ -521,12 +521,12 @@ console.log(popupShow);
                             <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-full h-[45px] xl:h-[60px] hover:bg-neutral-subtle-over border-none rounded-l-10">
 
                                 {/* INPUT TAG FROM */}
-                                <div className="flex  justify-between items-center relative w-full h-full" onClick={() => { show("inputBox1"); hide('inputSpan1'); focus('inputBox1'); hide("trevellersDropdown"); }}>
+                                <div className="flex  justify-between items-center relative w-full h-full" onClick={() => { show("mobileinputbox1"); hide('mobileinputspan1'); focus('mobileinputbox1'); hide("mobiletravellersdropdown"); }}>
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
                                         <div className="flex items-center " >
                                             <div className="flex flex-col">
                                                 <p className=" body-xs text-neutral-400 w-full" >From</p>
-                                                <input type="text" id='inputBox1' className=' w-full text-sm font-semibold outline-none bg-transparent' value={from} onClick={() => { show("list1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("list1"); hide("list2"); show('inputSpan2') }} />
+                                                <input type="text" id='mobileinputbox1' className=' w-full text-sm font-semibold outline-none bg-transparent' value={from && from}  onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobilelist1"); hide("mobilelist2") }} />
                                             </div>
                                         </div>
                                     </div>
@@ -536,7 +536,7 @@ console.log(popupShow);
 
                                 {/* INPUT LIST FROM */}
                                 {
-                                  <div id='list1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                  <div id='mobilelist1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
                                             
                                   <div>
                                       <p className="h6 px-20 pt-15 pb-5 font-medium">
@@ -551,7 +551,7 @@ console.log(popupShow);
                                           const airportName = city.name;
 
 
-                                          return <div key={index} onClick={() => { setFrom(cityName); hide("list1"); hide("inputBox1"); show("inputSpan1"); show('inputBox2'); focus("inputBox2") }}>
+                                          return <div key={index} onClick={() => { setFrom(cityName); hide("mobilelist1"); show('mobileinputbox2'); focus("mobileinputbox2") }}>
                                               <li className="flex items-center relative hover:bg-primary-over px-20 py-2 gap-4 group list-sm max-w-screen-sm gap-15" >
                                                   
                                                   <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
@@ -578,12 +578,12 @@ console.log(popupShow);
                             <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-full h-[45px] xl:h-[60px] hover:bg-neutral-subtle-over border-none rounded-r-10 ">
 
                                 {/* INPUT TAG TO */}
-                                <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("inputBox2"); hide('inputSpan2'); focus('inputBox2'); hide('inputBox1'); show("inputSpan1"); hide("trevellersDropdown"); }} >
+                                <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("mobileinputbox2"); hide('mobileinputspan2'); focus('mobileinputbox2'); hide('mobileinputbox1'); show("mobileinputspan1"); hide("mobiletravellersdropdown"); }} >
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
                                         <div className="flex items-center " >
                                             <div className="flex flex-col">
                                                 <p className="body-xs text-neutral-400">To</p>
-                                                <input id='inputBox2' type="text" className='  w-full text-sm font-semibold outline-none bg-transparent ' value={to && to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("list2"); hide('inputSpan2'); hide('list1'); }} />
+                                                <input id='mobileinputbox2' type="text" className='  w-full text-sm font-semibold outline-none bg-transparent ' value={to && to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobilelist2"); hide('mobilelist1'); }} />
                                             </div>
                                         </div>
                                     </div>
@@ -592,7 +592,7 @@ console.log(popupShow);
 
 
                                 {/* INPUT LIST TO */}
-                                <div id='list2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                <div id='mobilelist2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[200%] lg:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
                                         
                                         <div>
                                             <p className="h6 px-20 pt-15 pb-5 font-medium">
@@ -606,7 +606,7 @@ console.log(popupShow);
                                                 const country = city.country;
                                                 const airportName = city.name;
 
-                                                return <div key={index} onClick={() => { setTo(cityName); show("inputSpan2"); hide("list2"); hide("inputBox2"); document.getElementById("datePicker").focus() }}>
+                                                return <div key={index} onClick={() => { setTo(cityName);  hide("mobilelist2") }}>
                                                     <li className="flex items-center relative hover:bg-primary-over px-20  gap-4 group list-sm max-w-screen-sm py-2 px-20 ">
                                                       
                                                         <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
@@ -631,7 +631,7 @@ console.log(popupShow);
 
                           
 
-                            <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("list1"); hide('list2'); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show("inputSpan2") }} >
+                            <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("mobilelist1"); hide('mobilelist2'); hide('mobileinputbox1'); hide('mobileinputbox2'); show('mobileinputspan1'); show("mobileinputspan2") }} >
                                 <svg
                                     width="1em"
                                     height="1em"
@@ -661,13 +661,13 @@ console.log(popupShow);
                         <div className=" DATE PICKER AND RETURN flex xl:rounded-none rounded-10 items-center justify-between border-none relative w-[320px] gap-0.5 overflow-visible calendarInput">
 
                             {/* DATE PICKER */}
-                            <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full xl:rounded-none rounded-10" onClick={() => { focus("datePicker"); hide("list1"); hide("list2"); hide('inputBox1'); hide('inputBox2'); show('inputSpan1'); show('inputSpan2'); }}>
+                            <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full xl:rounded-none rounded-10" onClick={() => { focus("mobiledatepicker"); hide("mobilelist1"); hide("mobilelist2"); hide('mobileinputbox1'); hide('mobileinputbox2'); show('mobileinputspan1'); show('mobileinputspan2'); }}>
                                 <div className="flex justify-between items-center relative w-full h-[45px] xl:h-[60px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
                                     <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
                                         <div className="flex items-center ">
                                             <div className="flex flex-col" >
                                                 <p className="body-xs text-neutral-400">Departure</p>
-                                                <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate xl:text-lg text-sm xl:text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                                                <div id='mobiledatepickerDiv' className='' ><DatePicker id='mobiledatepicker' className='h6 max-w-[190px] truncate xl:text-lg text-sm xl:text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("mobiledatepicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
                                             </div>
                                         </div>
                                     </div>
@@ -684,7 +684,7 @@ console.log(popupShow);
                     
 
                         {/* SEARCH BUTTON */}
-                        <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
+                        <button id='mobilesearchbtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
                             Search
                             <svg
                                 width="1em"
@@ -737,13 +737,17 @@ console.log(popupShow);
 
             </div>
 
-      </div>
+        </div>
+
+        </div>
 
       </div>
+
+ 
 
      
 
-      <div className="searchbar  hidden xl:flex  gap-[50px] pl-16 pt-[19px] pb-6 items-end bg-gradient-to-r from-[#751152] to-[#ab2d42]">
+      <div className="searchbar  hidden xl:flex  gap-[50px] pl-16 pt-[19px] pb-6 items-end bg-gradient-to-r from-[#751152] to-[#ab2d42] border border-black w-full">
 
         <div className="from flex flex-col gap-2 relative">
           <label htmlFor="inputfrom" className='text-gray-400 text-sm'>From</label>
@@ -774,7 +778,7 @@ console.log(popupShow);
       </div>
 
 
-      <div id='filterContainer' className="filters hidden xl:flex  p-4 shadow border h-[140px] transition-all quotas-500 border-black divide-x divide-dashed overflow-hidden bg-white">
+      <div id='filterContainer' className="filters hidden xl:flex  p-4 shadow border w-full h-[140px] transition-all quotas-500 divide-x divide-dashed overflow-hidden bg-white">
 
         <div className="coachClasses flex flex-col gap-4 px-4">
           <div className="headingAndAllBtn flex justify-between"><span>Class</span>  <span><input className='group' id='all' type="checkbox"/> <p className='inline'>all</p></span></div>

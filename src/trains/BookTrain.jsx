@@ -8,6 +8,8 @@ import { LiaUserEditSolid } from 'react-icons/lia';
 import { MdDeleteOutline, MdOutlineDeleteOutline } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Login from '../Login';
+import { Checkmark } from 'react-checkmark'
+
 
 const BookTrain = React.memo(() => {
   const location = useLocation();
@@ -824,7 +826,7 @@ const BookTrain = React.memo(() => {
                   <input className="p-2 w-full outline-none border rounded-lg border-slate-300" defaultValue="bhushanravindrapatil77@gmail.com" onFocus={() => { travellers.contactDetails = null }} />
                 </div>
 
-                <span id='contactSavedCheck' className=' text-green-600 flex gap-6  text-xl hidden'><IoCheckmarkCircleSharp className='w-[40px] h-[40px]' /> </span>
+                <span id='contactSavedCheck' className=' text-green-600 flex gap-6  text-xl hidden'><Checkmark size='25px' /> </span>
                 <button id='contactSaveBtn' className='bg-[#fc790d] text-white font-semibold rounded-lg px-12  py-2 active:bg-orange-800' disabled={travellers.contactDetails == undefined} onClick={() => { hide('contactSaveBtn'); show('contactSavedCheck') }}>save</button>
 
 
@@ -896,7 +898,7 @@ const BookTrain = React.memo(() => {
       </div>
 
 
-      <div id='section2' className=' REVIEW w-screen h-screen border px-2 xl:mt-0 mt-24 border-black hidden bg-white'>
+      <div id='section2' className=' REVIEW w-screen h-screen px-2 xl:mt-0 mt-24  hidden bg-white'>
 
         <div className='review flex flex-col items-center pt-12 xl:gap-0 gap-4  w-full '>
 

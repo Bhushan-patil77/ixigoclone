@@ -74,6 +74,11 @@ const BusResults = React.memo(() => {
   const lastIndex = (currentPage * itemsPerPage + itemsPerPage)
   const pages = Math.ceil(buses.length / itemsPerPage)
 
+  useEffect(() => {
+    setActive(true)
+  }, [activeTab])
+
+
   useEffect(()=>{ 
     console.log(selection);
   },[selection])
@@ -251,17 +256,14 @@ const BusResults = React.memo(() => {
 
   const hide = (id) => {
     document.getElementById(id).classList.add("hidden");
-    console.log(' hidding'+ id);
   }
 
   const show = (id) => {
     document.getElementById(id).classList.remove("hidden");
-    console.log('showing'+ id);
   }
 
   const focus = (id) => {
     document.getElementById(id).focus();
-    console.log('focusing'+ id);
   }
 
   const handlePrice = (e) => {
@@ -997,63 +999,113 @@ const BusResults = React.memo(() => {
 
       </div>
 
-          <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
+        <div className='flex justify-center'>
 
-          <label htmlFor='searchbardropdowncheckbox' className='xl:hidden relative sticky top-0 z-40 flex flex-col  shadow bg-white font-bold rounded-10 text-sm w-full py-3 '>
-            <span className='flex justify-center items-center gap-2'> { from} <FaArrowRight /> {to} </span>
-            <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]}  <p className='w-1 h-1 bg-black rounded-full'/> {'bus type'} </span>
-            <span className='absolute -bottom-3 left-[45%]'>{<RiArrowDropDownLine className='text-2xl' />}</span>
-          </label>
+              <input id='searchbardropdowncheckbox' type="checkbox" className='peer absolute opacity-0' />
 
-          <div className="SEARCHBAR-RELATIVE-CONTAINER xl:hidden bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-1 flex justify-center items-start w-[100%] xl:mt-6  z-40 ">
+              <label htmlFor='searchbardropdowncheckbox' className='xl:hidden  sticky top-0 z-40 flex flex-col text-gray-600  bg-gray-200 font-bold rounded-20 text-sm w-[80%] py-2 mt-2 '>
+                <span className='flex justify-center items-center gap-2'> { from} <FaArrowRight /> {to} </span>
+                <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]}  <p className='w-1 h-1 bg-black rounded-full'/> {'bus type'} </span>
+              </label>
 
-                <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
+              <div className="SEARCHBAR-RELATIVE-CONTAINER xl:hidden bg-transparent rounded-b-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-0 flex justify-center items-start w-[100%] xl:mt-6  z-40 ">
 
-                      
-                <div className="searchBarWrapper w-full flex flex-col items-center  ">
+                    <span className='absolute right-2 top-1 w-[20px] h-[20px]' onClick={()=>{document.getElementById('searchbardropdowncheckbox').checked=false}}><IoCloseCircleSharp className='w-full h-full'/></span>
 
-                          <div className=" shadow-500 w-full xl:w-[90%] xl:p-6 px-2 py-8 flex flex-col gap-10 bg-white  rounded-10  ">
+                          
+                    <div className="searchBarWrapper w-full flex flex-col items-center  ">
 
-                              <div className="flex xl:flex-row flex-col gap-0.5 cursor-pointer">
+                              <div className=" shadow-500 w-full xl:w-[90%] xl:p-6 px-2 py-8 flex flex-col gap-10 bg-white  rounded-b-10  ">
+
+                                  <div className="flex xl:flex-row flex-col gap-0.5 cursor-pointer">
 
 
-                                  <div className="relative flex  gap-0.5 flex-1">
+                                      <div className="relative flex  gap-0.5 flex-1">
 
-                                      <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[45px] hover:bg-neutral-subtle-over border-none rounded-l-10">
+                                          <div className="INPUT FROM bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[45px] hover:bg-neutral-subtle-over border-none rounded-l-10">
 
-                                          <div className="INPUT TAG flex  justify-between items-center relative w-full h-full" onClick={() => { show("mobileInputBox1"); hide('mobileInputSpan1'); focus('mobileInputBox1')}}>
-                                              <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
-                                                  <div className="flex items-center " >
-                                                      <div className="flex flex-col">
-                                                          <p className="body-xs  text-neutral-400" >From</p>
-                                                          <span id='mobileInputSpan1' className='hidden w- xl:text-lg text-sm  font-semibold outline-none bg-transparent'>{from}</span>
-                                                          <input type="text" id='mobileInputBox1' defaultValue={'Pune'} className='hidden w-full xl:text-lg truncate text-sm font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("mobileList1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobileList1"); hide("mobileList2"); hide('mobileInputBox2'); show('mobileInputSpan2') }} />
+                                              <div className="INPUT TAG flex  justify-between items-center relative w-full h-full" onClick={() => { show("mobileInputBox1"); hide('mobileInputSpan1'); focus('mobileInputBox1')}}>
+                                                  <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
+                                                      <div className="flex items-center " >
+                                                          <div className="flex flex-col">
+                                                              <p className="body-xs  text-neutral-400" >From</p>
+                                                              <span id='mobileInputSpan1' className='hidden w- xl:text-lg text-sm  font-semibold outline-none bg-transparent'>{from}</span>
+                                                              <input type="text" id='mobileInputBox1' defaultValue={'Pune'} className=' w-full xl:text-lg truncate text-sm font-semibold outline-none bg-transparent' autoComplete='off' value={from} onClick={() => { show("mobileList1") }} onChange={(e) => { setFrom(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobileList1"); hide("mobileList2"); hide('mobileInputBox2'); show('mobileInputSpan2') }} />
+                                                          </div>
                                                       </div>
                                                   </div>
                                               </div>
+
+
+                                              {
+                                                  <div id='mobileList1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[130%] xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                          
+                                                      <div>
+                                                          <p className="h6 px-20 pt-15 pb-5 font-medium">
+                                                              Select Source
+                                                          </p>
+                                                      </div>
+                                                      {
+                                                          fromCities.map((city, index) => {
+
+                                                              const cityName = city.city;
+
+
+                                                              return <div key={index} onClick={() => { setFrom(cityName); hide("mobileList1"); hide("mobileInputBox1"); show("mobileInputSpan1"); show('mobileInputBox2'); focus("mobileInputBox2") }}>
+                                                                  <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 " >
+                                                                  
+                                                                      <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
+                                                                          <p className="body-md flex group-[.list-lg]:body-lg text-primary" >
+                                                                              <span className="block truncate" >
+                                                                                  {cityName}
+                                                                              </span>
+                                                                              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
+                                                                          </p>
+                                                                      
+                                                                      </div>
+                                                                  </li>
+                                                                  <div className="border-b border-neutral-100 mx-20" />
+                                                              </div>
+                                                          })
+                                                      }
+                                                  
+                                                  </div>
+                                              }
+
                                           </div>
 
+                                          <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[45px] hover:bg-neutral-subtle-over border-none xl:rounded-r-none rounded-r-10 ">
 
-                                          {
-                                              <div id='mobileList1' className="hidden overflow-y-scroll absolute top-[61px] bg-white w-[130%] xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20  !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
-                                      
+                                              <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("mobileInputBox2"); hide('mobileInputSpan2'); focus('mobileInputBox2'); hide('mobileInputBox1'); show("mobileInputSpan1") }} >
+                                                  <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
+                                                      <div className="flex items-center " >
+                                                          <div className="flex flex-col">
+                                                              <p className="body-xs text-neutral-400">To</p>
+                                                              <span id='mobileInputSpan2' className=' hidden w- text-sm xl:text-lg  font-semibold outline-none bg-transparent ' >{to}</span>
+                                                              <input id='mobileInputBox2' type="text" defaultValue={'Mumbai'} className=' text-sm font-semibold outline-none bg-transparent w-full' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobileList2"); hide('mobileInputSpan2'); hide('mobileList1'); }} />
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+
+                                              <div id='mobileList2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[130%]  xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
+                                              
                                                   <div>
                                                       <p className="h6 px-20 pt-15 pb-5 font-medium">
-                                                          Select Source
+                                                          Select Destination
                                                       </p>
                                                   </div>
                                                   {
-                                                      fromCities.map((city, index) => {
-
+                                                      toCities.map((city, index) => {
                                                           const cityName = city.city;
 
-
-                                                          return <div key={index} onClick={() => { setFrom(cityName); hide("mobileList1"); hide("mobileInputBox1"); show("mobileInputSpan1"); show('mobileInputBox2'); focus("mobileInputBox2") }}>
-                                                              <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 " >
-                                                              
-                                                                  <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate" >
-                                                                      <p className="body-md flex group-[.list-lg]:body-lg text-primary" >
-                                                                          <span className="block truncate" >
+                                                          return <div key={index} onClick={() => { setTo(cityName); show("mobileInputSpan2"); hide("mobileList2"); hide("mobileInputBox2"); document.getElementById("datePicker").focus() }}>
+                                                              <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
+                                                                
+                                                                  <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
+                                                                      <p className="body-md flex group-[.list-lg]:body-lg text-primary">
+                                                                          <span className="block truncate">
                                                                               {cityName}
                                                                           </span>
                                                                           <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
@@ -1065,62 +1117,62 @@ const BusResults = React.memo(() => {
                                                           </div>
                                                       })
                                                   }
-                                              
+                                                
                                               </div>
-                                          }
+
+                                          </div>
+
+
+                                          <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("mobileList1"); hide('mobileList2'); hide('mobileInputBox1'); hide('mobileInputBox2'); show('mobileInputSpan1'); show("mobileInputSpan2") }} >
+                                              <svg
+                                                  width="1em"
+                                                  height="1em"
+                                                  fontSize="1.5rem"
+                                                  fill="currentColor"
+                                                  viewBox="0 0 24 24"
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  data-testid="SwapIcon"
+                                                  className="text-subbrand-900 transition-all duration-300 transform rotate-0"
+                                                  style={{
+                                                      userSelect: "none",
+                                                      display: "inline-block",
+                                                      transform: "rotate(0deg)"
+                                                  }}
+                                              >
+                                                  <path
+                                                      fillRule="evenodd"
+                                                      d="M14.6403 5.2477a.7483.7483 0 0 1 1.0612.0084l4.0871 4.1684a.7555.7555 0 0 1 .1573.8195.7502.7502 0 0 1-.6921.4623H6.8305c-.4145 0-.7504-.3373-.7504-.7533 0-.4161.336-.7534.7504-.7534h10.6317L14.632 6.3131a.7556.7556 0 0 1 .0083-1.0654ZM9.368 18.8148a.7483.7483 0 0 1-1.0611-.0084l-4.087-4.1684a.7555.7555 0 0 1-.1574-.8195.7503.7503 0 0 1 .6921-.4623H17.178c.4144 0 .7503.3373.7503.7533 0 .4161-.3359.7534-.7503.7534H6.5463l2.8301 2.8865a.7555.7555 0 0 1-.0083 1.0654Z"
+                                                      clipRule="evenodd"
+                                                  />
+                                              </svg>
+                                          </div>
 
                                       </div>
 
-                                      <div className=" INPUT TO bg-charcoal-40 flex items-center relative w-[50%] xl:w-full h-[45px] hover:bg-neutral-subtle-over border-none xl:rounded-r-none rounded-r-10 ">
+                                      <div className=" DATE PICKER AND RETURN flex items-center bg-charcoal-40 rounded-10 xl:rounded-none justify-between border-none relative w-full  xl:w-[320px] gap-0.5 overflow-visible calendarInput">
 
-                                          <div className="flex justify-between items-center relative w-full h-full pl-10 " onClick={() => { show("mobileInputBox2"); hide('mobileInputSpan2'); focus('mobileInputBox2'); hide('mobileInputBox1'); show("mobileInputSpan1") }} >
-                                              <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 " >
-                                                  <div className="flex items-center " >
-                                                      <div className="flex flex-col">
-                                                          <p className="body-xs text-neutral-400">To</p>
-                                                          <span id='mobileInputSpan2' className=' hidden w- text-sm xl:text-lg  font-semibold outline-none bg-transparent ' >{to}</span>
-                                                          <input id='mobileInputBox2' type="text" defaultValue={'Mumbai'} className=' hidden text-sm font-semibold outline-none bg-transparent border w-full' autoComplete='off' value={to} onChange={(e) => { setTo(e.target.value) }} onFocus={(e) => { e.target.select(); show("mobileList2"); hide('mobileInputSpan2'); hide('mobileList1'); }} />
+                                          <div className=" DATE PICKER hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker"); hide("mobileList1"); hide("mobileList2"); hide('mobileInputBox1'); hide('mobileInputBox2'); show('mobileInputSpan1'); show('mobileInputSpan2'); }}>
+                                              <div className="flex justify-between items-center relative w-full h-[45px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
+                                                  <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
+                                                      <div className="flex items-center ">
+                                                          <div className="flex flex-col" >
+                                                              <p className="body-xs text-neutral-400">Departure</p>
+                                                              <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                                                          </div>
                                                       </div>
                                                   </div>
                                               </div>
                                           </div>
 
 
-                                          <div id='mobileList2' className=" hidden overflow-y-scroll absolute top-[61px] right-0 bg-white w-[130%]  xl:w-[375px] min-h-[50px] max-h-[450px] shadow-500 z-20 rounded-20 !animate-none no-scrollbar  Autocompleter_animate__zqRDe">
-                                          
-                                              <div>
-                                                  <p className="h6 px-20 pt-15 pb-5 font-medium">
-                                                      Select Destination
-                                                  </p>
-                                              </div>
-                                              {
-                                                  toCities.map((city, index) => {
-                                                      const cityName = city.city;
 
-                                                      return <div key={index} onClick={() => { setTo(cityName); show("mobileInputSpan2"); hide("mobileList2"); hide("mobileInputBox2"); document.getElementById("datePicker").focus() }}>
-                                                          <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-                                                            
-                                                              <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-                                                                  <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-                                                                      <span className="block truncate">
-                                                                          {cityName}
-                                                                      </span>
-                                                                      <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-                                                                  </p>
-                                                              
-                                                              </div>
-                                                          </li>
-                                                          <div className="border-b border-neutral-100 mx-20" />
-                                                      </div>
-                                                  })
-                                              }
-                                            
-                                          </div>
+
 
                                       </div>
 
 
-                                      <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("mobileList1"); hide('mobileList2'); hide('mobileInputBox1'); hide('mobileInputBox2'); show('mobileInputSpan1'); show("mobileInputSpan2") }} >
+                                      <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:rounded-l-none xl:min-h-[50px] button-lg h-[45px] px-15 xl:w-[160px] pl-[25px] " onClick={()=>{from && to != undefined ? (from===to ? alert("Source and destination cannot be same") : getBuses()): alert("All fields are required"); document.getElementById('searchbardropdowncheckbox').checked=false}}>
+                                          Search
                                           <svg
                                               width="1em"
                                               height="1em"
@@ -1128,75 +1180,28 @@ const BusResults = React.memo(() => {
                                               fill="currentColor"
                                               viewBox="0 0 24 24"
                                               xmlns="http://www.w3.org/2000/svg"
-                                              data-testid="SwapIcon"
-                                              className="text-subbrand-900 transition-all duration-300 transform rotate-0"
-                                              style={{
-                                                  userSelect: "none",
-                                                  display: "inline-block",
-                                                  transform: "rotate(0deg)"
-                                              }}
+                                              data-testid="ChevronRightIcon"
+                                              className="w-6 h-6 ml-10 SearchForm_animateSearchBtn__btzyf transition duration-700 translate-x-4 translate-x-0 searchButttonArrowAnimation"
+                                              style={{ userSelect: "none", display: "inline-block" }}
                                           >
                                               <path
                                                   fillRule="evenodd"
-                                                  d="M14.6403 5.2477a.7483.7483 0 0 1 1.0612.0084l4.0871 4.1684a.7555.7555 0 0 1 .1573.8195.7502.7502 0 0 1-.6921.4623H6.8305c-.4145 0-.7504-.3373-.7504-.7533 0-.4161.336-.7534.7504-.7534h10.6317L14.632 6.3131a.7556.7556 0 0 1 .0083-1.0654ZM9.368 18.8148a.7483.7483 0 0 1-1.0611-.0084l-4.087-4.1684a.7555.7555 0 0 1-.1574-.8195.7503.7503 0 0 1 .6921-.4623H17.178c.4144 0 .7503.3373.7503.7533 0 .4161-.3359.7534-.7503.7534H6.5463l2.8301 2.8865a.7555.7555 0 0 1-.0083 1.0654Z"
+                                                  d="M8.7125 6.2293c.2905-.2983.77-.3066 1.0708-.0187l5.4854 5.2494A.7474.7474 0 0 1 15.5 12a.7474.7474 0 0 1-.2313.54l-5.4854 5.2494c-.3009.2879-.7803.2796-1.0708-.0187a.7459.7459 0 0 1 .0188-1.0613L13.6524 12 8.7313 7.2906a.746.746 0 0 1-.0188-1.0614Z"
                                                   clipRule="evenodd"
                                               />
                                           </svg>
-                                      </div>
-
-                                  </div>
-
-                                  <div className=" DATE PICKER AND RETURN flex items-center bg-charcoal-40 rounded-10 xl:rounded-none justify-between border-none relative w-full  xl:w-[320px] gap-0.5 overflow-visible calendarInput">
-
-                                      <div className=" DATE PICKER hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker"); hide("mobileList1"); hide("mobileList2"); hide('mobileInputBox1'); hide('mobileInputBox2'); show('mobileInputSpan1'); show('mobileInputSpan2'); }}>
-                                          <div className="flex justify-between items-center relative w-full h-[45px] justify-center border-b-4 lg:min-h-[60px] border-transparent">
-                                              <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
-                                                  <div className="flex items-center ">
-                                                      <div className="flex flex-col" >
-                                                          <p className="body-xs text-neutral-400">Departure</p>
-                                                          <div id='datePickerDiv' className='' ><DatePicker id='datePicker' className='h6 max-w-[190px] truncate text-primary font-medium font-medium outline-none bg-transparent' value={`${weekDays[date.getDay()]}, ${date.getDate()} ${month[date.getMonth()]}`} selected={date} onChange={(d) => { setDate(d); hide("datePicker") }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-
-
-
+                                      </button>
 
 
                                   </div>
 
-
-                                  <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:rounded-l-none xl:min-h-[50px] button-lg h-[45px] px-15 xl:w-[160px] pl-[25px] " onClick={()=>{from && to != undefined ? (from===to ? alert("Source and destination cannot be same") : (navigate("/BusResults" , {state: obj}))): alert("All fields are required")}}>
-                                      Search
-                                      <svg
-                                          width="1em"
-                                          height="1em"
-                                          fontSize="1.5rem"
-                                          fill="currentColor"
-                                          viewBox="0 0 24 24"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          data-testid="ChevronRightIcon"
-                                          className="w-6 h-6 ml-10 SearchForm_animateSearchBtn__btzyf transition duration-700 translate-x-4 translate-x-0 searchButttonArrowAnimation"
-                                          style={{ userSelect: "none", display: "inline-block" }}
-                                      >
-                                          <path
-                                              fillRule="evenodd"
-                                              d="M8.7125 6.2293c.2905-.2983.77-.3066 1.0708-.0187l5.4854 5.2494A.7474.7474 0 0 1 15.5 12a.7474.7474 0 0 1-.2313.54l-5.4854 5.2494c-.3009.2879-.7803.2796-1.0708-.0187a.7459.7459 0 0 1 .0188-1.0613L13.6524 12 8.7313 7.2906a.746.746 0 0 1-.0188-1.0614Z"
-                                              clipRule="evenodd"
-                                          />
-                                      </svg>
-                                  </button>
 
 
                               </div>
 
+                    </div>
 
-
-                          </div>
-
-                </div>
+              </div>
 
           </div>
 
@@ -1227,7 +1232,7 @@ const BusResults = React.memo(() => {
                             </div>
         }
 
-        <div className="filterAndBuses flex gap-6 mt-1 pb-8 ">
+        <div className="filterAndBuses flex gap-6 mt-1 pb-12 xl:pb-8 ">
           
 
          {
@@ -1320,7 +1325,7 @@ const BusResults = React.memo(() => {
             <div className="offers"></div>
             <div className="suggestions"></div>
 
-            <div id='busCardsScrollable' className="busCards px-1 xl:px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar  " >
+            <div id='busCardsScrollable' className="busCards  xl:px-2 flex flex-col gap-4 overflow-y-scroll no-scrollbar pt-2 xl:bg-gray-100 bg-white" >
 
 
               
@@ -1588,12 +1593,12 @@ const BusResults = React.memo(() => {
 
 
                                                                     
+                                                                    
+
+                                                                    <div className="MOBILE relative xl:hidden w-full  flex flex-col shadow rounded-10 ">
 
 
-                                                                    <div className="MOBILE relative xl:hidden w-screen  flex flex-col shadow rounded-10 ">
-
-
-                                                                    <label htmlFor={`popradio`} className=' flex flex-col gap-2 p-2' onClick={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}});}} >
+                                                                    <label htmlFor={`popradio`} className=' flex flex-col gap-2 p-2' onClick={(e)=>{ const newObj = {'busID':'', 'seats':[], 'boarding_point':'select', 'dropping_point':'select'}; setSelection(newObj);  setSelection((prev)=>{return {...prev, busID: bus._id}}); setSelection((prev)=>{return {...prev, 'travelInfo': travelInfo}}); }} >
 
                                                                       <div className="businfo and rating flex justify-between gap-2">
 
@@ -1638,6 +1643,8 @@ const BusResults = React.memo(() => {
 
                                                                     </div>
 
+                                                                    
+
 
 
                                                                 </div>
@@ -1676,12 +1683,12 @@ const BusResults = React.memo(() => {
       </div>
 
 
-      <div className="BOTTOM RIBBON hidden fixed  bottom-0 z-50 xl:hidden h-[60px] w-full bg-gray-400 flex justify-between px-8 items-center">
+      <div id='bottomRibbo' className="BOTTOM RIBBON xl:hidden fixed  bottom-0 z-40 xl:hidden h-[50px] w-full bg-gray-300 flex justify-between px-8 items-center">
 
-            <div className="FILTER relative flex flex-col justify-center items-center" onClick={() => { setActive(!active); setActiveTab('filter') }}>
+            <div className="FILTER relative flex flex-col justify-center items-center " onClick={() => { setActive(!active); setActiveTab('filter') }}>
               <p><TiFilter /></p>
               <p>Filter</p>
-              <div className={`filterpopup absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[280px] -translate-x-[5px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`} >
+              <div className={`filterpopup absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[420px] -translate-x-[25px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`} >
                   
 
                       <div className="filter max-h-[76vh]  sticky top-24 drop-shadow rounded-10 ">
@@ -1699,10 +1706,10 @@ const BusResults = React.memo(() => {
                         <div className="busType flex flex-col gap-2  px-4 py-4 bg-slate-100 rounded-md">
                           <span >Bus Type</span>
                           <div className='flex gap-2 justify-center items-center'>
-                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox1' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox1" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioning className='text-lg' /> <p className='text-xs'>AC</p> </label></span>
-                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox2' className='peer absolute opacity-0' type="checkbox" value="Non-AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox2" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioningDisabled className='text-lg' /> <p className='text-xs'>Non AC</p> </label></span>
-                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox3' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox3" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <MdOutlineAirlineSeatReclineExtra className='text-lg' /><p className='text-xs'>Seater</p> </label></span>
-                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='bustypecheckbox4' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="bustypecheckbox4" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'><MdAirlineSeatFlat className='text-lg' /> <p className='text-xs'>Sleeper</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='mobilebustypecheckbox1' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobilebustypecheckbox1" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioning className='text-lg' /> <p className='text-xs'>AC</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='mobilebustypecheckbox2' className='peer absolute opacity-0' type="checkbox" value="Non-AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobilebustypecheckbox2" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <TbAirConditioningDisabled className='text-lg' /> <p className='text-xs'>Non AC</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='mobilebustypecheckbox3' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobilebustypecheckbox3" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'> <MdOutlineAirlineSeatReclineExtra className='text-lg' /><p className='text-xs'>Seater</p> </label></span>
+                            <span className='relative flex flex-col justify-center items-center rounded-md '><input id='mobilebustypecheckbox4' className='peer absolute opacity-0' type="checkbox" value="AC" filtertype={'busType'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobilebustypecheckbox4" className='flex flex-col items-center w-[60px] h-full py-2 peer-checked:text-orange-400 peer-checked:border-orange-400 border rounded-lg bg-[#ffffff]'><MdAirlineSeatFlat className='text-lg' /> <p className='text-xs'>Sleeper</p> </label></span>
                           </div>
                         </div>
 
@@ -1771,22 +1778,22 @@ const BusResults = React.memo(() => {
               </div>
             </div>
 
-            <div className={`SORT relative flex flex-col justify-center items-center `} onClick={() => { setActive(!active); setActiveTab('sort') }}>
+            <div className={`SORT relative flex flex-col justify-center items-center  `} onClick={() => { setActive(!active); setActiveTab('sort') }}>
               <p><CgSortZa /></p>
               <p>Sort</p>
-              <div className={`sortpopup absolute   bg-white shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[180px] -translate-x-[60px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
+              <div className={`sortpopup absolute   bg-white shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[146px] -translate-x-[20px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
               
 
-                    <div className="sortBar flex items-center py-2 tracking-wide  bg-white drop-shadow rounded-10">
+                    <div className="sortBar flex flex-col items-center py-2 tracking-wide  bg-white drop-shadow rounded-10">
 
-                  <span className='text-black font-semibold pl-6 py-2'>Sort by:</span>
+                  <span className='text-black font-semibold  py-2'>Sort By</span>
 
-                  <div className='  flex divide-x  divide-solid text-slate-600 p-1'>
-                    <span className='px-6'> <input className='hidden peer' id='sortRadio1' type="radio" name='sort' filtertype={'Price'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio1">Price</label></span>
-                    <span className='px-4'> <input className='hidden peer' id='sortRadio2' type="radio" name='sort' filtertype={'Seats'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio2">Seats</label></span>
-                    <span className='px-4'> <input className='hidden peer' id='sortRadio3' type="radio" name='sort' filtertype={'Ratings'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio3">Ratings</label></span>
-                    <span className='px-4'> <input className='hidden peer' id='sortRadio4' type="radio" name='sort' filtertype={'Arrival Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio4">Arrival Time</label></span>
-                    <span className='px-4'> <input className='hidden peer' id='sortRadio5' type="radio" name='sort' filtertype={'Departure Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="sortRadio5">Departure Time</label></span>
+                  <div className='  flex flex-col items-center gap-3  divide-solid text-slate-600 p-1'>
+                    <span className='px-6'> <input className='hidden peer' id='mobilesortRadio1' type="radio" name='sort' filtertype={'Price'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="mobilesortRadio1">Price</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='mobilesortRadio2' type="radio" name='sort' filtertype={'Seats'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="mobilesortRadio2">Seats</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='mobilesortRadio3' type="radio" name='sort' filtertype={'Ratings'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="mobilesortRadio3">Ratings</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='mobilesortRadio4' type="radio" name='sort' filtertype={'Arrival Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="mobilesortRadio4">Arrival</label></span>
+                    <span className='px-4'> <input className='hidden peer' id='mobilesortRadio5' type="radio" name='sort' filtertype={'Departure Time'} onChange={(e) => { handleFilterChange(e) }} /> <label className='peer-checked:text-[#ec5b24] cursor-pointer' htmlFor="mobilesortRadio5">Departure</label></span>
                   </div>
 
                   </div>

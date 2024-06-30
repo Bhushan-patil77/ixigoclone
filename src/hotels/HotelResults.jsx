@@ -709,7 +709,7 @@ const HotelResults = React.memo(() => {
 
                 <label htmlFor='searchbardropdowncheckbox' className='relative sticky xl:hidden top-0 z-40 flex flex-col border shadow bg-gray-400 font-bold rounded-20 text-sm  py-2 mt-2'>
                   <span className='flex justify-center items-center gap-2'> { destination} </span>
-                  <span className='flex justify-center items-center gap-2'>{checkIn.getDate()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/> {checkOut.getDate()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>{rooms} rooms <p className='w-1 h-1 bg-black rounded-full'/>{adults + childrens} Guests  </span>
+                  <span className='flex justify-center items-center gap-2'>{checkIn.getDate()} {month[date.getMonth()]} -- {checkOut.getDate()} {month[date.getMonth()]} <p className='w-1 h-1 bg-black rounded-full'/>{rooms} rooms <p className='w-1 h-1 bg-black rounded-full'/>{adults + childrens} Guests  </span>
                 </label>
 
                 <div className="shadow-500 xl:hidden  xl:w-[96%] p-20 flex flex-col gap-10 rounded-20 bg-white bg-transparent rounded-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-1 flex justify-center items-start w-[100%] xl:mt-6  z-40 ">
@@ -1025,11 +1025,11 @@ const HotelResults = React.memo(() => {
                 {/* CHECK-IN */}
                 <div className=" DATE PICKER bg-charcoal-40 hover:bg-neutral-subtle-over w-full" onClick={() => { focus("datePicker1"); hide("list1"); hide('inputBox1'); show('inputSpan1'); hide('trevellersDropdown') }}>
                   <div className="flex justify-between items-center relative w-full h-[60px]  border-b-4 lg:min-h-[60px] border-transparent">
-                    <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
-                      <div className="flex items-center ">
-                        <div className="flex flex-col" >
+                    <div className="flex-1 w-full h-full flex flex-col justify-center px-15 py-10 ">
+                      <div className="flex items-center w-full">
+                        <div className="flex flex-col w-full" >
                           <p className="body-xs text-neutral-400">Check-in</p>
-                          <div id='datePickerDiv' className='' ><DatePicker id='datePicker1' className='h6 max-w-[190px] truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkIn.getDay()]}, ${checkIn.getDate()} ${month[checkIn.getMonth()]}`} selected={checkIn} onChange={(d) => { setCheckIn(d); hide("datePicker1"); focus('datePicker2') }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
+                          <div id='datePickerDiv ' className='w-full' ><DatePicker id='datePicker1' className='h6 w-full truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkIn.getDay()]}, ${checkIn.getDate()} ${month[checkIn.getMonth()]}`} selected={checkIn} onChange={(d) => { setCheckIn(d); hide("datePicker1"); focus('datePicker2') }} formatDate="DD/MM/YYY" minDate={new Date()} /></div>
                         </div>
                       </div>
                     </div>
@@ -1040,11 +1040,11 @@ const HotelResults = React.memo(() => {
                 {/* CHECK-OUT */}
                 <div className="bg-charcoal-40 border-charcoal-40 hover:bg-neutral-subtle-over hover:border-contrast w-full" onClick={() => { focus("datePicker2"); hide("list1"); hide('inputBox1'); show('inputSpan1'); }}>
                   <div className="flex justify-between items-center relative w-full h-[60px] border-b-4 lg:min-h-[60px] border-transparent">
-                    <div className="flex-1 h-full flex flex-col justify-center px-15 py-10 ">
-                      <div className="flex items-center ">
-                        <div className="flex flex-col" >
+                    <div className="flex-1 w-full h-full flex flex-col justify-center px-15 py-10 ">
+                      <div className="flex items-center w-full ">
+                        <div className="flex flex-col w-full" >
                           <p className="body-xs text-neutral-400">Check-out</p>
-                          <div id='datePickerDiv' className='' ><DatePicker id='datePicker2' className='h6 max-w-[190px] truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkOut.getDay()]}, ${checkOut.getDate()} ${month[checkOut.getMonth()]}`} selected={checkOut} onChange={(d) => { d > checkIn ? `${setCheckOut(d)} ${show("trevellersDropdown")}` : alert('Select date greater that check-in date'); hide("datePicker2") }} formatDate="DD/MM/YYY" minDate={new Date(checkIn)} /></div>
+                          <div id='datePickerDiv' className='w-full' ><DatePicker id='datePicker2' className='h6 w-full truncate text-primary font-medium outline-none bg-transparent' value={`${weekDays[checkOut.getDay()]}, ${checkOut.getDate()} ${month[checkOut.getMonth()]}`} selected={checkOut} onChange={(d) => { d > checkIn ? `${setCheckOut(d)} ${show("trevellersDropdown")}` : alert('Select date greater that check-in date'); hide("datePicker2") }} formatDate="DD/MM/YYY" minDate={new Date(checkIn)} /></div>
                         </div>
                       </div>
                     </div>
@@ -1176,7 +1176,7 @@ const HotelResults = React.memo(() => {
                 {/* ROOMS AND GUESTS */}
 
                 {/* SEARCH BUTTON */}
-                <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 min-h-[50px] button-lg py-[13px] px-15 rounded-none rounded-r-10 text-2xl w-[160px] pl-[25px] " onClick={() => { obj.destination !== '' ? getHotels()  : alert("All fields are required") }}>
+                <button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 min-h-[50px] button-lg py-[13px] px-15 rounded-none rounded-r-10 text-2xl w-[160px] pl-[25px] " onClick={() => { obj.destination !== '' ? getHotels()  : alert("All fields are required"); hide('list1'); show('inputSpan1') }}>
                   Search
                   <svg
                     width="1em"
@@ -1553,7 +1553,7 @@ const HotelResults = React.memo(() => {
           </div>
 
           <div id='screen2' className='min-w-[100%] max-h-screen overflow-hidden flex flex-col sticky top-0  bg-white'>
-            <MdKeyboardArrowLeft className='absolute top-2 left-2 w-[30px] h-[30px] cursor-pointer z-50' onClick={() => { setBottomRibbonShow(true);document.getElementById('screenScroll').scrollBy({ left: -`${document.getElementById('screen1').scrollWidth}`, behavior: 'smooth' }); }} />
+            <MdKeyboardArrowLeft className='absolute top-1 left-0 w-[30px] h-[30px] cursor-pointer z-50' onClick={() => { setBottomRibbonShow(true);document.getElementById('screenScroll').scrollBy({ left: -`${document.getElementById('screen1').scrollWidth}`, behavior: 'smooth' }); }} />
           
 
             {
@@ -1585,8 +1585,8 @@ const HotelResults = React.memo(() => {
                                               </div>
                                             </div>
 
-                                            <div id='Navbar' observ="true" className="NAVIGATION-BAR flex xl:justify-start px-2 justify-between xl:gap-12  xl:px-4 py-3 sticky top-0 xl:-top-12 bg-gray-100 rounded-10 ">
-                                              <div className='relative'> <input id='radio1' className='absolute opacity-0 peer' type="radio" name='navradio' checked={visibleElements.includes('About')} onChange={(e) => { e.currentTarget.checked ? document.getElementById('Overview').scrollIntoView({ behavior: 'smooth', block: 'start' }) : '' }} /> <label htmlFor="radio1" className='py-2 xl:p-2 text-sm xl:text-[18px] cursor-pointer peer-checked:border-b-4 border-blue-400 rounded peer-checked:text-blue-400'> Overview</label> </div>
+                                            <div id='Navbar' observ="true" className="NAVIGATION-BAR flex xl:justify-start px-2  justify-between xl:gap-12 xl:px-4 pt-8 pb-2 sticky top-0 xl:-top-12 bg-gray-100 rounded-10 ">
+                                              <div className='relative '> <input id='radio1' className='absolute opacity-0 peer' type="radio" name='navradio' checked={visibleElements.includes('About')} onChange={(e) => { e.currentTarget.checked ? document.getElementById('Overview').scrollIntoView({ behavior: 'smooth', block: 'start' }) : '' }} /> <label htmlFor="radio1" className='py-2 xl:p-2 text-sm xl:text-[18px] cursor-pointer peer-checked:border-b-4 border-blue-400 rounded peer-checked:text-blue-400'> Overview</label> </div>
                                               <div className='relative hidden xl:block'> <input id='roomRadioLaptop' className='absolute opacity-0 peer' type="radio" name='navradio' checked={visibleElements.includes('Rooms')} onChange={(e) => { e.currentTarget.checked ? document.getElementById('Rooms').scrollIntoView({ behavior: 'smooth', block: 'start' }) : '' }} /> <label htmlFor="roomRadioLaptop" className='py-2 xl:p-2 text-sm  xl:text-[18px] cursor-pointer peer-checked:border-b-4 border-blue-400 rounded peer-checked:text-blue-400'> Rooms</label> </div>
                                               <div className='relative xl:hidden'> <input id='roomRadioMobile' className='absolute opacity-0 peer' type="radio" name='navradio' checked={visibleElements.includes('RoomsMobile')} onChange={(e) => { e.currentTarget.checked ? document.getElementById('RoomsMobile').scrollIntoView({ behavior: 'smooth', block: 'start' }) : '' }} /> <label htmlFor="roomRadioMobile" className='py-2 xl:p-2 text-sm  xl:text-[18px] cursor-pointer peer-checked:border-b-4 border-blue-400 rounded peer-checked:text-blue-400'> Rooms</label> </div>
                                               <div className='relative hidden xl:block'> <input id='radio3' className='absolute opacity-0 peer' type="radio" name='navradio' checked={visibleElements.includes('Location')} onChange={(e) => { e.currentTarget.checked ? document.getElementById('Location').scrollIntoView({ behavior: 'smooth', block: 'start' }) : '' }} /> <label htmlFor="radio3" className='py-2 xl:p-2 text-sm  xl:text-[18px] cursor-pointer peer-checked:border-b-4 border-blue-400 rounded peer-checked:text-blue-400'> Location</label> </div>
@@ -2350,7 +2350,7 @@ const HotelResults = React.memo(() => {
 
           </div>
 
-          <div id='screen3' className='min-w-[100%] max-h-screen flex flex-col sticky top-0 bg-[#f4f5f5] overflow-y-auto relative' >
+          <div id='screen3' className='min-w-[100%]  max-h-screen flex flex-col sticky top-0 bg-[#f4f5f5] overflow-y-auto relative' >
            <div className='sticky top-0 bg'> <MdKeyboardArrowLeft className='sticky z-50 top-2 left-2 w-[30px] h-[30px] cursor-pointer' onClick={() => { document.getElementById('screenScroll').scrollBy({ left: -`${document.getElementById('screen1').scrollWidth}`, behavior: 'smooth' }); }} /></div>
 
 
@@ -2443,9 +2443,12 @@ const HotelResults = React.memo(() => {
                       <p className='text-lg font-semibold'>Special Request</p>
                       <p className='text-gray-500'>We will forward your request to the hotel. Note: This is subject to availability and based on the hotel policies</p>
                       <button className='text-orange-500 font-bold cursor-pointer  flex w-[200px]'>Add Request</button>
+
+                    <button className={` xl:hidden w-full  sticky xl:bottom-0 bottom-[0px] justify-center items-center py-3 mt-2 font-semibold rounded-10 xl:rounded-lg ${continueBtnActive ? `bg-orange-700 text-white cursor-pointer` : `bg-gray-200 text-gray-400 cursor-not-allowed `}`}>Pay Now</button>
+
                     </div>
 
-                    <button className={` w-full flex sticky xl:bottom-0 bottom-[56px] justify-center items-center py-3 mt-2 font-semibold xl:rounded-lg ${continueBtnActive ? `bg-orange-700 text-white cursor-pointer` : `bg-gray-200 text-gray-400 cursor-not-allowed `}`}>Pay Now</button>
+                    <button className={`hidden xl:flex w-full  sticky xl:bottom-0 bottom-[0px] justify-center items-center py-3 mt-2 font-semibold xl:rounded-lg ${continueBtnActive ? `bg-orange-700 text-white cursor-pointer` : `bg-gray-200 text-gray-400 cursor-not-allowed `}`}>Pay Now</button>
 
 
                   </form>
@@ -2462,7 +2465,7 @@ const HotelResults = React.memo(() => {
 
           {
 
-         bottomRibbonShow && <div className="BOTTOM RIBBON fixed bottom-0 z-50 xl:hidden h-[60px] w-full bg-gray-400 flex justify-between px-8 items-center">
+         bottomRibbonShow && <div className="BOTTOM RIBBON fixed bottom-0 z-50 xl:hidden h-[60px] w-full  bg-gray-400 flex justify-between px-8 items-center">
 
                   <div className="FILTER relative flex flex-col justify-center items-center cursor-pointer" onClick={() => { setActive(!active); setActiveTab('filter') }}>
 
