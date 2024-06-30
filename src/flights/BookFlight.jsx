@@ -2411,8 +2411,10 @@ const BookFlight = React.memo(() => {
                                     Child {index + 1}<span className="capitalize"> - {Object.keys(travellers.childrensObj).includes(`children${index + 1}`) && `${travellers.childrensObj[`children${index + 1}`].title} ${travellers.childrensObj[`children${index + 1}`].firstName} ${travellers.childrensObj[`children${index + 1}`].lastName}  `}</span>
                                   </p>
                                 </div>
-                                {Object.keys(travellers.childrensObj).includes(`children${index + 1}`) ? <Checkmark size='16px' className='w-6 text-green-700  h-6' /> : <GoCircle className='w-[27px] text-green-700  h-[27px] p-1' />}
 
+                                <button className="inline-flex justify-center items-center text-brand hover:bg-brand-over gap-[2px] rounded-10 min-h-[30px] button-sm py-[3px] px-5 hover:bg-transparent ">
+                                {Object.keys(travellers.childrensObj).includes(`children${index + 1}`) ? <Checkmark size='16px' className='w-6 text-green-700  h-6' /> : <GoCircle className='w-[27px] text-green-700  h-[27px] p-1' />}
+                                </button>
                               </div>
 
                               <div id={`childForm${index}`} className="CHILD DETAILS INPUT FORM hidden peer-checked:flex flex-col">

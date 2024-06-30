@@ -76,6 +76,32 @@ function Login({setisloggedin,setpopupshow}) {
         <button className='   p-[7px] rounded-lg' onClick={() => {setpopupshow('signupShow') }}>Signup Insted</button>
       </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
 
 
