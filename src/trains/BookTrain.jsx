@@ -904,10 +904,10 @@ const BookTrain = React.memo(() => {
 
           <div className=" xl:w-[60%] w-full xl:shadow xl:rounded-b-none rounded-10 flex flex-col gap-4 xl:p-8 xl:border-slate-400 xl:border ">
 
-            <div className="trainDetails flex flex-col  xl:p-12 gap-4 p-4 border xl:rounded-none rounded-10 xl:border xl:border-slate-400">
+            <div className="trainDetails flex flex-col  xl:p-12 gap-4 p-2 border xl:rounded-none rounded-10 xl:border xl:border-slate-400">
 
               <div className='flex justify-between   '>
-                <div className='flex items-center gap-1 xl:text-base text-[12px]'>  <span>{obj.coach}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>Tatkal Quota</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainNumber}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainName}</span> </div>
+                <div className='flex items-center gap-[3px] xl:text-base text-[12px]'>  <span>{obj.coach}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>Tatkal Quota</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainNumber}</span> < div className='w-[5px] h-[5px] bg-black rounded-full' /> <span>{trainDetails.trainName}</span> </div>
                 <div className='border px-2 text-green-700  rounded font-semibold xl:text-base text-sm'><span>AVL {obj.numberOfSeats}</span></div>
               </div>
 
