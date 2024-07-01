@@ -195,7 +195,7 @@ function BottomRibbon({setisloggedin,setpopupshow}) {
                                                                     </div>
                                                                 </li>
                                                             </a>
-                                                            <a className="cursor-pointer" href="" onClick={()=>{handleLogout()}}>
+                                                            <a className="cursor-pointer" href="" >
                                                                 <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm">
                                                                     <div className="inline-flex shrink-0 group-[.list-lg]:h-[50px] group-[.list-lg]:w-[50px] h-40 w-40 items-center">
                                                                         <img
