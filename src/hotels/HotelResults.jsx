@@ -36,7 +36,7 @@ import { CgGym, CgSortZa } from 'react-icons/cg';
 import { TiFilter } from 'react-icons/ti';
 import ImageCarousel from '../ImageCarousel';
 
-
+// WORKING ON PAGE REFRESH ERROR
 
 const HotelResults = React.memo(() => {
   const location = useLocation();
@@ -44,7 +44,7 @@ const HotelResults = React.memo(() => {
 
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  const [destination, setDestination] = useState(obj.destination);
+  const [destination, setDestination] = useState(localStorage.getItem('destination') || obj?.destination || '');
   const [destinationCities, setdestinationCities] = useState([])
   const [date, setDate] = useState(new Date())
   const [checkIn, setCheckIn] = useState(new Date(obj.checkIn));
@@ -116,6 +116,10 @@ const HotelResults = React.memo(() => {
     rootMargin: '0px', // 200px offset from the bottom
     threshold: 0 // 50% of the element must be visible to trigger the callback
   };
+
+  window.addEventListener('beforeunload', ()=>{
+    localStorage.setItem('destination', obj.destination)
+  })
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -1217,13 +1221,7 @@ const HotelResults = React.memo(() => {
 
                     <div className="flex flex-col gap-6 ">
 
-                      <div className="popularFilters">
-                        <p className='w-full px-4  text-lg font-semibold'>Most Popular</p>
-                        <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free Cancellation</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free Cancellation'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                        <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free Breakfast</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free Breakfast'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                        <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Rated Exceptional(9+)</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Rated Exceptional'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                        <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Parking Available</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Parking Available'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                      </div>
+                  
 
                       <div className="PRICE FILTER DIV flex flex-col px-4  gap-6 rounded-md">
                         <p className="w-full  text-lg font-semibold">Price</p>
@@ -2489,123 +2487,108 @@ const HotelResults = React.memo(() => {
 
          bottomRibbonShow && <div className="BOTTOM RIBBON fixed bottom-0 z-50 xl:hidden h-[50px] w-full  bg-gray-400 flex justify-between px-8 items-center">
 
-                  <div className="FILTER relative flex flex-col justify-center items-center cursor-pointer" onClick={() => { setActive(!active); setActiveTab('filter') }}>
+                                    <div className="FILTER relative flex flex-col justify-center items-center cursor-pointer" onClick={() => { setActive(!active); setActiveTab('filter') }}>
 
-                    <p><TiFilter /></p>
-                    <p>Filter</p>
-                    <div className={`filterpopup absolute  shadow rounded-10 left-0 w-[300px] h-[500px]  transition-all transform duration-700 bg-white ${active == true && activeTab === 'filter' ? '-translate-y-[290px] -translate-x-[20px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`} >
-                      < div className="bg-white pb-4 rounded-10 w-full h-full  overflow-y-scroll ">
+                                      <p><TiFilter /></p>
+                                      <p>Filter</p>
+                                      <div className={`filterpopup absolute  shadow rounded-10 left-0 w-[300px] h-[500px]  transition-all transform duration-700 bg-white ${active == true && activeTab === 'filter' ? '-translate-y-[290px] -translate-x-[20px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`} >
+                                        < div className="bg-white pb-4 rounded-10 w-full h-full  overflow-y-scroll ">
 
-                          <div className="flex justify-between p-20 items-center">
-                            <p className="HEADING body-md font-bold">Filters</p>
-                            <p className="CLEAR ALL body-sm cursor-pointer text-brand-500 font-medium" onClick={() => { document.querySelectorAll('.filterCheckBox').forEach((i) => { if (i.checked) { i.click() } }); setFilterObj({}) }}> Clear All </p>
-                          </div>
+                                            <div className="flex justify-between p-20 items-center">
+                                              <p className="HEADING body-md font-bold">Filters</p>
+                                              <p className="CLEAR ALL body-sm cursor-pointer text-brand-500 font-medium" onClick={() => { document.querySelectorAll('.filterCheckBox').forEach((i) => { if (i.checked) { i.click() } }); setFilterObj({}) }}> Clear All </p>
+                                            </div>
 
-                          <div className="flex flex-col gap-6 ">
+                                            <div className="flex flex-col gap-6 ">
 
-                            <div className="popularFilters">
-                              <p className='w-full px-4  text-lg font-semibold'>Most Popular</p>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free Cancellation</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free Cancellation'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free Breakfast</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free Breakfast'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Rated Exceptional(9+)</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Rated Exceptional'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Parking Available</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Parking Available'} filtertype={'popularFilters'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                            </div>
+                                      
+                                              <div className="PRICE FILTER DIV flex flex-col px-4  gap-6 rounded-md">
+                                                <p className="w-full  text-lg font-semibold">Price</p>
+                                                <div className="relative w-full ">
+                                                  <div className='border'> <RangeSlider min={0} max={10000} value={val} filtertype={'price'} onInput={(e) => { setval(e); }} onThumbDragEnd={(e) => { setminmax(val); handlePrice(val) }} /> </div>
+                                                  <div className='flex justify-between'>
+                                                    <div className=" left-2 text-secondary text-sm mt-2"> {val[0]} </div>
+                                                    <div className=" right-2 text-secondary text-sm mt-2"> {val[1]} </div>
+                                                  </div>
+                                                </div>
+                                              </div>
 
-                            <div className="PRICE FILTER DIV flex flex-col px-4  gap-6 rounded-md">
-                              <p className="w-full  text-lg font-semibold">Price</p>
-                              <div className="relative w-full ">
-                                <div className='border'> <RangeSlider min={0} max={10000} value={val} filtertype={'price'} onInput={(e) => { setval(e); }} onThumbDragEnd={(e) => { setminmax(val); handlePrice(val) }} /> </div>
-                                <div className='flex justify-between'>
-                                  <div className=" left-2 text-secondary text-sm mt-2"> {val[0]} </div>
-                                  <div className=" right-2 text-secondary text-sm mt-2"> {val[1]} </div>
-                                </div>
+                                              <div className="ratingFilter ">
+                                                <p className='w-full px-4  text-lg font-semibold'>User Rating </p>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Exceptional: 4.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={4.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Excellent: 3.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={3.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Good: 2.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={2.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Pleasant: 1+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={1} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+
+                                              </div>
+
+                                              <div className="facilitiesFilter">
+                                                <p className='w-full px-4  text-lg font-semibold'>Facilities </p>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Parking</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Parking'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free WiFi</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free WiFi'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Gym</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Gym'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Bar</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Bar'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Spa</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Spa'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Restaurant</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Restaurant'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Swimmint Pool</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Swimming Pool'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+
+                                              </div>
+
+
+                                              <div className="propertyType flex gap-4 flex-wrap px-4">
+                                                <p className='w-full  text-lg font-semibold'>Accommodation Type</p>
+                                                <span className='relative'> <input id='property1' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Hotel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property1'>Hotel</label></span>
+                                                <span className='relative'> <input id='property2' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Resort'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property2'>Resort</label></span>
+                                                <span className='relative'> <input id='property3' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Bed and Breakfast'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property3'>Bed and Breakfast</label></span>
+                                                <span className='relative'> <input id='property4' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Entire Apartment'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property4'>Entire Apartment </label></span>
+                                                <span className='relative'> <input id='property5' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Tent'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property5'>Tent</label></span>
+                                                <span className='relative'> <input id='property6' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Ryokan'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property6'>Ryokan</label></span>
+                                                <span className='relative'> <input id='property7' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Country house'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property7'>Country house</label></span>
+                                                <span className='relative'> <input id='property8' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Serviced apartment'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property8'>Serviced apartment</label></span>
+                                                <span className='relative'> <input id='property9' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Capsule hotel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property9'>Capsule hotel</label></span>
+                                                <span className='relative'><input id='property10' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Hostel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property10'>Hostel</label></span>
+                                                <span className='relative'><input id='property11' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Entire house'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property11'>Entire house</label></span>
+                                                <span className='relative'><input id='property12' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Homestay'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property12'>Homestay</label></span>
+                                                <span className='relative'><input id='property13' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Lodge'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property13'>Lodge</label></span>
+                                                <span className='relative'><input id='property14' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Farm stay'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property14'>Farm stay </label></span>
+                                                <span className='relative'><input id='property15' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Riad'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property15'>Riad</label></span>
+                                              </div>
+
+                                              <div className="paymentMode">
+                                                <p className='w-full px-4  text-lg font-semibold'>Payment Mode</p>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Book with ₹0 payment</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Book with 0 payment'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Prepaid</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Prepaid'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Pay at hotel</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Pay at hotel'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                              </div>
+
+                                              <div className="mealsIncluded">
+                                                <p className='w-full px-4  text-lg font-semibold'>Meals</p>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Breakfast Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Breakfast included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Lunch Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Lunch included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+                                                <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Dinner Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Dinner included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
+
+                                              </div>
+
+                                            </div>
+
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div className={`SORT relative flex flex-col justify-center items-center cursor-pointe`} onClick={() => { setActive(!active); setActiveTab('sort') }}>
+                                      <p><CgSortZa /></p>
+                                      <p>Sort</p>
+                                      <div className={`sortpopup bg-white absolute w-[170px] h-[250px] shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[165px] -translate-x-[50px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
+                                          <div className="  w-full h-full flex flex-col justify-between   px-2 py-3 rounded-10 shadow">
+                                              <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative ' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='mobilesortRadio1' className='absolute opacity-0 peer' type="radio" name='sortRadio' filtertype={'popularity'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('Popularity') }} /> <label className='font-semibold  flex flex-col peer-checked:text-blue-500' htmlFor="mobilesortRadio1"><p>Popularity</p> <p className='text-xs'>Low to High</p> </label>  </span>
+                                              <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='mobilesortRadio2' className='absolute opacity-0 peer' type="radio" name='sortRadio' filtertype={'price1'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('Price Low to High') }} /> <label className='font-semibold  flex flex-col peer-checked:text-blue-500' htmlFor="mobilesortRadio2"><p>Price</p> <p className='text-xs'>Low to High</p> </label> </span>
+                                              <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='mobilesortRadio3' className='absolute opacity-0 peer' type="radio" name='sortRadio' filtertype={'price2'} value={'-1'} onChange={(e) => { handleFilterChange(e); setSort('Price High to Low') }} /> <label className='font-semibold  flex flex-col peer-checked:text-blue-500' htmlFor="mobilesortRadio3"><p>Price</p> <p className='text-xs'>High to Low</p> </label> </span>
+                                              <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative ' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='mobilesortRadio4' className='absolute opacity-0 peer' type="radio" name='sortRadio' filtertype={'rating'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('User Rating Highest First') }} /> <label className='font-semibold  flex flex-col peer-checked:text-blue-500' htmlFor="mobilesortRadio4"><p>User Rating</p> <p className='text-xs'>Highest First</p> </label> </span>
+                                            </div>
+                                      </div>
+                                   </div>
+
                               </div>
-                            </div>
-
-                            <div className="ratingFilter ">
-                              <p className='w-full px-4  text-lg font-semibold'>User Rating </p>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Exceptional: 4.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={4.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Excellent: 3.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={3.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Good: 2.5+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={2.5} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Pleasant: 1+</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="radio" name='ratingFiltar' value={1} filtertype={'User Rating'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-
-                            </div>
-
-                            <div className="facilitiesFilter">
-                              <p className='w-full px-4  text-lg font-semibold'>Facilities </p>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Parking</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Parking'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Free WiFi</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Free WiFi'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Gym</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Gym'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Bar</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Bar'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Spa</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Spa'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Restaurant</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Restaurant'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Swimmint Pool</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Swimming Pool'} filtertype={'Facilities'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-
-                            </div>
-
-                            <div className="starRatingFilter flex gap-4 px-4 flex-wrap">
-                              <p className='w-full  text-lg font-semibold'>Star Rating </p>
-                              <span className='relative'> <input id='5star' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' value={'5 Star'} filtertype={'Star Rating'} onChange={(e) => { handleFilterChange(e) }} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor="5star">5 Star</label></span>
-                              <span className='relative'> <input id='4star' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' value={'4 Star'} filtertype={'Star Rating'} onChange={(e) => { handleFilterChange(e) }} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor="4star">4 Star</label></span>
-                              <span className='relative'> <input id='3star' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' value={'3 Star'} filtertype={'Star Rating'} onChange={(e) => { handleFilterChange(e) }} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor="3star">3 Star</label></span>
-                              <span className='relative'> <input id='2star' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' value={'2 Star'} filtertype={'Star Rating'} onChange={(e) => { handleFilterChange(e) }} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor="2star">2 Star</label></span>
-                              <span className='relative'> <input id='1star' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' value={'1 Star'} filtertype={'Star Rating'} onChange={(e) => { handleFilterChange(e) }} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor="1star">1 Star</label></span>
-                            </div>
-
-                            <div className="propertyType flex gap-4 flex-wrap px-4">
-                              <p className='w-full  text-lg font-semibold'>Accommodation Type</p>
-                              <span className='relative'> <input id='property1' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Hotel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property1'>Hotel</label></span>
-                              <span className='relative'> <input id='property2' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Resort'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property2'>Resort</label></span>
-                              <span className='relative'> <input id='property3' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Bed and Breakfast'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property3'>Bed and Breakfast</label></span>
-                              <span className='relative'> <input id='property4' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Entire Apartment'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property4'>Entire Apartment </label></span>
-                              <span className='relative'> <input id='property5' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Tent'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property5'>Tent</label></span>
-                              <span className='relative'> <input id='property6' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Ryokan'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property6'>Ryokan</label></span>
-                              <span className='relative'> <input id='property7' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Country house'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property7'>Country house</label></span>
-                              <span className='relative'> <input id='property8' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Serviced apartment'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property8'>Serviced apartment</label></span>
-                              <span className='relative'> <input id='property9' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Capsule hotel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property9'>Capsule hotel</label></span>
-                              <span className='relative'><input id='property10' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Hostel'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property10'>Hostel</label></span>
-                              <span className='relative'><input id='property11' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Entire house'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property11'>Entire house</label></span>
-                              <span className='relative'><input id='property12' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Homestay'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property12'>Homestay</label></span>
-                              <span className='relative'><input id='property13' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Lodge'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property13'>Lodge</label></span>
-                              <span className='relative'><input id='property14' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Farm stay'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property14'>Farm stay </label></span>
-                              <span className='relative'><input id='property15' className='absolute opacity-0 peer' type="radio" name='starRattingFilter' filtertype={'Accomodation Type'} onChange={(e) => { handleFilterChange(e) }} value={'Riad'} /> <label className='w-full h-full rounded-full bg-gray-100 px-6 py-1 peer-checked:bg-blue-100 peer-checked:text-blue-500 peer-checked:outline outline-1' htmlFor='property15'>Riad</label></span>
-                            </div>
-
-                            <div className="paymentMode">
-                              <p className='w-full px-4  text-lg font-semibold'>Payment Mode</p>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Book with ₹0 payment</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Book with 0 payment'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Prepaid</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Prepaid'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Pay at hotel</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Pay at hotel'} filtertype={'Payment Mode'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                            </div>
-
-                            <div className="mealsIncluded">
-                              <p className='w-full px-4  text-lg font-semibold'>Meals</p>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Breakfast Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Breakfast included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Lunch Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Lunch included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-                              <div className=' PriceDrop  w-full flex justify-between items-center px-4 py-2 rounded-md'><span>Dinner Included</span> <span className="shrink-0 inline-flex justify-center items-center w-20 h-20 rounded hover:bg-primary-over "> <input id='' className="filterCheckBox peer  w-full h-full inset-0 cursor-pointer " type="checkbox" value={'Dinner included'} filtertype={'Meals'} onChange={(e) => { handleFilterChange(e) }} />  </span> </div>
-
-                            </div>
-
-                          </div>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={`SORT relative flex flex-col justify-center items-center cursor-pointe`} onClick={() => { setActive(!active); setActiveTab('sort') }}>
-                    <p><CgSortZa /></p>
-                    <p>Sort</p>
-                    <div className={`sortpopup bg-white absolute w-[170px] h-[250px] shadow rounded-10 transition-all transform duration-700 ${active == true && activeTab === 'sort' ? '-translate-y-[165px] -translate-x-[50px]  opacity-100 scale-x-100' : 'opacity-0 scale-0'}`}>
-                        <div className="  w-full h-full  peer-checked:flex flex-col px-2 py-1 rounded-10 shadow">
-                            <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='sortRadio1' className='absolute opacity-0' type="radio" name='sortRadio' filtertype={'popularity'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('Popularity') }} /> <label className='font-semibold  flex flex-col' htmlFor="sortRadio1"><p>Popularity</p> <p className='text-gray-400'>Low to High</p> </label> </span>
-                            <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='sortRadio2' className='absolute opacity-0' type="radio" name='sortRadio' filtertype={'price1'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('Price Low to High') }} /> <label className='font-semibold  flex flex-col' htmlFor="sortRadio2"><p>Price</p> <p className='text-gray-400'>Low to High</p> </label> </span>
-                            <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='sortRadio3' className='absolute opacity-0' type="radio" name='sortRadio' filtertype={'price2'} value={'-1'} onChange={(e) => { handleFilterChange(e); setSort('Price High to Low') }} /> <label className='font-semibold  flex flex-col' htmlFor="sortRadio3"><p>Price</p> <p className='text-gray-400'>High to Low</p> </label> </span>
-                            <span className='cursor-pointer hover:bg-slate-100 px-4 rounded flex flex-col relative' onClick={() => { document.getElementById('scheck').checked = false }}> <input id='sortRadio4' className='absolute opacity-0' type="radio" name='sortRadio' filtertype={'rating'} value={'1'} onChange={(e) => { handleFilterChange(e); setSort('User Rating Highest First') }} /> <label className='font-semibold  flex flex-col' htmlFor="sortRadio4"><p>User Rating</p> <p className='text-gray-400'>Highest First</p> </label> </span>
-                          </div>
-                    </div>
-                  </div>
-
-                             </div>
 
           }
 
