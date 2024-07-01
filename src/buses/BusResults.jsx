@@ -1005,7 +1005,7 @@ const BusResults = React.memo(() => {
 
               <label htmlFor='searchbardropdowncheckbox' className='xl:hidden  sticky top-0 z-40 flex flex-col text-gray-600  bg-gray-200 font-bold rounded-20 text-sm w-[80%] py-2 mt-2 '>
                 <span className='flex justify-center items-center gap-2'> { from} <FaArrowRight /> {to} </span>
-                <span className='flex justify-center items-center gap-2'>{date.getDay()} {month[date.getMonth()]}  <p className='w-1 h-1 bg-black rounded-full'/> {'bus type'} </span>
+                <span className='flex justify-center items-center gap-2'>{date.getDate()} {month[date.getMonth()]}  <p className='w-1 h-1 bg-black rounded-full'/> {'bus type'} </span>
               </label>
 
               <div className="SEARCHBAR-RELATIVE-CONTAINER xl:hidden bg-transparent rounded-b-20 absolute transition-all ease-in-out duration-700 transform -top-[100%] peer-checked:top-0 flex justify-center items-start w-[100%] xl:mt-6  z-40 ">
