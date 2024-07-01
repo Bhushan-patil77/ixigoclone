@@ -2605,7 +2605,7 @@ const FlightResults = React.memo(() => {
 
                                         </div>
 
-                                        <div className='BUTTON flex justify-end w-full  '> <button className='text-xs font-bold py-2 flex justify-center items-center w-[80px] transition duration-200 border text-white bg-[#fc790d] hover:shadow-300 rounded-lg cursor-pointer' onClick={(e) => { localStorage.getItem("token") ? navigate("/BookFlight", { state: { 'flightId': flight._id, 'from': from, 'to': to, 'sourceCity': from.city, 'destinationCity': to.city, 'day': date.getDay(), 'month': date.getMonth(), 'date': date.getDate(), 'adults': adults, 'childrens': childrens, 'infants': infants } }) : `${setPopupShow('signinShow')}`; }}>Book Now</button> </div>
+                                        <div className='BUTTON flex justify-end w-full  '> <button className='text-xs font-bold py-2 flex justify-center items-center w-[80px] transition duration-200 border text-white bg-[#fc790d] hover:shadow-300 rounded-lg cursor-pointer' onClick={(e) => { localStorage.getItem("user") ? navigate("/BookFlight", { state: { 'flightId': flight._id, 'from': from, 'to': to, 'sourceCity': from.city, 'destinationCity': to.city, 'day': date.getDay(), 'month': date.getMonth(), 'date': date.getDate(), 'adults': adults, 'childrens': childrens, 'infants': infants } }) : `${setPopupShow('signinShow')}`; }}>Book Now</button> </div>
 
                                       </div>
 

@@ -195,7 +195,7 @@ function BottomRibbon({setisloggedin,setpopupshow}) {
                                                                     </div>
                                                                 </li>
                                                             </a>
-                                                            <a className="cursor-pointer" href="" >
+                                                            <a className="cursor-pointer" href="" onClick={()=>{localStorage.removeItem('user')}}>
                                                                 <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm">
                                                                     <div className="inline-flex shrink-0 group-[.list-lg]:h-[50px] group-[.list-lg]:w-[50px] h-40 w-40 items-center">
                                                                         <img
@@ -210,7 +210,7 @@ function BottomRibbon({setisloggedin,setpopupshow}) {
                                                                             style={{ color: "transparent" }}
                                                                         />
                                                                     </div>
-                                                                    <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px]" onClick={()=>{localStorage.removeItem('user')}}>
+                                                                    <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px]" >
                                                                         <p className="body-md flex group-[.list-lg]:body-lg text-primary">
                                                                             Log out
                                                                         </p>
