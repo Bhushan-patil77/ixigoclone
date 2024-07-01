@@ -44,6 +44,14 @@ const TrainResults = React.memo(()=> {
 
 
 
+const newObject = {
+  'from':from,
+  'to':to,
+  'date':date
+}
+
+console.log(newObject);
+
 
   const navigate = useNavigate();
 
@@ -63,8 +71,8 @@ const TrainResults = React.memo(()=> {
 
 
   useEffect(()=>{
-    console.log(filterObj);
-  },[filterObj])
+    console.log(date);
+  },[date])
 
 useEffect(()=>{
   getTrains()
@@ -676,7 +684,7 @@ const show = (id) => {
 
                           
 
-                            <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("mobilelist1"); hide('mobilelist2'); hide('mobileinputbox1'); hide('mobileinputbox2'); show('mobileinputspan1'); show("mobileinputspan2") }} >
+                            <div id='swapBtn' className="SWAP BUTTON absolute w-30 h-30 bg-white text-center rounded-full top-[calc(50%-15px)] left-[calc(50%-15px)] rotate-0 border-none shadow-100 flex justify-center items-center transition duration-400 " onClick={(e) => { let x = from; setFrom(to); setTo(x); e.currentTarget.classList.toggle("rotate-180"); hide("mobilelist1"); hide('mobilelist2'); }} >
                                 <svg
                                     width="1em"
                                     height="1em"
@@ -729,7 +737,7 @@ const show = (id) => {
                     
 
                         {/* SEARCH BUTTON */}
-                        <button id='mobilesearchbtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (navigate("/TrainResults" , {state: obj}))): alert("All fields are required")}}>
+                        <button id='mobilesearchbtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (getTrains())): alert("All fields are required")}}>
                             Search
                             <svg
                                 width="1em"
@@ -1011,7 +1019,7 @@ const show = (id) => {
                                     </div>
 
                                     <div className="updatedTime"></div>
-                                    <span className='flex justify-center items-center text-sm  w-full py-1 bg-[#ec5b24] text-white font-semibold cursor-pointer' onClick={() => { obj.coach = coach.coachType; obj.trainID = train._id; obj.numberOfSeats = coach.numberOfSeats; isLoggedIn == true? navigate('/BookTrain', {state:obj}) : setPopupShow('signinShow') }}>BOOK</span>
+                                    <span className='flex justify-center items-center text-sm  w-full py-1 bg-[#ec5b24] text-white font-semibold cursor-pointer' onClick={() => { obj.coach = coach.coachType; obj.trainID = train._id; obj.numberOfSeats = coach.numberOfSeats; obj.date=date ; isLoggedIn == true? navigate('/BookTrain', {state:obj}) : setPopupShow('signinShow') }}>BOOK</span>
                                   </div>
                                 })
                               }
@@ -1119,7 +1127,7 @@ const show = (id) => {
                                                           <span className='availability  w-full flex justify-center text-xs font-bold text-green-500'>AVL {`${coach.numberOfSeats > 0 ? `${coach.numberOfSeats}` : `NOT AVL`}`}</span>
                                                         </div>
 
-                                                        <span className='flex justify-center items-center text-sm  w-full py-1 bg-[#ec5b24] text-white font-semibold cursor-pointer rounded-b-10 border' onClick={() => { obj.coach = coach.coachType; obj.trainID = train._id; obj.numberOfSeats = coach.numberOfSeats; isLoggedIn == true? navigate('/BookTrain', {state:obj}) : setPopupShow('signinShow') }}>BOOK</span>
+                                                        <span className='flex justify-center items-center text-sm  w-full py-1 bg-[#ec5b24] text-white font-semibold cursor-pointer rounded-b-10 border' onClick={() => { obj.coach = coach.coachType; obj.trainID = train._id; obj.numberOfSeats = coach.numberOfSeats; obj.date=date ; isLoggedIn == true? navigate('/BookTrain', {state:obj}) : setPopupShow('signinShow') }}>BOOK</span>
                                                      </div>
                                             })
                                           }

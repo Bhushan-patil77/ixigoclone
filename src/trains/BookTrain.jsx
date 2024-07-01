@@ -14,6 +14,7 @@ import { Checkmark } from 'react-checkmark'
 const BookTrain = React.memo(() => {
   const location = useLocation();
   const obj = location.state;
+  console.log(obj);
   const navigate = useNavigate();
   const [trainDetails, setTrainDetails] = useState([{}]);
   const [travellers, setTravellers] = useState({ 'adultsObj': {}, 'childrensObj': {}, 'infantsObj': {}, 'contactDetails': {} })
@@ -21,8 +22,7 @@ const BookTrain = React.memo(() => {
 
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  console.log(obj);
-  console.log(travellers);
+
 
   const tripObj = {
     'selection':obj,
