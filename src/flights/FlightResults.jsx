@@ -82,7 +82,7 @@ const FlightResults = React.memo(() => {
   const lastIndex = (currentPage * itemsPerPage + itemsPerPage)
   const pages = Math.ceil(flights.length / itemsPerPage)
 
-  useEffect(() => { console.log(obj); }, [])
+  useEffect(() => { console.log(message); }, [message])
 
   useEffect(() => {
     setActive(true)
@@ -1380,175 +1380,7 @@ const FlightResults = React.memo(() => {
           </div>
         })
       }
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">BOM</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Mumbai, Maharashtra, India
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Chatrapati Shivaji International Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">HYD</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Hyderabad, Telangana, India
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Rajiv Gandhi International Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">BLR</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Bengaluru, Karnataka, India
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Kempegowda International Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">MAA</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Chennai, Tamil Nadu, India
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Chennai International Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">GOI</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Goa, Goa, India
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Dabolim Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">DXB</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Dubai, Dubayy, United Arab Emirates
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Dubai International Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">SIN</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Singapore, Singapore
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">Changi</p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">BKK</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Bangkok, Bangkok, Thailand
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Suvarnabhumi Airport
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
-      <div>
-        <li className="flex items-center relative hover:bg-primary-over px-20 py-10 gap-10 group list-sm max-w-screen-sm gap-15 py-15 px-20 ">
-          <div className="inline-flex shrink-0 group-[.list-lg]:h-[60px] group-[.list-lg]:w-[60px] h-[50px] w-[50px] items-center justify-center border border-neutral-100 bg-neutral-40 rounded-10">
-            <span className="text-primary text-sm">KUL</span>
-          </div>
-          <div className="flex flex-col flex-auto pt-1 pb-5 group-[.list-sm]:py-[1px] p-0 gap-[3px] block truncate">
-            <p className="body-md flex group-[.list-lg]:body-lg text-primary">
-              <span className="block truncate">
-                Kuala Lumpur, Kuala Lumpur, Malaysia
-              </span>
-              <span className="body-xs ml-auto group-[.list-lg]:body-sm text-secondary" />
-            </p>
-            <p className="body-sm text-secondary">
-              Kuala Lumpur Intl
-            </p>
-          </div>
-        </li>
-        <div className="border-b border-neutral-100 mx-20" />
-      </div>
+
     </div>
     {/* INPUT LIST TO */}
 
@@ -1761,7 +1593,7 @@ const FlightResults = React.memo(() => {
 {/* TRAVELLERS & CLASS */}
 
 {/* SEARCH BUTTON */}
-<button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 min-h-[50px] button-lg py-[13px] px-15 rounded-none rounded-r-10 text-2xl w-[160px] pl-[25px] " onClick={() => { obj.from && obj.to != undefined ? (obj.from === obj.to ? alert("Source and destination cannot be same") : (navigate("/FlightResults", { state: obj }))) : alert("All fields are required"); getFlights() }}>
+<button id='searchBtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 min-h-[50px] button-lg py-[13px] px-15 rounded-none rounded-r-10 text-2xl w-[160px] pl-[25px] " onClick={() => { obj.from && obj.to != undefined ? (obj.from === obj.to ? alert("Source and destination cannot be same") : (getFlights())) : alert("All fields are required"); }}>
   Search
   <svg
     width="1em"
@@ -2057,7 +1889,7 @@ const FlightResults = React.memo(() => {
                 <div className='FLIGHTS CONTAINER w-full '>
 
                   {
-                    paginatedFlights.length > 0 ?
+                     message === 'Success' ?
 
                       <div className='FLIGHT COLUMNS flex flex-col xl:gap-[10px] w-full'>
                         {
