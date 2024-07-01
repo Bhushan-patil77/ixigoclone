@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight, MdOutlineSwapHorizontalCircle } from 'react-icons/md'
-import { RangeSlider } from 'range-slider-input'
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 import { IoIosArrowDown } from 'react-icons/io';
 import Navbar from '../Navbar';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,6 +16,8 @@ import { TiFilter } from 'react-icons/ti';
 import { FaArrowRight, FaCheck } from 'react-icons/fa6';
 import { CgSortZa } from 'react-icons/cg';
 import { RiArrowDropDownLine } from 'react-icons/ri';
+
+
 
 const TrainResults = React.memo(()=> {
   const location = useLocation();
@@ -35,6 +38,10 @@ const TrainResults = React.memo(()=> {
   const [popupShow, setPopupShow]=useState();
   const [activeTab, setActiveTab] = useState('');
   const [active, setActive] = useState(false)
+  const [val, setval] = useState([0, 100000]);
+  const [minmax, setminmax] = useState([]);
+
+
 
 
 
@@ -52,6 +59,12 @@ const TrainResults = React.memo(()=> {
   useEffect(() => {
     setActive(true)
   }, [activeTab])
+
+
+
+  useEffect(()=>{
+    console.log(filterObj);
+  },[filterObj])
 
 useEffect(()=>{
   getTrains()
@@ -306,7 +319,6 @@ useEffect(()=>{
       }
     }
 
-
     if (e.target.name === "sort") {
 
       if (filterType === "departureSort") {
@@ -347,6 +359,24 @@ useEffect(()=>{
     }
 
 
+  }
+
+  const handlePrice = (e) => {
+
+
+    if ("price" in filterObj) {
+
+      setFilterObj((prev) => {
+        return { ...prev, price: { ...prev.price, min: e[0], max: e[1] } }
+      })
+    }
+    else {
+      const newObj = { ...filterObj, "price": {} }
+
+      setFilterObj((prev) => {
+        return { ...prev, price: { ...prev.price, min: e[0], max: e[1] } }
+      })
+    }
   }
 
 
@@ -390,7 +420,23 @@ useEffect(()=>{
         return `"arrivalTime":{${stringifyedArrivalTimesValues}}`
       }
 
+      if (key === 'price') {
 
+
+        const str = Object.keys(filterObj[key]).map((k) => {
+
+
+          if (k === 'min') {
+            return `"$gte":${minmax[0]}`;
+          }
+          if (k === 'max') {
+            return `"$lte":${minmax[1]}`
+          }
+
+        })
+
+        return `"fare":{${str}}`
+      }
 
 
 
@@ -470,7 +516,6 @@ const show = (id) => {
     document.getElementById(id).classList.remove("hidden");
 }
 
-console.log(popupShow);
 
   return (
     <div className=' w-screen h-screen'>
@@ -778,13 +823,14 @@ console.log(popupShow);
       </div>
 
 
-      <div id='filterContainer' className="filters hidden xl:flex  p-4 shadow border w-full h-[140px] transition-all quotas-500 divide-x divide-dashed overflow-hidden bg-white">
+      <div id='filterContainer' className="filters hidden xl:flex  p-4 shadow border w-full h-[140px] transition-all quotas-500 divide-x divide-dashed overflow-hidden bg-white border border-black">
 
         <div className="coachClasses flex flex-col gap-4 px-4">
           <div className="headingAndAllBtn flex justify-between"><span>Class</span>  <span><input className='group' id='all' type="checkbox"/> <p className='inline'>all</p></span></div>
           <div className="classes flex flex-col gap-4 ">
             <div className='flex gap-12'>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="SL" value={'SL'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="sl">SL</label></span>
+              
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="SL" value={'SL'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="SL">SL</label></span>
               <span className='flex items-center gap-2'><input className='w-4 h-4' id="3A" value={'3A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="3A">3A</label></span>
             </div>
             <div className='flex gap-12'>
@@ -792,16 +838,16 @@ console.log(popupShow);
               <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
             </div>
             <div className='flex gap-12'>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="CC" value={'CC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">CC</label></span>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="2S" value={'2S'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">2S</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="CC" value={'CC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="CC">CC</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="2S" value={'2S'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2S">2S</label></span>
             </div>
             <div className='flex gap-12'>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="EV" value={'EV'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EV</label></span>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="3E" value={'3E'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">3E</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="EV" value={'EV'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="EV">EV</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="3E" value={'3E'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="3E">3E</label></span>
             </div>
             <div className='flex gap-12'>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="EC" value={'EC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EC</label></span>
-              <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="EC" value={'EC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="EC">EC</label></span>
+              <span className='flex items-center gap-2'><input className='w-4 h-4' id="11" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="11">1A</label></span>
             </div>
           </div>
         </div>
@@ -840,9 +886,21 @@ console.log(popupShow);
           </div>
         </div>
 
-        <div className="relative flex items-end px-4">
-          <div className='flex justify-center items-center gap-2' onClick={() => { document.getElementById('filterContainer').classList.toggle('h-[140px]'); document.getElementById('moreFilterDownArrow').classList.toggle('rotate-180') }}> <span>MORE FILTERS</span> <span id='moreFilterDownArrow' className='transition quotas-500'> <IoIosArrowDown /></span> </div>
+        
+        <div className="PRICE FILTER DIV flex flex-col ga  px-4 py-4 rounded-md w-[200px]">
+          <p className=" pb-4">Price Range</p>
+          <div className="relative w-full ">
+            <div className='border'> <RangeSlider min={0} max={10000} value={val} onInput={(e) => { setval(e) }} onThumbDragEnd={(e) => { setminmax(val); handlePrice(val) }} /> </div>
+            <div className='flex justify-between'>
+              <div className=" left-2 text-secondary text-sm mt-2"> {val[0]} </div>
+              <div className=" right-2 text-secondary text-sm mt-2"> {val[1]} </div>
+            </div>
+          </div>
         </div>
+
+
+          <div className='flex justify-center items-end pl-8 gap-2' onClick={() => { document.getElementById('filterContainer').classList.toggle('h-[140px]'); document.getElementById('moreFilterDownArrow').classList.toggle('rotate-180') }}>  <span id='moreFilterDownArrow' className='transition quotas-500'> <IoIosArrowDown /></span> </div>
+     
 
       </div>
 
@@ -1110,13 +1168,13 @@ console.log(popupShow);
     </div>
 
     {
-      message == 'success'&&  <div className="BOTTOM RIBBON fixed  bottom-0 z-50 xl:hidden h-[60px] w-full bg-slate-400 flex justify-between px-8 items-center">
+        <div className="BOTTOM RIBBON fixed  bottom-0 z-50 xl:hidden h-[60px] w-full bg-slate-400 flex justify-between px-8 items-center">
 
                                 <div className="FILTER relative flex flex-col justify-center items-center"  onClick={() => { setActive(!active); setActiveTab('filter') }} >
                                   <p><TiFilter /></p>
                                   <p>Filter</p>
 
-                                  <div className={`filterpopup absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[285px] -translate-x-[5px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`}  >
+                                  <div className={`filterpopup  absolute  shadow rounded-10 left-0 h-[500px]  transition-all transform duration-700 ${active == true && activeTab === 'filter' ? '-translate-y-[285px] -translate-x-[27px]  opacity-100 scale-x-100' : 'opacity-0 scale-0 -translate-x-[200px]'}`}  >
 
                                   <div id='filterContainer' className="filters xl:hidden flex flex-col gap-4  p-4 shadow  rounded-10 transition-all h-[500px] overflow-y-auto quotas-500   overflow-hidden bg-white">
 
@@ -1124,33 +1182,33 @@ console.log(popupShow);
                                         <div className="headingAndAllBtn flex justify-between font-bold"><span>Class</span> </div>
                                         <div className="classes flex flex-col gap-4 ">
                                           <div className='flex gap-12'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="SL" value={'SL'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="sl">SL</label></span>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="3A" value={'3A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="3A">3A</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobileSL" value={'SL'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobileSL">SL</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile3A" value={'3A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile3A">3A</label></span>
                                           </div>
                                           <div className='flex gap-12'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="2A" value={'2A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">2A</label></span>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile2A" value={'2A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile2A">2A</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile1A">1A</label></span>
                                           </div>
                                           <div className='flex gap-12'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="CC" value={'CC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">CC</label></span>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="2S" value={'2S'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">2S</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobileCC" value={'CC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobileCC">CC</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile2S" value={'2S'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile2S">2S</label></span>
                                           </div>
                                           <div className='flex gap-12'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="EV" value={'EV'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EV</label></span>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="3E" value={'3E'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">3E</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobileEV" value={'EV'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobileEV">EV</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile3E" value={'3E'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile3E">3E</label></span>
                                           </div>
                                           <div className='flex gap-12'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="EC" value={'EC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="2A">EC</label></span>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="1A" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="1A">1A</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobileEC" value={'EC'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobileEC">EC</label></span>
+                                            <span className='flex items-center gap-2'><input className='w-4 h-4 peer' id="mobile11" value={'1A'} type="checkbox" filtertype={'coach'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="mobile11">1A</label></span>
                                           </div>
                                         </div>
                                       </div>
-
-                                      <div className="quota flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
+{/* 
+                                      <div className="quota flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10 cursor-not-allowed">
                                         <span className='flex justify-between font-bold'>Quota</span>
                                         <div className="classes flex flex-col gap-4 ">
                                           <div className='flex justify-between gap-16'>
-                                            <span className='flex items-center gap-2'><input className='w-4 h-4' id="general" value={'General'} name='quota' type="radio"  filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="general">General</label></span>
+                                            <span className='flex items-center gap-2 cursor-not-allowed'><input className='w-4 h-4 cursor-not-allowed' id="general" value={'General'} name='quota' type="radio"  filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="general">General</label></span>
                                             <span className='flex items-center gap-2'><input className='w-4 h-4' id="tatkal" value={'Tatkal'} name='quota' type="radio" filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="tatkal">Tatkal</label></span>
                                           </div>
                                           <div className='flex justify-between '>
@@ -1158,28 +1216,39 @@ console.log(popupShow);
                                             <span className='flex items-center gap-2'><input className='w-4 h-4' id="ladies" value={'Ladies'} name='quota' type="radio" filtertype={'quota'} onChange={(e) => { handleFilterChange(e) }} /> <label htmlFor="ladies">Ladies</label></span>
                                           </div>
                                         </div>
-                                      </div>
+                                      </div> */}
 
                                       <div className="departures flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
                                         <span className='flex justify-between font-bold'>Departure from</span>
                                         <div className='text-xs  font-semibold  flex gap-3 '>
-                                          <span className='flex flex-col  items-center gap-1'><input className=' peer absolute opacity-0' id="dc1" type="checkbox" value={'Early Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc1' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>00:00</p> - <p>06:00</p></label> <span className='text-center'>Early Morning</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc2" type="checkbox" value={'Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc2' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc3" type="checkbox" value={'Mid Day'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc3' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00 </p>- <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc4" type="checkbox" value={'Night'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc4' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
+                                          <span className='flex flex-col  items-center gap-1'><input className=' peer absolute opacity-0' id="dc1" type="checkbox" value={'Early Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc1' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>00:00</p> - <p>06:00</p></label> <span className='text-center'>Early</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc2" type="checkbox" value={'Morning'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc2' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc3" type="checkbox" value={'Mid Day'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc3' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00 </p>- <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="dc4" type="checkbox" value={'Night'} filtertype={'departure'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='dc4' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
                                         </div>
                                       </div>
 
                                       <div className="arrivalTime flex flex-col gap-4 px-4 bg-slate-400 py-2 rounded-10">
                                         <span className='flex justify-between font-bold'>Arrival at</span>
                                         <div className='text-xs font-semibold flex gap-3 '>
-                                          <span className='flex flex-col items-center gap-1'><input id='ar1' className='peer absolute opacity-0' type="checkbox" name='arrival' value={'Early Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }}  /><label htmlFor="ar1" className='flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white border border-gray-400 py-1 px-2 rounded-5'><p>00:00</p> - <p>06:00</p></label><span className='text-center'>Early Morning</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar2" type="checkbox" name='arrival' value={'Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar2' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar3" type="checkbox" name='arrival' value={'Mid Day'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar3' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00</p> - <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
-                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar4" type="checkbox" name='arrival' value={'Night'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar4' className="timeSlot border border-gray-400 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input id='ar1' className='peer absolute opacity-0' type="checkbox" name='arrival' value={'Early Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }}  /><label htmlFor="ar1" className='flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white border border-gray-500 py-1 px-2 rounded-5'><p>00:00</p> - <p>06:00</p></label><span className='text-center'>Early</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar2" type="checkbox" name='arrival' value={'Morning'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar2' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>06:00</p> - <p>12:00</p></label> <span className='text-center'>Morning</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar3" type="checkbox" name='arrival' value={'Mid Day'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar3' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>12:00</p> - <p>18:00</p></label> <span className='text-center'>Mid Day</span></span>
+                                          <span className='flex flex-col items-center gap-1'><input className=' peer absolute opacity-0' id="ar4" type="checkbox" name='arrival' value={'Night'} filtertype={'arrival'} onChange={(e) => { handleFilterChange(e) }} /><label htmlFor='ar4' className="timeSlot border border-gray-500 rounded-5 py-1 px-2 font-semibold flex flex-col justify-center items-center peer-checked:bg-[#ec5b24] peer-checked:text-white"> <p>18:00</p> - <p>24:00</p></label> <span className='text-center'>Night</span></span>
                                         </div>
                                       </div>
 
+                             
+                                      <div className="PRICE FILTER DIV flex flex-col ga  px-4 py-4 bg-slate-400 rounded-md">
+                                        <p className=" pb-4 flex justify-between font-bold">Price Range</p>
+                                        <div className="relative w-full ">
+                                          <div className=''> <RangeSlider min={0} max={10000} value={val} onInput={(e) => { setval(e) }} onThumbDragEnd={(e) => { setminmax(val); handlePrice(val) }} /> </div>
+                                          <div className='flex justify-between'>
+                                            <div className=" left-2 text-secondary text-sm mt-2"> {val[0]} </div>
+                                            <div className=" right-2 text-secondary text-sm mt-2"> {val[1]} </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                       
 
                                   </div>

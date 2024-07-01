@@ -41,8 +41,8 @@ const BookFlight = React.memo(() => {
 
 
   useEffect(() => {
-    console.log(obj);
-  }, [])
+    console.log(travellers);
+  }, [travellers])
 
 
   const handleFormSubmit = (e) => {
@@ -184,7 +184,6 @@ const BookFlight = React.memo(() => {
       const mobileNumber = e.target[1].value
       const gmail = e.target[2].value
 
-      console.log(contryCode);
 
       const validate = () => {
         if (contryCode === "" || mobileNumber === "" || gmail === "") { return false } else { return true }
@@ -2656,8 +2655,13 @@ const BookFlight = React.memo(() => {
 
 
                     <div className='VALIDATE & SAVE BUTTON flex justify-center items-center ' >
-                      <button className='h-[35px] rounded-md px-6 bg-gray-300'>Save</button>
+                      {
+                        travellers.contactDetails.gmail !==undefined ? <Checkmark size='20px' /> : <button className='h-[35px] rounded-md px-6 bg-gray-300'>Save</button>
+                      }
+                      
                     </div>
+
+
                   </form>
 
                 </div>

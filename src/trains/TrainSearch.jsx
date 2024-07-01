@@ -23,8 +23,8 @@ const TrainSearch = React.memo(()=> {
   const navigate = useNavigate();
 
   const [swapAngle, setSwapAngle] = useState(0)
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("Nagpur");
+  const [to, setTo] = useState("Jaipur");
   const [fromCities, setFromCities] = useState([]);
   const [toCities, setToCities] = useState([]);
   const [date, setDate] = useState(new Date())
