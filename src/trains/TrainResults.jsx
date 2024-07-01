@@ -737,7 +737,7 @@ const show = (id) => {
                     
 
                         {/* SEARCH BUTTON */}
-                        <button id='mobilesearchbtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (getTrains())): alert("All fields are required")}}>
+                        <button id='mobilesearchbtn' className="inline-flex justify-center items-center bg-brand-solid text-brand-solid hover:bg-brand-solid-over gap-5 rounded-10 xl:h-[60px] h-[45px] button-lg py-[13px] px-15  rounded xl:rounded-l-none xl:rounded-r-10 text-2xl xl:w-[160px] pl-[25px] " onClick={()=>{obj.from && obj.to != undefined ? (from===to? alert("Source and destination cannot be same") : (getTrains())): alert("All fields are required"); document.getElementById('searchbardropdowncheckbox').checked=false}}>
                             Search
                             <svg
                                 width="1em"
